@@ -4,7 +4,9 @@ A private budget tracker for iPhone, built as an installable web app.
 
 - **Your data never leaves your phone.** Transactions and budgets live in the browser's local storage on the device. This repo contains code only; there is no server, database, or analytics.
 - **Install:** open the site in Safari, tap Share, then **Add to Home Screen**. It launches full screen and works offline.
-- **Back up:** Budgets tab → Export CSV copies every transaction to the clipboard.
+- **Setup:** first launch walks through take-home pay, categories, bills and loans, then suggests a budget.
+- **Loans:** payoff dates, interest remaining, extra-payment savings, and avalanche vs snowball comparison.
+- **Back up:** Settings → Export transactions copies every transaction to the clipboard.
 
 ## Develop
 
