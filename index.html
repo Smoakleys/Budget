@@ -562,12 +562,90 @@ const PREVIEW = !/github\.io$|localhost/.test(location.hostname) || location.sea
 // the what-if simulator forks the forecast, and next actions read all of them.
 // cash: checking balance {amt, ts} — transactions logged after ts move it. saved: savings balance.
 // debtPlan: extra monthly payment and strategy, shared by the paycheck plan, forecast and debt screen.
-function blank(){ return {v:2, onboarded:false, income:{paycheck:0, freq:'biweekly', monthly:0, anchor:null}, cats:{}, custom:[], loans:[], txns:[], cash:null, saved:null, debtPlan:{extra:0, strategy:'avalanche'}, snooze:{}, merchants:{}}; }
-function normalize(s){ const b = blank(); for (const k in b) if (s[k]===undefined) s[k] = b[k]; if (s.income.anchor===undefined) s.income.anchor = null;
-  if (!s.since && s.onboarded) s.since = s.txns.map(t=>t.date).sort()[0] || iso(new Date()); return s; }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v===2) return normalize(s); }catch(e){} return blank(); }
-function save(){ if (!S.sample) S.updatedAt = Date.now(); try{ localStorage.setItem(KEY, JSON.stringify(S)); if (!localStorage.getItem(KEY)) throw 0; }catch(e){ storageWarn(); } Sync.push(); }
+// ---------- Persistence: nothing a user entered is ever thrown away ----------
+// Rules: (1) load never writes; a record it can't read is quarantined, not replaced. (2) Migrations only add,
+// unknown fields ride along untouched, and the stored version is never lowered. (3) Before anything that replaces
+// state wholesale (migration, sync, restore, erase, sign-out, setup re-run) the old copy goes into a snapshot.
+// (4) A rolling daily snapshot is kept too. Snapshots live under margin.v2.snap.* (newest SNAP_MAX kept).
+const SCHEMA = 2;
+function blank(){ return {v:SCHEMA, onboarded:false, income:{paycheck:0, freq:'biweekly', monthly:0, anchor:null}, cats:{}, custom:[], loans:[], txns:[], cash:null, saved:null, debtPlan:{extra:0, strategy:'avalanche'}, snooze:{}, merchants:{}, gone:{}}; }
+const isObj = o => o && typeof o==='object' && !Array.isArray(o);
+// Fills anything missing with defaults, one level deep. Never deletes or overwrites a value that is there.
+function normalize(s){ const b = blank();
+  for (const k in b){ if (s[k]===undefined || s[k]===null && b[k]!==null) s[k] = b[k];
+    else if (isObj(b[k]) && isObj(s[k])) for (const kk in b[k]) if (s[k][kk]===undefined) s[k][kk] = b[k][kk]; }
+  ['custom','loans','txns'].forEach(k=>{ if (!Array.isArray(s[k])) s[k] = []; });
+  ['cats','snooze','merchants','gone'].forEach(k=>{ if (!isObj(s[k])) s[k] = {}; });
+  if (!(s.v >= SCHEMA)) s.v = SCHEMA;
+  if (!s.since && s.onboarded) s.since = s.txns.map(t=>t.date).filter(Boolean).sort()[0] || iso(new Date()); return s; }
+// v1 (first release, key margin.v1): {txns:[{id,date,cat,amt,note}], budgets:{cat:cents}}
+const V1_CAT = {groceries:'groceries', dining:'restaurants', transport:'fuel', rent:'rent', utilities:'electric', shopping:'general', fun:'events', health:'doctor', income:'paycheck'};
+function fromV1(o){ const n = blank(); n.migratedFrom = 1;
+  n.txns = (o.txns||[]).filter(t=>t && t.date && typeof t.amt==='number').map(t=>({...t, cat: V1_CAT[t.cat] || t.cat || 'misc'}));
+  Object.entries(o.budgets||{}).forEach(([c,b])=>{ const id = V1_CAT[c]; if (id && id!=='paycheck') n.cats[id] = {budget:+b||0}; });
+  return n; }
+const MIGRATIONS = {1: fromV1};   // version -> function(old) returning the next version's shape
+function migrate(o){ let v = o.v || (Array.isArray(o.txns) && o.budgets ? 1 : SCHEMA);
+  while (v < SCHEMA){ const f = MIGRATIONS[v]; if (!f) break; o = f(o); v = o.v; } return normalize(o); }
+const real = o => !!o && !o.sample && (o.onboarded || (o.txns||[]).length > 0);
+const SNAP = KEY+'.snap.', SNAP_MAX = 12;
+function snapKeys(){ const ks = []; try{ for (let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if (k && k.startsWith(SNAP)) ks.push(k); } }catch(e){} return ks.sort(); }
+function snapList(){ return snapKeys().reverse().map(k=>{ try{ const o = JSON.parse(localStorage.getItem(k)); return o && o.state ? {k, ...o} : null; }catch(e){ return null; } }).filter(Boolean); }
+// Keeps a copy of `state` (or of what is stored right now). Skips identical copies; makes room by dropping the oldest snapshot, never live data.
+function snapshotSave(why, state){
+  let raw; try{ raw = state ? JSON.stringify(state) : localStorage.getItem(KEY); }catch(e){ return; }
+  if (!raw) return; let o; try{ o = JSON.parse(raw); }catch(e){ o = null; }
+  if (o && !real(o)) return;
+  const last = snapList()[0]; if (last && JSON.stringify(last.state)===raw) return;
+  const rec = JSON.stringify({why, at:Date.now(), state: o || raw});
+  for (let tries = 0; tries < SNAP_MAX; tries++){
+    try{ localStorage.setItem(SNAP + String(Date.now()).padStart(15,'0'), rec); break; }
+    catch(e){ const ks = snapKeys(); if (!ks.length) return; localStorage.removeItem(ks[0]); }
+  }
+  const ks = snapKeys(); ks.slice(0, Math.max(0, ks.length - SNAP_MAX)).forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} });
+}
+let loadNote = '';
+function load(){
+  let raw = null; try{ raw = localStorage.getItem(KEY); }catch(e){}
+  if (raw){
+    let o = null; try{ o = JSON.parse(raw); }catch(e){}
+    if (isObj(o) && (o.v || o.txns)){
+      if ((o.v||1) < SCHEMA){ snapshotSave('before upgrade', o); }
+      try{ return migrate(o); }catch(e){}
+    }
+    // Unreadable: park the raw text where nothing overwrites it, then fall back to the newest snapshot.
+    try{ if (!localStorage.getItem(KEY+'.unreadable')) localStorage.setItem(KEY+'.unreadable', raw); }catch(e){}
+    const snap = snapList().find(x=>isObj(x.state));
+    if (snap){ loadNote = 'Recovered your data from a backup snapshot.'; return migrate(JSON.parse(JSON.stringify(snap.state))); }
+  }
+  // Nothing under v2: carry over the first release's data if it exists. margin.v1 itself is left in place.
+  try{ const o1 = JSON.parse(localStorage.getItem('margin.v1')); if (isObj(o1) && Array.isArray(o1.txns) && o1.txns.length && !o1.sample){ loadNote = `Brought over ${o1.txns.length} transactions from the earlier version.`; return migrate(o1); } }catch(e){}
+  return blank();
+}
+let lastDaily = 0;
+function save(){
+  if (!S.sample) S.updatedAt = Date.now();
+  try{
+    const prevRaw = localStorage.getItem(KEY); let prev = null; try{ prev = JSON.parse(prevRaw); }catch(e){}
+    // About to replace real data with an empty or sample state: keep the old copy first.
+    if (prevRaw && (!prev || real(prev) && !real(S))) snapshotSave('before reset');
+    else if (Date.now() - lastDaily > 6e4){ lastDaily = Date.now(); const s0 = snapList()[0]; if (!s0 || Date.now() - s0.at > 864e5) snapshotSave('daily'); }
+    localStorage.setItem(KEY, JSON.stringify(S)); if (!localStorage.getItem(KEY)) throw 0;
+  }catch(e){ storageWarn(); }
+  Sync.push(); }
+// Two copies of the same budget diverged (two devices, or offline edits): keep the newer one's settings and the union
+// of transactions, loans and custom categories, minus anything the newer side deliberately deleted.
+function mergeStates(a, b){
+  const [nw, old] = (a.updatedAt||0) >= (b.updatedAt||0) ? [a, b] : [b, a];
+  const m = JSON.parse(JSON.stringify(nw)); m.gone = {...(old.gone||{}), ...(nw.gone||{})};
+  ['txns','loans','custom'].forEach(k=>{ const have = new Set((m[k]||[]).map(x=>x.id));
+    (old[k]||[]).forEach(x=>{ if (x && x.id && !have.has(x.id) && !(nw.gone||{})[x.id]) { m[k].push(x); have.add(x.id); } }); });
+  // A delete made on the older copy still wins over a copy that never saw it.
+  ['txns','loans','custom'].forEach(k=>{ m[k] = (m[k]||[]).filter(x=>!(x && (old.gone||{})[x.id] && !(nw.gone||{})[x.id] && !(old[k]||[]).some(y=>y.id===x.id))); });
+  for (const k in old) if (m[k]===undefined) m[k] = old[k];   // fields only the other copy knows about
+  m.v = Math.max(nw.v||0, old.v||0); return normalize(m); }
 let S = load();
+try{ navigator.storage?.persist?.(); }catch(e){}
 
 // Categories: S.cats holds the enabled ones with their budget. Loans act as fixed categories "loan:<id>".
 function cat(id){
@@ -1361,6 +1439,7 @@ function openSettings(){
     <div class="group" style="box-shadow:none;background:var(--surface-2);flex:none">
       <button class="row tap" style="background:none" data-act="backup"><div class="meta"><div class="t">Back up to a file</div><div class="s">Everything: budgets, loans, transactions</div></div></button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="restore"><div class="meta"><div class="t">Restore from a file</div><div class="s">Replaces what's on this device</div></div></button>
+      <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="snaps"><div class="meta"><div class="t">Snapshots</div><div class="s">Automatic copies, kept before every big change</div></div></button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="export"><div class="meta"><div class="t">Export transactions</div><div class="s">Copies a CSV of every transaction</div></div></button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="restart"><div class="meta"><div class="t">Run setup again</div><div class="s">Keeps your transactions</div></div></button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="erase"><div class="meta"><div class="t danger-t">Erase everything</div><div class="s">Transactions, budgets and loans on this device</div></div></button>
@@ -1684,27 +1763,39 @@ const Sync = {
     this.user = r.data.user; try{ localStorage.removeItem(LOCAL_ONLY); }catch(e){}
     await this.pull();
   },
-  // Newest copy wins. A device with nothing set up always takes the account's copy.
-  async pull(){
-    if (!this.user) return; const sb = await this.client();
-    const {data, error} = await sb.from('margin_state').select('data').maybeSingle(); if (error) throw error;
-    const remote = data?.data, lt = S.updatedAt || 0, rt = remote?.updatedAt || 0, localReal = S.onboarded && !S.sample;
-    if (remote && remote.v===2 && remote.onboarded && (!localReal || rt > lt)){
-      S = normalize(remote); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
-      if (!onb.hidden && ob && STEPS[ob.i]!=='done'){ onb.hidden = true; clearObDraft(); }
-      lastLeft = null; render(); this.lastOk = Date.now(); return 'pulled';
-    }
-    if (localReal && (!remote || lt > rt)) await this.pushNow(); else this.lastOk = Date.now();
+  // Three-way sync. `base` is the account copy's updatedAt as this device last saw it.
+  // Remote moved and local didn't: take remote. Local moved and remote didn't: upload. Both moved: merge, then upload.
+  // Every replace snapshots the local copy first, and an empty or sample state is never uploaded.
+  get base(){ try{ return +localStorage.getItem(KEY+'.syncbase.'+this.user.id) || 0; }catch(e){ return 0; } },
+  set base(v){ try{ localStorage.setItem(KEY+'.syncbase.'+this.user.id, String(v)); }catch(e){} },
+  async sync(){
+    if (!this.user) return; if (this.busy) return this.busy;
+    this.busy = (async () => { try{
+      const sb = await this.client(), {data, error} = await sb.from('margin_state').select('data').maybeSingle(); if (error) throw error;
+      const remote = isObj(data?.data) && real(data.data) && data.data.onboarded ? data.data : null, rt = remote?.updatedAt || 0, base = this.base;
+      const localReal = real(S) && S.onboarded, localMoved = localReal && (S.updatedAt||0) > base, remoteMoved = !!remote && rt !== base;
+      let upload = localMoved && !remoteMoved;
+      if (remoteMoved){
+        snapshotSave('before sync', localReal ? S : null);
+        if (localMoved){ S = mergeStates(migrate(remote), S); S.updatedAt = Date.now(); upload = true; }
+        else { S = migrate(remote); this.base = rt; }
+        try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
+        if (!onb.hidden && ob && STEPS[ob.i]!=='done'){ onb.hidden = true; clearObDraft(); }
+        lastLeft = null; render();
+      }
+      if (upload){ const up = await sb.from('margin_state').upsert({user_id:this.user.id, data:S, updated_at:new Date().toISOString()}); if (up.error) throw up.error; this.base = S.updatedAt; }
+      this.dirty = false; this.lastOk = Date.now(); return remoteMoved ? 'pulled' : 'ok';
+    }catch(e){ this.dirty = true; throw e; } finally{ this.busy = null; if (!this.dirty && real(S) && S.onboarded && (S.updatedAt||0) > this.base) this.push(); } })();
+    return this.busy;
   },
-  push(){ if (!this.user || S.sample) return; this.dirty = true; clearTimeout(this.timer); this.timer = setTimeout(()=>this.pushNow(), 1200); },
-  async pushNow(){
-    if (!this.user || S.sample) return; clearTimeout(this.timer);
-    try{ const sb = await this.client(), {error} = await sb.from('margin_state').upsert({user_id:this.user.id, data:S, updated_at:new Date().toISOString()}); if (error) throw error; this.dirty = false; this.lastOk = Date.now(); }
-    catch(e){ this.dirty = true; }
-  },
-  async signOut(){ await this.pushNow(); try{ (await this.client()).auth.signOut(); }catch(e){} this.user = null; try{ localStorage.removeItem(KEY); }catch(e){} S = blank(); render(); showAuth('signin'); },
+  pull(){ return this.sync(); },
+  push(){ if (!this.user || !real(S) || !S.onboarded) return; this.dirty = true; clearTimeout(this.timer); this.timer = setTimeout(()=>this.pushNow(), 1200); },
+  async pushNow(){ if (!this.user) return; clearTimeout(this.timer); try{ await this.sync(); }catch(e){} },
+  async signOut(){ snapshotSave('before sign out'); this.dirty = real(S); if (this.dirty) await this.pushNow();
+    if (this.dirty){ toast("Couldn't reach your account, so you're still signed in. Your data is safe on this phone."); return; }
+    try{ (await this.client()).auth.signOut(); }catch(e){} this.user = null; this.pulled = false; try{ localStorage.removeItem(KEY); }catch(e){} S = blank(); render(); showAuth('signin'); },
 };
-addEventListener('visibilitychange', ()=>{ if (!Sync.user) return; if (document.visibilityState==='hidden'){ if (Sync.dirty) Sync.pushNow(); } else Sync.pull().catch(()=>{}); });
+document.addEventListener('visibilitychange', ()=>{ if (!Sync.user) return; if (document.visibilityState==='hidden'){ if (Sync.dirty) Sync.pushNow(); } else Sync.pull().catch(()=>{}); });
 addEventListener('pagehide', ()=>{ if (Sync.dirty) Sync.pushNow(); });
 addEventListener('online', ()=>{ if (Sync.dirty) Sync.pushNow(); });
 
@@ -1741,6 +1832,16 @@ function openAccount(){
     <p class="foot">Signing out removes the budget from this device. It stays in your account.</p>`, {cancel:'Close'});
 }
 
+// Automatic snapshots: list them and roll back to any one. Rolling back snapshots the current copy first, so it is undoable too.
+function openSnaps(){
+  const L = snapList(), when = t => new Date(t).toLocaleString('en-US',{month:'short', day:'numeric', hour:'numeric', minute:'2-digit'});
+  openSheet('Snapshots', L.length ? `<div class="note">Margin keeps a copy before every upgrade, sync, restore or reset, plus one a day. Tap one to go back to it.</div>`
+    + L.map(x=>{ const st = isObj(x.state) ? x.state : {}; return `<button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="snapgo" data-k="${esc(x.k)}"><div class="meta"><div class="t">${esc(when(x.at))}</div><div class="s">${esc(x.why)} · ${(st.txns||[]).length} transactions</div></div></button>`; }).join('')
+    : `<div class="note">No snapshots yet. One is taken each day you use Margin and before any big change.</div>`, {cancel:'Close'});
+}
+function snapGo(k){ let x; try{ x = JSON.parse(localStorage.getItem(k)); }catch(e){} if (!x || !isObj(x.state)) return toast("That snapshot can't be read.");
+  const prev = snapshot(); snapshotSave('before rollback', real(S) ? S : null); S = migrate(JSON.parse(JSON.stringify(x.state))); onb.hidden = true; closeSheet(); commit(`Rolled back to ${new Date(x.at).toLocaleDateString('en-US',{month:'short', day:'numeric'})}`, prev); }
+
 // Backup to a file, restore from one. Works with or without an account.
 function backup(){
   const name = `margin-backup-${iso(now)}.json`, blob = new Blob([JSON.stringify(S)], {type:'application/json'});
@@ -1752,7 +1853,7 @@ let restoreInput;
 function restore(){
   if (!restoreInput){ restoreInput = Object.assign(document.createElement('input'), {type:'file', accept:'.json,application/json', hidden:true}); document.body.appendChild(restoreInput);
     restoreInput.addEventListener('change', async ()=>{ const f = restoreInput.files[0]; restoreInput.value = ''; if (!f) return;
-      try{ const s = JSON.parse(await f.text()); if (!s || s.v!==2 || !Array.isArray(s.txns)) throw 0; const prev = snapshot(); S = normalize(s); closeSheet(); onb.hidden = true; commit(`Backup restored · ${S.txns.length} transactions`, prev); }
+      try{ const s = JSON.parse(await f.text()); if (!isObj(s) || !Array.isArray(s.txns)) throw 0; const prev = snapshot(); snapshotSave('before restore'); S = migrate(s); closeSheet(); onb.hidden = true; commit(`Backup restored · ${S.txns.length} transactions`, prev); }
       catch(e){ toast("That file isn't a Margin backup"); } }); }
   restoreInput.click();
 }
@@ -1773,7 +1874,7 @@ function startOnboarding(){
   const sel = {};
   if (fresh) Object.values(LIB).forEach(c=>{ if (!c.income && c.on) sel[c.id]=1; }); else Object.keys(S.cats).forEach(k=>sel[k]=1);
   ob = {i: fresh?0:1, dir:'enter', income: fresh?{paycheck:0,freq:'biweekly'}:{...S.income}, sel, amounts:{}, plan:{}, loans: fresh?[]:S.loans.map(l=>({...l})), custom: fresh?[]:[...S.custom]};
-  if (!fresh) Object.entries(S.cats).forEach(([k,v])=>{ if (v.budget) ob.amounts[k]=v.budget; });
+  if (!S.sample) Object.entries(S.cats).forEach(([k,v])=>{ sel[k]=1; if (v.budget) ob.amounts[k]=v.budget; });   // also carries budgets from an older version into setup
   const draft = fresh && !S.sample && loadObDraft(); if (draft){ ob = {...draft, dir:'enter'}; }
   onb.hidden = false; drawOnb();
 }
@@ -1852,7 +1953,8 @@ function obFinish(){
   onb.querySelectorAll('[data-plan]').forEach(inp=>ob.plan[inp.dataset.plan] = parseMoney(inp.value));
   const n = blank(); n.onboarded = true; n.since = S.sample || !S.since ? iso(now) : S.since; n.income = {paycheck:ob.income.paycheck, freq:ob.income.freq, monthly:obMonthly(), anchor:ob.income.anchor||null}; n.cash = S.sample ? null : S.cash; n.saved = S.sample ? null : S.saved; n.debtPlan = S.sample ? n.debtPlan : S.debtPlan; n.merchants = S.sample ? {} : S.merchants;
   Object.entries(ob.plan).forEach(([id,b])=>n.cats[id]={budget:b}); n.custom = ob.custom; n.loans = ob.loans; n.txns = S.sample ? [] : S.txns;
-  S = n; save(); clearObDraft(); view.tab='home'; view.y=now.getFullYear(); view.m=now.getMonth(); lastLeft=null; render();
+  if (!S.sample){ for (const k in S) if (n[k]===undefined) n[k] = S[k]; n.snooze = S.snooze || {}; n.gone = S.gone || {}; snapshotSave('before setup'); }
+  n.v = Math.max(SCHEMA, S.sample ? 0 : S.v||0); S = n; save(); clearObDraft(); view.tab='home'; view.y=now.getFullYear(); view.m=now.getMonth(); lastLeft=null; render();
   ob.i++; ob.dir='enter'; drawOnb();
 }
 
@@ -1879,7 +1981,7 @@ const A = {
   allcats: () => openPicker(),
   closepicker: () => sheet.querySelector('#picker').classList.remove('open'),
   savetx: () => saveTx(),
-  deltx: el => { const prev = snapshot(); if (!removeTx(el.dataset.id)) return; if (sheet.classList.contains('open')) closeSheet(); commit('Transaction deleted', prev); },
+  deltx: el => { const prev = snapshot(); if (!removeTx(el.dataset.id)) return; (S.gone ||= {})[el.dataset.id] = Date.now(); if (sheet.classList.contains('open')) closeSheet(); commit('Transaction deleted', prev); },
   edittx: el => { if (Date.now()-swipedAt < 400) return; const row = el.closest('.row'); if (row?.classList.contains('open')){ row.classList.remove('open'); row.style.transform=''; return; }
     const t = S.txns.find(x=>x.id===el.dataset.id); if (t) openAdd({tx:t}); },
   editcat: el => openEditCat(el.dataset.id),
@@ -1903,7 +2005,7 @@ const A = {
   saveloan: () => saveLoan(),
   delloan: el => { if (!el.dataset.armed){ el.dataset.armed = 1; el.textContent = 'Tap again to delete'; return; }
     if (loanList()!==S.loans){ ob.loans = ob.loans.filter(l=>l.id!==el.dataset.id); closeSheet(); ob.dir=''; drawOnb(); return; }
-    const prev = snapshot(); S.loans = S.loans.filter(l=>l.id!==el.dataset.id); closeSheet(); commit('Loan deleted', prev); },
+    const prev = snapshot(); S.loans = S.loans.filter(l=>l.id!==el.dataset.id); (S.gone ||= {})[el.dataset.id] = Date.now(); closeSheet(); commit('Loan deleted', prev); },
   extra: el => { S.debtPlan.extra = Math.max(0, (S.debtPlan.extra||0) + +el.dataset.d); save(); render(); },
   strategy: el => { S.debtPlan.strategy = el.dataset.s; save(); render(); },
   planseg: el => { view.plan = el.dataset.v; render(); },
@@ -1947,7 +2049,7 @@ const A = {
   export: () => { const rows = [['date','category','amount','note'], ...[...S.txns].sort((x,y)=>x.date.localeCompare(y.date)).map(t=>[t.date, `"${cat(t.cat).name}"`, (t.amt/100).toFixed(2), `"${(t.note||'').replace(/"/g,'""')}"`])];
     const csv = rows.map(r=>r.join(',')).join('\n');
     (navigator.clipboard?.writeText(csv) ?? Promise.reject()).then(()=>toast(`Copied ${S.txns.length} transactions`), ()=>toast("Couldn't access the clipboard")); },
-  erase: el => { if (!el.dataset.armed){ el.dataset.armed = 1; el.querySelector('.t').textContent = 'Tap again to erase everything'; return; } S = blank(); save(); closeSheet(); render(); startOnboarding(); },
+  erase: el => { if (!el.dataset.armed){ el.dataset.armed = 1; el.querySelector('.t').textContent = 'Tap again to erase everything'; return; } snapshotSave('before erase'); S = blank(); save(); closeSheet(); render(); startOnboarding(); },
   restart: () => { closeSheet(); startOnboarding(); },
   editincome: () => openIncome(),
   incfreq: el => { incDraft.freq = el.dataset.f; pressOne(el,'[data-act="incfreq"]'); drawIncome(); },
@@ -1963,6 +2065,8 @@ const A = {
   signout: el => { if (!el.dataset.armed){ el.dataset.armed = 1; el.textContent = 'Tap again to sign out'; return; } closeSheet(); Sync.signOut(); },
   backup: () => backup(),
   restore: () => restore(),
+  snaps: () => openSnaps(),
+  snapgo: el => snapGo(el.dataset.k),
   obback: () => { if (STEPS[ob.i]==='plan') onb.querySelectorAll('[data-plan]').forEach(inp=>ob.plan[inp.dataset.plan]=parseMoney(inp.value)); ob.i--; ob.dir='back'; drawOnb(); },
   obcancel: () => { onb.hidden = true; },
   obsample: () => { S = sampleState(); save(); onb.hidden = true; render(); },
@@ -2030,7 +2134,7 @@ applyTheme();
 
 if (navigator.storage?.persist) navigator.storage.persist().catch(()=>{});
 if ('serviceWorker' in navigator && location.protocol==='https:' && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(()=>{});
-render();
+render(); if (loadNote) setTimeout(()=>toast(loadNote), 600);
 (async () => {
   if (Sync.on() && !(await Sync.init()) && !localOnly()) return showAuth('signup');
   if (!S.onboarded) startOnboarding();
