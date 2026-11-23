@@ -1,5 +1,5 @@
 // Offline cache for the app shell. Bump VERSION on every release so phones pick up the update.
-const VERSION = 'margin-v2';
+const VERSION = 'margin-v3';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {

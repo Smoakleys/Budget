@@ -161,7 +161,7 @@ h1{font-size:34px;line-height:1.05;font-weight:700;letter-spacing:-.025em;margin
   width:min(398px,calc(100% - 2*max(16px,env(safe-area-inset-left,0px))));height:64px;border-radius:32px;
   background:var(--bar-bg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
   border:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr 64px 1fr 1fr;align-items:center;padding:0 6px;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--faint);padding:6px 0;transition:color .2s}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--muted);padding:6px 0;transition:color .2s}
 .tab svg{width:23px;height:23px;transition:transform .3s var(--spring)}
 .tab[aria-current="page"]{color:var(--accent)}
 .tab:active svg{transform:scale(.85)}
@@ -213,6 +213,7 @@ h1{font-size:34px;line-height:1.05;font-weight:700;letter-spacing:-.025em;margin
 .money{position:relative}
 .money::before{content:"$";position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;pointer-events:none}
 .money .field{padding-left:28px;font-family:var(--font-num);font-weight:700;font-variant-numeric:tabular-nums}
+.money .field::placeholder{color:var(--faint);font-weight:500}
 .pctf{position:relative}
 .pctf::after{content:"%";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;pointer-events:none}
 .pctf .field{font-family:var(--font-num);font-weight:700}
@@ -321,6 +322,37 @@ h1{font-size:34px;line-height:1.05;font-weight:700;letter-spacing:-.025em;margin
 @keyframes pop{from{transform:scale(.4);opacity:0}}
 @keyframes drawc{to{stroke-dashoffset:0}}
 
+/* UX pass: compact nav bar, binary bill rows, inline status, first-run card, date pill */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:15;height:calc(44px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px);
+  display:grid;place-items:center;background:var(--bar-bg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--line);opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .25s var(--ease);pointer-events:none}
+.navbar.show{opacity:1;transform:none}
+.navbar span{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.stat{text-align:left;border-radius:10px;padding:2px 0}
+.stat:active{opacity:.6}
+.bud .r{min-width:64px}
+.bill-row{padding-block:12px}
+.bill-row .chev{margin-left:-4px}
+.paid{display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:var(--accent)}
+.paid svg{width:14px;height:14px}
+.st{font-weight:600}
+.st.warn{color:var(--warn)}
+.st.bad{color:var(--danger)}
+.first{padding:20px;display:grid;grid-template-columns:auto 1fr;gap:14px 14px;align-items:start}
+.first b{font-size:17px;font-weight:600}
+.first p{margin:4px 0 0;font-size:14px;color:var(--muted);line-height:1.45}
+.first .btn{grid-column:1/-1;height:48px;font-size:16px}
+.first-ico{width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.first-ico svg{width:20px;height:20px}
+.amount.blank{color:var(--faint)}
+.amount.blank .cur{color:var(--faint)}
+.datepill{position:relative;display:flex;align-items:center;gap:6px;background:var(--surface-2);border-radius:12px;padding:0 14px;font-weight:600;font-size:15px;white-space:nowrap;color:var(--fg)}
+.datepill svg{width:17px;height:17px;color:var(--muted);flex:none}
+.datepill input{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;-webkit-appearance:none;appearance:none}
+.chip.all{color:var(--accent);padding-right:14px}
+.chip.all .ico{background:var(--accent-soft);color:var(--accent)}
+.legend i{height:2px}
+
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -336,6 +368,7 @@ h1{font-size:34px;line-height:1.05;font-weight:700;letter-spacing:-.025em;margin
   <button class="tab" data-tab="loans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg>Loans</button>
 </nav>
 
+<div class="navbar" id="navbar" aria-hidden="true"><span id="navtitle"></span></div>
 <div class="onb" id="onb" hidden></div>
 <div class="scrim" id="scrim" data-act="close"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
@@ -515,30 +548,40 @@ function header(title, opts={}){
 }
 const banner = () => S.sample ? `<div class="banner"><span class="sp"><b>Sample data.</b> Set up your own budget when you're ready.</span><button data-act="restart">Set up</button></div>` : '';
 
-function statusOf(spent, budget, pace, fixed){
+// A bill counts as paid once any payment is logged this month (amounts drift by a few dollars).
+// Savings and investing are goals: hitting them early is good, never a warning.
+const isGoal = c => c.group==='financial' && c.id!=='fees' && c.id!=='taxes';
+function statusOf(spent, budget, pace, fixed, goal){
+  if (fixed) return spent ? ['ok','Paid','var(--accent)'] : ['neutral','Due','var(--faint)'];
+  if (goal) return spent>=budget && budget ? ['ok','Goal met','var(--good)'] : ['ok', spent?'Saving':'Not started','var(--good)'];
   if (!budget) return spent ? ['bad','No budget set','var(--danger)'] : ['neutral','No budget','var(--faint)'];
   const r = spent/budget;
-  if (r>1.001) return ['bad','Over','var(--danger)'];
-  if (fixed) return r>=.999 ? ['ok','Paid','var(--accent)'] : ['neutral', spent?'Partly paid':'Due','var(--accent)'];
-  if (pace>0 && r > pace*1.1 && r>.25) return ['warn','Ahead of pace','var(--warn)'];
+  if (r>1.001) return ['bad','Over budget','var(--danger)'];
+  if (pace>0 && r > pace*1.1 && r>.25) return ['warn','Spending fast','var(--warn)'];
   return ['ok','On track','var(--accent)'];
 }
 function budRow(c, d, edit){
-  const b = budgetOf(c.id), s = d.spentBy[c.id]||0, left = b-s;
-  const [cls,label,color] = statusOf(s,b,d.pace,c.fixed);
+  const b = budgetOf(c.id), s = d.spentBy[c.id]||0, left = b-s, goal = isGoal(c);
+  const [cls,label,color] = statusOf(s,b,d.pace,c.fixed,goal);
+  const tag = edit ? 'button' : 'div', act = edit ? `data-act="${c.loan?'loan':'editcat'}" data-id="${c.loan?c.loan.id:c.id}"` : '';
+  // Bills and loan payments are binary: paid or due. No progress bar to read.
+  if (c.fixed) return `<${tag} class="bud bill-row ${edit?'tap':''}" ${act}><div class="bud-top">${icon(c)}<div class="meta"><div class="t">${esc(c.name)}</div><div class="s">${c.loan?'Loan payment':'Bill'}${s&&s!==b?` · <span class="num">${fmt(s,1)}</span> paid`:''}</div></div>
+    <div class="r">${s?`<span class="paid">${svg(UI.check,3)}Paid</span>`:`<div class="v num">${fmt(b,1)}</div><div class="k">due</div>`}</div>${edit?chevSvg():''}</div></${tag}>`;
   const w = b ? Math.min(100, s/b*100) : (s?100:0);
-  const tag = edit ? 'button' : 'div';
-  return `<${tag} class="bud ${edit?'tap':''}" ${edit?`data-act="${c.loan?'loan':'editcat'}" data-id="${c.loan?c.loan.id:c.id}"`:''}><div class="bud-top">${icon(c)}<div class="meta"><div class="t">${esc(c.name)}</div><div class="s num">${fmt(s,1)} of ${fmt(b,1)}</div></div>
-    <div class="r"><div class="v num ${left<0?'over':''}">${fmt(Math.abs(left),1)}</div><div class="k">${left<0?'over':'left'}</div></div></div>
-    <div class="bar"><div class="fill" style="width:${w}%;background:${color}"></div>${isCurrent()&&b&&!c.fixed?`<div class="pace" style="left:${d.pace*100}%"></div>`:''}</div>
-    ${edit?`<div style="display:flex;justify-content:space-between;align-items:center"><span class="pill ${cls}">${label}</span><span class="s">${c.loan?'Loan payment':c.fixed?'Fixed bill':''}</span></div>`:''}</${tag}>`;
+  const sub = goal ? `<span class="num">${fmt(s,1)}</span> of ${fmt(b,1)} saved` : `<span class="num">${fmt(s,1)}</span> of <span class="num">${fmt(b,1)}</span>${cls==='warn'||cls==='bad'?` · <span class="st ${cls}">${label}</span>`:''}`;
+  const right = goal ? `<div class="v num" style="color:var(--good)">${b?Math.min(100,Math.round(s/b*100)):0}%</div><div class="k">${s>=b&&b?'goal met':'of goal'}</div>`
+    : `<div class="v num ${left<0?'over':''}">${fmt(Math.abs(left),1)}</div><div class="k">${left<0?'over':'left'}</div>`;
+  return `<${tag} class="bud ${edit?'tap':''}" ${act}><div class="bud-top">${icon(c)}<div class="meta"><div class="t">${esc(c.name)}</div><div class="s">${sub}</div></div>
+    <div class="r">${right}</div></div>
+    <div class="bar"><div class="fill" style="width:${w}%;background:${color}"></div>${isCurrent()&&b&&!goal?`<div class="pace" style="left:${d.pace*100}%"></div>`:''}</div></${tag}>`;
 }
 function txRow(t){
   const c = cat(t.cat);
-  return `<div class="row-wrap" data-id="${t.id}"><button class="row-del" data-act="deltx" data-id="${t.id}">Delete</button><div class="row">${icon(c)}<div class="meta"><div class="t">${esc(t.note||c.name)}</div><div class="s">${esc(c.name)}${t.principal?` · ${fmt(t.principal)} to principal`:''}</div></div><div class="amt num ${t.amt>0?'in':''}">${t.amt>0?'+':'−'}${fmt(Math.abs(t.amt))}</div></div></div>`;
+  return `<div class="row-wrap" data-id="${t.id}"><button class="row-del" data-act="deltx" data-id="${t.id}">Delete</button><button class="row tap" data-act="edittx" data-id="${t.id}" aria-label="${esc(t.note||c.name)}, ${t.amt>0?'income':'expense'} ${fmt(Math.abs(t.amt))}. Edit">${icon(c)}<div class="meta"><div class="t">${esc(t.note||c.name)}</div><div class="s">${esc(c.name)}${t.principal?` · ${fmt(t.principal)} to principal`:''}</div></div><div class="amt num ${t.amt>0?'in':''}">${t.amt>0?'+':'−'}${fmt(Math.abs(t.amt))}</div></button></div>`;
 }
 function grouped(tx){
-  if (!tx.length) return `<div class="group"><div class="empty"><b>No transactions</b>Tap + to log one. It takes a few seconds.</div></div>`;
+  if (!tx.length) return view.q.trim() ? `<div class="empty"><b>No matches</b>Nothing this month matches “${esc(view.q.trim())}”.</div>`
+    : `<div class="group"><div class="empty"><b>Nothing logged ${isCurrent()?'yet this month':'in '+monthName()}</b>${isCurrent()?'Tap the + button below to add your first one.':'Use the arrows up top to switch months.'}</div></div>`;
   const by = {}; tx.forEach(t=>(by[t.date]=by[t.date]||[]).push(t));
   return Object.entries(by).map(([d,list])=>{ const tot = list.reduce((s,t)=>s+(t.amt<0?-t.amt:0),0);
     return `<div class="sec" style="gap:8px"><div class="day-h"><span>${dayLabel(d)}</span><span class="num">${tot?fmt(tot):''}</span></div><div class="group">${list.map(txRow).join('')}</div></div>`; }).join('');
@@ -547,13 +590,14 @@ function niceMax(v){ const d = v/100; const p = Math.pow(10, Math.floor(Math.log
 
 // ---------- Screens ----------
 function renderHome(){
-  const d = monthData(); const C = 2*Math.PI*42; const r = d.budget ? Math.min(1, d.spent/d.budget) : 0;
+  const d = monthData(); const C = 2*Math.PI*42;
   const daysLeft = d.days - d.dayNow + (isCurrent()?1:0);
   // "Left to spend" is everyday spending only; bills and loan payments are set aside.
-  const flexCats = d.cats.filter(c=>!c.fixed), flexBudget = flexCats.reduce((s,c)=>s+budgetOf(c.id),0), flexSpent = flexCats.reduce((s,c)=>s+(d.spentBy[c.id]||0),0);
+  // Savings goals are not spending money, so they stay out of "left to spend".
+  const flexCats = d.cats.filter(c=>!c.fixed && !isGoal(c)), flexBudget = flexCats.reduce((s,c)=>s+budgetOf(c.id),0), flexSpent = flexCats.reduce((s,c)=>s+(d.spentBy[c.id]||0),0);
   const flexLeft = flexBudget - flexSpent, perDay = daysLeft>0 ? Math.max(0,flexLeft)/daysLeft : 0;
-  const top = flexCats.filter(c=>budgetOf(c.id)).sort((a,b)=>((d.spentBy[b.id]||0)/budgetOf(b.id))-((d.spentBy[a.id]||0)/budgetOf(a.id))).slice(0,4);
-  const fixedCats = d.cats.filter(c=>c.fixed), dueOf = c => Math.max(0,budgetOf(c.id)-(d.spentBy[c.id]||0));
+  const top = flexCats.filter(c=>budgetOf(c.id)||d.spentBy[c.id]).sort((a,b)=>((d.spentBy[b.id]||0)/budgetOf(b.id))-((d.spentBy[a.id]||0)/budgetOf(a.id))).slice(0,4);
+  const fixedCats = d.cats.filter(c=>c.fixed), dueOf = c => d.spentBy[c.id] ? 0 : budgetOf(c.id);
   const fixedDue = fixedCats.reduce((s,c)=>s+dueOf(c),0), unpaid = fixedCats.filter(c=>dueOf(c)>0);
   const daily = Array.from({length:d.days},()=>0);
   d.tx.forEach(t=>{ if(t.amt<0 && !cat(t.cat).fixed) daily[+t.date.slice(8)-1]-=t.amt; });
@@ -562,23 +606,26 @@ function renderHome(){
   const bars = daily.map((v,i)=>{ const h = v/nice*H, fut = i>=d.dayNow, today = isCurrent() && i===d.dayNow-1, hh = Math.max(h, fut?0:2);
     return `<rect x="${(i*bw+bw*.18).toFixed(1)}" y="${(H-hh).toFixed(1)}" width="${(bw*.64).toFixed(1)}" height="${hh.toFixed(1)}" rx="${Math.min(3,bw*.3).toFixed(1)}" fill="var(--accent)" opacity="${today?1:.5}"/>`; }).join('');
   const sim = S.loans.length ? simulate(S.loans, 0) : null, debt = S.loans.reduce((s,l)=>s+l.balance,0);
+  const fr = flexBudget ? Math.min(1, flexSpent/flexBudget) : 0, Cr = C*(1-fr);
+  const outflow = d.cats.filter(c=>!isGoal(c)).reduce((s,c)=>s+(d.spentBy[c.id]||0),0);
+  const fresh = isCurrent() && !d.tx.length;
   return `<section class="screen">${header('Overview',{gear:true})}${banner()}
     <div class="card hero"><div><div class="label">${flexLeft<0?'Over budget by':'Left to spend'}</div>
       <div class="big num ${flexLeft<0?'neg':''}" id="leftNum" data-v="${Math.abs(flexLeft)}">${fmt(Math.abs(flexLeft))}</div>
       <div class="sub">${isCurrent() ? (flexLeft>0 ? `About <b class="num">${fmt(perDay)}</b> a day for ${daysLeft} days` : `Ease off for the next ${daysLeft} days`) : `of ${fmt(flexBudget,1)} for everyday spending`}</div></div>
-      <div class="ring"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42" fill="none" stroke-width="10"/><circle class="val ${d.left<0?'over':''}" cx="50" cy="50" r="42" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-off="${C*(1-r)}"/></svg>
-        <div class="center"><div><div class="pct num">${d.budget?Math.round(d.spent/d.budget*100):0}%</div><div class="cap">of budget</div></div></div></div>
-      <div class="stats"><div class="stat"><div class="k">Income</div><div class="v num in">${fmt(d.income,1)}</div></div><div class="stat"><div class="k">Spent</div><div class="v num">${fmt(d.spent,1)}</div></div><div class="stat"><div class="k">Bills due</div><div class="v num">${fmt(fixedDue,1)}</div></div></div></div>
-    ${isCurrent() && unpaid.length ? `<div class="sec"><div class="sec-h"><h2>Bills still due</h2><span class="aside">Tap to log</span></div><div class="chips">${unpaid.map(c=>`<button class="chip" data-act="add" data-cat="${c.id}" data-amt="${dueOf(c)}">${icon(c)}${esc(c.name)} <span class="num muted">${fmt(dueOf(c),1)}</span></button>`).join('')}</div></div>` : ''}
-    <div class="card chart"><div class="k">Everyday spending, bills excluded</div><div class="v num">${fmt(avg)}<span style="font-size:15px;color:var(--muted);font-weight:600"> / day</span></div>
+      <div class="ring" role="img" aria-label="${flexBudget?Math.round(flexSpent/flexBudget*100):0}% of everyday budget used"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42" fill="none" stroke-width="10"/><circle class="val ${flexLeft<0?'over':''}" cx="50" cy="50" r="42" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-off="${Cr}"/></svg>
+        <div class="center"><div><div class="pct num">${flexBudget?Math.round(flexSpent/flexBudget*100):0}%</div><div class="cap">used</div></div></div></div>
+      <div class="stats"><button class="stat" data-act="tab" data-tab="activity"><div class="k">Income</div><div class="v num in">${fmt(d.income,1)}</div></button><button class="stat" data-act="tab" data-tab="activity"><div class="k">Spent</div><div class="v num">${fmt(outflow,1)}</div></button><button class="stat" data-act="tab" data-tab="budgets"><div class="k">Bills due</div><div class="v num">${fixedDue?fmt(fixedDue,1):`<span style="color:var(--good)">All paid</span>`}</div></button></div></div>
+    ${isCurrent() && unpaid.length ? `<div class="sec"><div class="sec-h"><h2>Bills still due</h2><span class="aside">Tap one when you pay it</span></div><div class="chips">${unpaid.map(c=>`<button class="chip" data-act="add" data-cat="${c.id}" data-amt="${dueOf(c)}">${icon(c)}${esc(c.name)} <span class="num muted">${fmt(dueOf(c),1)}</span></button>`).join('')}</div></div>` : ''}
+    ${fresh ? `<div class="card first"><div class="first-ico">${svg('M12 5v14M5 12h14',2.6)}</div><div><b>Log your first expense</b><p>Coffee, groceries, gas. Each one takes about five seconds, and this page fills in as you go.</p></div><button class="btn" data-act="add">Add an expense</button></div>` : `<div class="card chart"><div class="k">Everyday spending per day</div><div class="v num">${fmt(avg)}<span style="font-size:15px;color:var(--muted);font-weight:600"> / day</span></div>
       <svg viewBox="0 -6 ${W+34} ${H+22}" role="img" aria-label="Daily spending this month">${[0,.5,1].map(f=>`<line class="gridl" x1="0" x2="${W}" y1="${H-f*H}" y2="${H-f*H}"/><text class="axis" x="${W+4}" y="${H-f*H+3}">${usd0.format(nice*f/100)}</text>`).join('')}${bars}
       ${avg?`<line x1="0" x2="${W}" y1="${H-avg/nice*H}" y2="${H-avg/nice*H}" stroke="var(--fg)" stroke-dasharray="3 3" opacity=".45"/>`:''}
       ${[1,Math.ceil(d.days/2),d.days].map(n=>`<text class="axis" x="${((n-.5)*bw).toFixed(1)}" y="${H+15}" text-anchor="middle">${n}</text>`).join('')}</svg>
-      <div class="legend"><span>Dashed line is your daily average</span></div></div>
+      <div class="legend"><span><i style="background:var(--fg);opacity:.45"></i>Your daily average · bills not included</span></div></div>`}
     ${top.length?`<div class="sec"><div class="sec-h"><h2>Budgets</h2><button data-act="tab" data-tab="budgets">See all</button></div><div class="group">${top.map(c=>budRow(c,d)).join('')}</div></div>`:''}
     ${sim ? `<button class="card loan-card" data-act="tab" data-tab="loans"><div class="top">${icon({c:DEBT_C,icon:'bank'})}<div class="meta"><div class="label">Total debt</div><div class="num" style="font-size:22px;font-weight:800">${fmt(debt,1)}</div></div>${chevSvg()}</div>
       <div class="facts"><span>Debt-free <b>${sim.months!=null?monthLabel(sim.months):'never at current payments'}</b></span><span><b class="num">${fmt(S.loans.reduce((s,l)=>s+l.payment,0),1)}</b>/mo</span></div></button>` : ''}
-    <div class="sec"><div class="sec-h"><h2>Recent</h2><button data-act="tab" data-tab="activity">See all</button></div>${grouped(d.tx.slice(0,6))}</div></section>`;
+    ${fresh?'':`<div class="sec"><div class="sec-h"><h2>Recent</h2><button data-act="tab" data-tab="activity">See all</button></div>${grouped(d.tx.slice(0,6))}</div>`}</section>`;
 }
 function filterTx(tx){ const q = view.q.trim().toLowerCase(); return q ? tx.filter(t=>(t.note||'').toLowerCase().includes(q) || cat(t.cat).name.toLowerCase().includes(q)) : tx; }
 function renderActivity(){
@@ -586,7 +633,7 @@ function renderActivity(){
   return `<section class="screen">${header('Activity')}
     <label class="search">${svg(UI.search,2.2)}<input id="q" type="search" placeholder="Search notes and categories" value="${esc(view.q)}" autocomplete="off"></label>
     <div id="txlist" style="display:flex;flex-direction:column;gap:18px">${grouped(filterTx(d.tx))}</div>
-    ${d.tx.length?'<p class="foot">Swipe a transaction left to delete it.</p>':''}</section>`;
+    ${d.tx.length?'<p class="foot">Tap a transaction to edit it, or swipe left to delete.</p>':''}</section>`;
 }
 function renderBudgets(){
   const d = monthData();
@@ -611,7 +658,7 @@ function renderLoans(){
   const saved = isFinite(base.interest) && isFinite(pick.interest) ? base.interest - pick.interest : null;
   const sooner = base.months!=null && pick.months!=null ? base.months - pick.months : null;
   return `<section class="screen">${header('Loans',{month:false,eyebrow:'Debt payoff'})}
-    <div class="card hero" style="grid-template-columns:1fr"><div><div class="label">Total owed</div><div class="big num">${fmt(debt)}</div>
+    <div class="card hero" style="grid-template-columns:1fr"><div><div class="label">Total owed</div><div class="big num">${fmt(debt,1)}</div>
       <div class="sub">Debt-free <b>${base.months!=null?monthLabel(base.months):'never'}</b> at current payments${base.months!=null?`, ${duration(base.months)} from now`:''}</div></div>
       <div class="stats"><div class="stat"><div class="k">Monthly</div><div class="v num">${fmt(pay,1)}</div></div><div class="stat"><div class="k">Avg. rate</div><div class="v num">${wapr.toFixed(1)}%</div></div><div class="stat"><div class="k">Interest left</div><div class="v num">${isFinite(base.interest)?fmt(base.interest,1):'∞'}</div></div></div></div>
     <div class="card chart"><div class="k">What if you paid extra each month?</div>
@@ -649,6 +696,7 @@ function payoffChart(a, b){
 const app = document.getElementById('app');
 function render(){
   app.innerHTML = {home:renderHome, activity:renderActivity, budgets:renderBudgets, loans:renderLoans}[view.tab]();
+  document.getElementById('navtitle').textContent = app.querySelector('h1')?.textContent || ''; onScroll();
   document.querySelectorAll('.tab').forEach(t=>{ if (t.dataset.tab===view.tab) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
   requestAnimationFrame(()=>{
     document.querySelectorAll('.ring .val').forEach(el=>el.style.strokeDashoffset = el.dataset.off);
@@ -696,33 +744,40 @@ function usage(){ const n = {}; S.txns.slice(-200).forEach(t=>n[t.cat]=(n[t.cat]
 function quickCats(kind){
   if (kind==='in') return ['paycheck','side','interest','refunds','other_in'].map(cat);
   const u = usage();
-  return [...spendCats()].sort((a,b)=>(u[b.id]||0)-(u[a.id]||0) || (b.w||0)-(a.w||0)).slice(0,7);
+  // Most used first; with no history, everyday categories beat bills and savings (nobody logs rent five times a week).
+  const rank = c => c.fixed || isGoal(c) ? 1 : 0;
+  return [...spendCats()].sort((a,b)=>(u[b.id]||0)-(u[a.id]||0) || rank(a)-rank(b) || (b.w||0)-(a.w||0)).slice(0,7);
 }
 function openAdd(preset={}){
-  const c0 = preset.cat ? cat(preset.cat) : null;
-  draft = {s: preset.amt ? moneyStr(+preset.amt) : '', fresh: !!preset.amt, kind: c0?.income?'in':'out', cat: preset.cat || quickCats('out')[0]?.id || 'misc'};
-  const dflt = isCurrent() ? iso(now) : iso(new Date(view.y, view.m+1, 0));
-  openSheet('New transaction', `
+  const tx = preset.tx, c0 = tx ? cat(tx.cat) : preset.cat ? cat(preset.cat) : null;
+  draft = tx ? {id:tx.id, ts:tx.ts, s: moneyStr(Math.abs(tx.amt)), fresh:true, kind: tx.amt>0?'in':'out', cat: tx.cat}
+    : {s: preset.amt ? moneyStr(+preset.amt) : '', fresh: !!preset.amt, kind: c0?.income?'in':'out', cat: preset.cat || quickCats('out')[0]?.id || 'misc'};
+  const dflt = tx ? tx.date : isCurrent() ? iso(now) : iso(new Date(view.y, view.m+1, 0));
+  openSheet(tx ? 'Edit transaction' : 'New transaction', `
     <div class="seg"><button aria-pressed="${draft.kind==='out'}" data-act="kind" data-k="out">Expense</button><button aria-pressed="${draft.kind==='in'}" data-act="kind" data-k="in">Income</button></div>
-    <div class="amount num" id="amt"></div>
+    <div class="amount num" id="amt" aria-live="polite"></div>
     <div class="chips" id="chips"></div>
-    <div class="fields"><input class="field" id="note" placeholder="Note (optional)" maxlength="60" autocomplete="off"><input class="field" id="date" type="date" value="${dflt}"></div>
+    <div class="fields"><input class="field" id="note" placeholder="Add a note, like “Trader Joe's”" maxlength="60" autocomplete="off" value="${esc(tx?.note||'')}"><label class="datepill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span id="datel">${shortDay(dflt)}</span><input id="date" type="date" value="${dflt}" max="${iso(now)}" aria-label="Date"></label></div>
     <div class="keys">${['1','2','3','4','5','6','7','8','9','.','0','⌫'].map(k=>`<button class="key" data-act="key" data-k="${k}" aria-label="${k==='⌫'?'Delete digit':k}">${k==='⌫'?svg(UI.back):k}</button>`).join('')}</div>
-    <button class="btn" id="saveTx" data-act="savetx" disabled>Add expense</button>`);
+    <button class="btn" id="saveTx" data-act="savetx" disabled>Add expense</button>
+    ${tx?`<button class="link danger-t" data-act="deltx" data-id="${tx.id}">Delete transaction</button>`:''}`);
   sheet.insertAdjacentHTML('beforeend','<div class="picker" id="picker"></div>');
   drawChips(); drawAmt();
 }
+const shortDay = d => { const t = iso(now), yd = iso(new Date(now.getFullYear(),now.getMonth(),now.getDate()-1));
+  return d===t ? 'Today' : d===yd ? 'Yesterday' : new Date(d+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}); };
 function drawChips(){
   let list = quickCats(draft.kind);
   if (!list.find(c=>c.id===draft.cat)) list = [cat(draft.cat), ...list.slice(0,6)];
-  sheet.querySelector('#chips').innerHTML = list.map(c=>`<button class="chip" data-act="pickcat" data-id="${c.id}" aria-pressed="${c.id===draft.cat}">${icon(c)}${esc(c.name)}</button>`).join('') + (draft.kind==='out'?`<button class="chip plain more" data-act="allcats">All categories</button>`:'');
+  sheet.querySelector('#chips').innerHTML = (draft.kind==='out'?`<button class="chip all" data-act="allcats" aria-label="All categories"><span class="ico">${svg('M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',2)}</span>All</button>`:'') + list.map(c=>`<button class="chip" data-act="pickcat" data-id="${c.id}" aria-pressed="${c.id===draft.cat}">${icon(c)}${esc(c.name)}</button>`).join('');
+  sheet.querySelector('#chips [aria-pressed="true"]')?.scrollIntoView({inline:'nearest',block:'nearest'});
 }
 function drawAmt(){
   const el = sheet.querySelector('#amt'); if (!el) return; const [w,f] = draft.s.split('.');
   el.innerHTML = `<span class="cur">$</span>${w ? Number(w).toLocaleString('en-US') : '0'}${f!==undefined?'.'+f:''}`;
-  el.classList.toggle('in', draft.kind==='in');
+  el.classList.toggle('in', draft.kind==='in'); el.classList.toggle('blank', !draft.s);
   const btn = sheet.querySelector('#saveTx'); btn.disabled = !parseMoney(draft.s);
-  btn.textContent = draft.kind==='in' ? 'Add income' : cat(draft.cat).loan ? 'Log loan payment' : 'Add expense';
+  btn.textContent = draft.id ? 'Save changes' : draft.kind==='in' ? 'Add income' : cat(draft.cat).loan ? 'Log loan payment' : `Add to ${cat(draft.cat).name}`;
 }
 function openPicker(){
   const p = sheet.querySelector('#picker');
@@ -738,13 +793,18 @@ function openPicker(){
 function saveTx(){
   const cents = parseMoney(draft.s); if (!cents) return;
   const prev = snapshot(), c = cat(draft.cat);
+  if (draft.id) removeTx(draft.id);
   if (!c.income && !c.loan && !S.cats[c.id]) S.cats[c.id] = {budget:0};
-  const t = {id:uid(), ts:Date.now(), date: sheet.querySelector('#date').value || iso(now), cat:draft.cat, amt: draft.kind==='in'?cents:-cents, note: sheet.querySelector('#note').value.trim()};
+  const t = {id:draft.id||uid(), ts:draft.ts||Date.now(), date: sheet.querySelector('#date').value || iso(now), cat:draft.cat, amt: draft.kind==='in'?cents:-cents, note: sheet.querySelector('#note').value.trim()};
   if (c.loan){ const l = S.loans.find(x=>x.id===c.loan.id); const interest = Math.round(l.balance*l.apr/1200); t.principal = Math.max(0, Math.min(l.balance, cents-interest)); l.balance -= t.principal; }
   S.txns.push(t);
   const [y,m] = t.date.split('-').map(Number); view.y=y; view.m=m-1;
-  closeSheet(); commit(c.loan ? `Payment logged · ${fmt(t.principal)} to principal` : `${draft.kind==='in'?'Income':'Expense'} added · ${fmt(cents)}`, prev);
+  closeSheet(); commit(draft.id ? 'Changes saved' : c.loan ? `Payment logged · ${fmt(t.principal)} to principal` : `${draft.kind==='in'?'Income':'Expense'} added · ${fmt(cents)}`, prev);
 }
+
+// Removes a transaction and gives back any loan principal it took off.
+function removeTx(id){ const i = S.txns.findIndex(t=>t.id===id); if (i<0) return null; const [t] = S.txns.splice(i,1);
+  if (t.principal){ const l = S.loans.find(x=>'loan:'+x.id===t.cat); if (l) l.balance += t.principal; } return t; }
 
 // Edit a category's budget
 function openEditCat(id){
@@ -834,6 +894,21 @@ function loanExtraOut(l, extra, base, withX){
     + `<p class="foot" style="margin-bottom:10px">${duration(base.months-withX.months)} sooner than paying the minimum.</p>` + chart;
 }
 
+// Take-home pay, edited in place (no need to rerun setup)
+let incDraft;
+function openIncome(){
+  incDraft = {freq:S.income.freq||'biweekly'};
+  openSheet('Take-home pay', `<div class="bigmoney"><span>$</span><input id="incpay" inputmode="decimal" placeholder="0" value="${moneyStr(S.income.paycheck)}" autocomplete="off" aria-label="Paycheck amount"></div>
+    <p class="foot" style="text-align:center;margin-top:-8px">Per paycheck, after taxes and deductions</p>
+    <div class="seg" style="grid-auto-flow:row;grid-template-columns:1fr 1fr;gap:2px">${Object.entries(FREQ).map(([k,[,n]])=>`<button data-act="incfreq" data-f="${k}" aria-pressed="${incDraft.freq===k}">${n}</button>`).join('')}</div>
+    <div class="note" id="incout"></div>
+    <button class="btn" data-act="saveincome">Save</button>`, {focus:'#incpay'});
+  drawIncome();
+}
+function drawIncome(){ const el = sheet.querySelector('#incout'); if (!el) return; const m = Math.round(parseMoney(sheet.querySelector('#incpay').value)*FREQ[incDraft.freq][0]);
+  const planned = spendCats().reduce((s,c)=>s+budgetOf(c.id),0), left = m - planned;
+  el.innerHTML = `That's about <b class="num">${fmt(m,1)}</b> a month. Your budget plans <b class="num">${fmt(planned,1)}</b>, ${left>=0?`leaving <b class="num">${fmt(left,1)}</b> unassigned.`:`<b class="danger-t num">${fmt(-left,1)} more</b> than you take home.`}`; }
+
 // Settings
 function openSettings(){
   const theme = getTheme();
@@ -894,7 +969,7 @@ const OB = {
     ${GROUPS.filter(g=>g.id!=='income').map(g=>`<div style="display:flex;flex-direction:column;gap:10px"><div class="grp-h" style="padding:0 2px"><span class="dot" style="background:${g.c}"></span>${g.name}</div><div class="wrapchips">${[...g.cats.map(([id])=>id), ...ob.custom.filter(c=>c.group===g.id).map(c=>c.id)].map(id=>{ const c = obMeta(id); return `<button class="chip" data-act="obcat" data-id="${id}" aria-pressed="${!!ob.sel[id]}">${icon(c)}${esc(c.name)}</button>`; }).join('')}<button class="chip plain more" data-act="obnewcat" data-g="${g.id}">+ Custom</button></div></div>`).join('')}`,
     `<button class="btn" data-act="obnext">Continue with ${Object.keys(ob.sel).length} categories</button>`],
   bills: () => { const fixed = Object.keys(ob.sel).map(obMeta).filter(c=>c&&c.fixed);
-    return [`<h2>Your monthly bills</h2><p class="lede">Enter what you pay. Leave one blank to use the typical amount shown.</p>
+    return [`<h2>Your monthly bills</h2><p class="lede">Type what you actually pay. Gray amounts are estimates for your income, used if you leave a bill blank.</p>
     ${fixed.length?`<div class="group">${fixed.map(c=>{ const sug = c.w ? round5(obMonthly()*c.w/100) : 0; return billRow(c, `data-bill="${c.id}"`, moneyStr(ob.amounts[c.id]), sug?(sug/100).toLocaleString('en-US'):'0'); }).join('')}</div>`:`<div class="note">You didn't pick any fixed bills. Go back to add rent, utilities or insurance.</div>`}`,
     `<button class="btn" data-act="obnext">Continue</button>`]; },
   loans: () => [`<h2>Any loans or debt?</h2><p class="lede">Car, student, mortgage, personal loans or credit card balances. We'll show when each is paid off and what it costs you.</p>
@@ -958,8 +1033,9 @@ const A = {
   allcats: () => openPicker(),
   closepicker: () => sheet.querySelector('#picker').classList.remove('open'),
   savetx: () => saveTx(),
-  deltx: el => { const i = S.txns.findIndex(t=>t.id===el.dataset.id); if (i<0) return; const prev = snapshot(); const [t] = S.txns.splice(i,1);
-    if (t.principal){ const l = S.loans.find(x=>'loan:'+x.id===t.cat); if (l) l.balance += t.principal; } commit('Transaction deleted', prev); },
+  deltx: el => { const prev = snapshot(); if (!removeTx(el.dataset.id)) return; if (sheet.classList.contains('open')) closeSheet(); commit('Transaction deleted', prev); },
+  edittx: el => { if (Date.now()-swipedAt < 400) return; const row = el.closest('.row'); if (row?.classList.contains('open')){ row.classList.remove('open'); row.style.transform=''; return; }
+    const t = S.txns.find(x=>x.id===el.dataset.id); if (t) openAdd({tx:t}); },
   editcat: el => openEditCat(el.dataset.id),
   fixedtoggle: el => { const c = S.custom.find(x=>x.id===el.dataset.id); if (c) c.fixed = el.dataset.v==='1'; pressOne(el,'[data-act="fixedtoggle"]'); },
   savecat: el => { const prev = snapshot(); S.cats[el.dataset.id] = {budget: parseMoney(sheet.querySelector('#ebud').value)}; closeSheet(); commit('Budget updated', prev); },
@@ -989,7 +1065,10 @@ const A = {
     (navigator.clipboard?.writeText(csv) ?? Promise.reject()).then(()=>toast(`Copied ${S.txns.length} transactions`), ()=>toast("Couldn't access the clipboard")); },
   erase: el => { if (!el.dataset.armed){ el.dataset.armed = 1; el.querySelector('.t').textContent = 'Tap again to erase everything'; return; } S = blank(); save(); closeSheet(); render(); startOnboarding(); },
   restart: () => { closeSheet(); startOnboarding(); },
-  editincome: () => { closeSheet(); startOnboarding(); },
+  editincome: () => openIncome(),
+  incfreq: el => { incDraft.freq = el.dataset.f; pressOne(el,'[data-act="incfreq"]'); drawIncome(); },
+  saveincome: () => { const pay = parseMoney(sheet.querySelector('#incpay').value); if (!pay){ toast('Enter your paycheck amount'); return; }
+    const prev = snapshot(); S.income = {paycheck:pay, freq:incDraft.freq, monthly:Math.round(pay*FREQ[incDraft.freq][0])}; closeSheet(); commit('Take-home pay updated', prev); },
   obnext: () => obNext(),
   obback: () => { if (STEPS[ob.i]==='plan') onb.querySelectorAll('[data-plan]').forEach(inp=>ob.plan[inp.dataset.plan]=parseMoney(inp.value)); ob.i--; ob.dir='back'; drawOnb(); },
   obcancel: () => { onb.hidden = true; },
@@ -1012,6 +1091,8 @@ document.addEventListener('input', e=>{
   if (t.id==='obpay'){ ob.income.paycheck = parseMoney(t.value); onb.querySelector('#obmonthly').textContent = fmt(obMonthly(),1); onb.querySelector('#obgo').disabled = !ob.income.paycheck; }
   if (t.dataset.plan){ ob.plan[t.dataset.plan] = parseMoney(t.value); const left = obMonthly()-planTotal(); const v = onb.querySelector('#pleft'); v.textContent = fmt(Math.abs(left),1); v.className = 'v num '+(left>=0?'pos':'neg'); onb.querySelector('#plabel').textContent = left>=0?'Left unassigned':'Over your income by'; }
   if (['lbal','lapr','lpay'].includes(t.id)) updateLoanHint();
+  if (t.id==='incpay') drawIncome();
+  if (t.id==='date'){ const l = sheet.querySelector('#datel'); if (l) l.textContent = t.value ? shortDay(t.value) : 'Today'; }
   if (t.id==='lx'){ const l = S.loans.find(x=>x.id===t.dataset.id), x = +t.value, base = simulate([l]); sheet.querySelector('#lxv').textContent = fmt(x,1); sheet.querySelector('#lxout').innerHTML = loanExtraOut(l, x, base, simulate([l], x)); }
 });
 document.addEventListener('keydown', e=>{
@@ -1031,9 +1112,15 @@ app.addEventListener('pointermove', e=>{ if (!sw) return; const dx = e.clientX-s
   if (sw.lock===null && (Math.abs(dx)>8||Math.abs(dy)>8)) sw.lock = Math.abs(dx)>Math.abs(dy) ? 'x':'y';
   if (sw.lock!=='x') return; sw.dx = dx; sw.row.classList.add('dragging'); sw.row.parentElement.classList.add('swiping');
   let x = sw.base+dx; if (x>0) x = x*.2; if (x<-88) x = -88 + (x+88)*.3; sw.row.style.transform = `translateX(${x}px)`; });
-const endSwipe = () => { if (!sw) return; const {row, base, dx, lock} = sw; row.classList.remove('dragging');
+let swipedAt = 0;
+const endSwipe = () => { if (!sw) return; const {row, base, dx, lock} = sw; row.classList.remove('dragging'); if (lock==='x') swipedAt = Date.now();
   if (lock==='x'){ const open = base+dx < -44; row.classList.toggle('open', open); row.style.transform = open?'translateX(-88px)':''; if (!open) setTimeout(()=>{ if(!row.classList.contains('open')) row.parentElement.classList.remove('swiping'); },350); } sw = null; };
 app.addEventListener('pointerup', endSwipe); app.addEventListener('pointercancel', endSwipe);
+
+// Large title collapses into a compact bar on scroll, like iOS navigation bars
+const navbar = document.getElementById('navbar');
+function onScroll(){ navbar.classList.toggle('show', scrollY > 44); }
+addEventListener('scroll', onScroll, {passive:true});
 
 // Theme
 function getTheme(){ try{ return localStorage.getItem(KEY+'.theme')||'system'; }catch(e){ return 'system'; } }
