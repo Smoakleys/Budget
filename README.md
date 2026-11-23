@@ -9,9 +9,11 @@ A private personal-finance app for iPhone, built as an installable web app. One 
 - **Copilot** – with a Claude API key (Settings → Copilot), questions go straight from the phone to the Claude API with a summary the app computes; Claude can run the app's own forecast and debt engine as tools. Without a key it answers common questions offline from the same engine.
 - **Receipt scanner** – the Scan button in the add sheet. With a key, Claude reads the photo (merchant, date, total, line items by category, optional split). Without one, Tesseract OCR runs on the phone and a parser finds the total and date. You review before anything is saved.
 
-## Privacy
+## Privacy and saving
 
-Data lives in the browser's local storage on the device. This repo is code only; there is no server, database, or analytics. The only data that ever leaves the phone is a Copilot question or receipt photo sent to Anthropic with your own API key. The key is stored on the device and is not exported.
+Data lives in the browser's local storage on the device. Setup progress is saved as you go, and the app warns if the browser refuses to save (Private Browsing). Settings has **Back up to a file** and **Restore from a file**.
+
+Optional accounts: fill `SYNC_URL` and `SYNC_KEY` in `index.html` with a Supabase project URL and its public anon key, and the app shows email + password sign-in and syncs one row per user (table `margin_state`, row-level security on). With those empty, accounts stay hidden and nothing leaves the device. The Claude API key is never synced or exported; Copilot questions and receipt photos go only to Anthropic with your own key.
 
 ## Install
 
