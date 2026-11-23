@@ -353,6 +353,106 @@ h1{font-size:34px;line-height:1.05;font-weight:700;letter-spacing:-.025em;margin
 .chip.all .ico{background:var(--accent-soft);color:var(--accent)}
 .legend i{height:2px}
 
+/* Finance suite: paycheck plan, actions, forecast, what-if, copilot, receipts */
+.seg.top{margin-top:-6px}
+.back-btn{display:inline-flex;align-items:center;gap:2px;color:var(--accent);font-weight:500;font-size:16px;margin-left:-6px;padding:4px 0}
+.back-btn svg{width:20px;height:20px}
+.icon-btn.ai{color:var(--accent)}
+.hero .sub .num{font-weight:600}
+.addbal{color:var(--accent);font-weight:700}
+.act{display:flex;gap:12px;padding:14px 16px;align-items:flex-start;width:100%;text-align:left}
+.act + .act{border-top:1px solid var(--line)}
+.act.tap:active{background:var(--surface-2)}
+.act .ico{margin-top:1px}
+.act .t{white-space:normal;font-weight:600;line-height:1.3}
+.act .s{line-height:1.4;margin-top:3px}
+.act-cta{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.mini{height:34px;padding:0 14px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-size:14px;font-weight:700;transition:transform .2s var(--spring)}
+.mini:active{transform:scale(.94)}
+.mini.ghost{background:var(--surface-2);color:var(--fg)}
+.count{min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:700;display:inline-grid;place-items:center;margin-left:6px;vertical-align:2px}
+.pp{padding:16px;display:flex;flex-direction:column;gap:12px}
+.pp-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.pp-h .t{font-weight:700;font-size:17px}
+.stack{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--surface-2);gap:2px}
+.stack i{display:block;height:100%;min-width:3px}
+.lines{display:flex;flex-direction:column;gap:7px;font-size:14px}
+.line{display:flex;align-items:center;gap:8px}
+.line .sw{width:8px;height:8px;border-radius:3px;flex:none}
+.line .n{flex:1;min-width:0;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.line .n b{color:var(--fg);font-weight:600}
+.line .v{font-weight:700}
+.line.sub{padding-left:16px;font-size:13px}
+.line.sub .v{font-weight:600;color:var(--muted)}
+.line.total{border-top:1px solid var(--line);padding-top:9px;margin-top:2px}
+.line.total .n{color:var(--fg);font-weight:600}
+.tag-now{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 7px;border-radius:99px;margin-left:6px;vertical-align:2px}
+.chart svg.chev{width:16px;flex:none}
+.spark{display:block;width:100%;height:44px;margin-top:10px}
+.delta{font-weight:700;font-size:14px}
+.delta.up{color:var(--good)}
+.delta.down{color:var(--danger)}
+.levers{display:flex;flex-direction:column}
+.lever{display:flex;align-items:center;gap:10px;padding:12px 16px}
+.lever + .lever{border-top:1px solid var(--line)}
+.lever .meta .t{font-weight:500}
+.lever .stepper .num{min-width:72px;font-size:16px}
+.lever .stepper button{width:32px;height:32px}
+.lever.on .meta .t{color:var(--accent);font-weight:600}
+.results{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-radius:16px;overflow:hidden}
+.results > div{background:var(--surface);padding:12px 14px}
+.results .k{font-size:12px;color:var(--muted)}
+.results .v{font-size:17px;font-weight:700;margin-top:2px}
+.results .d{font-size:12px;margin-top:1px;color:var(--muted)}
+.events{display:flex;flex-direction:column}
+.ev{display:flex;gap:12px;padding:11px 16px;align-items:center}
+.ev + .ev{border-top:1px solid var(--line)}
+.ev .when{width:62px;flex:none;font-size:13px;font-weight:600;color:var(--muted)}
+.ev .what{flex:1;font-size:14px;line-height:1.35}
+.ev .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.order{display:flex;flex-direction:column}
+.step{display:flex;gap:12px;padding:12px 16px;align-items:center}
+.step + .step{border-top:1px solid var(--line)}
+.step .r{flex:none;text-align:right}
+.step .r .k{white-space:nowrap;font-size:12px;color:var(--muted)}
+.step > .k{width:24px;height:24px;border-radius:50%;background:var(--surface-2);font-size:13px;font-weight:700;display:grid;place-items:center;flex:none}
+.step.focus > .k{background:var(--accent);color:var(--accent-ink)}
+/* Copilot */
+.sheet.tall{height:92%}
+.sheet.tall .sheet-body{flex:1}
+.chat{display:flex;flex-direction:column;gap:12px;flex:1;min-height:120px}
+.msg{max-width:88%;padding:10px 14px;border-radius:18px;font-size:15px;line-height:1.45;-webkit-user-select:text;user-select:text}
+.msg p{margin:0}
+.msg p + p,.msg ul + p,.msg p + ul{margin-top:8px}
+.msg ul{margin:0;padding-left:18px}
+.msg.me{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:6px}
+.msg.ai{align-self:flex-start;background:var(--surface-2);border-bottom-left-radius:6px}
+.msg .src{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
+.msg .mini{margin-top:10px}
+.typing{display:inline-flex;gap:4px;padding:14px 16px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.ask{display:flex;gap:8px;align-items:center;flex:none;padding-top:4px}
+.ask .field{border-radius:99px;padding:11px 16px}
+.send{width:42px;height:42px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.send[disabled]{opacity:.35}
+.send svg{width:20px;height:20px}
+.ai-intro{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.ai-intro .chip{white-space:normal;text-align:left;padding:9px 14px;line-height:1.3}
+/* Receipt */
+.rc-img{width:100%;max-height:220px;object-fit:cover;border-radius:16px;background:var(--surface-2)}
+.scanbar{height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden}
+.scanbar i{display:block;height:100%;width:30%;background:var(--accent);border-radius:2px;animation:scan 1.1s var(--ease) infinite alternate}
+@keyframes scan{from{transform:translateX(-10%)}to{transform:translateX(250%)}}
+.items{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:14px}
+.item + .item{border-top:1px solid var(--line)}
+.item .n{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item select{background:var(--surface);border:0;border-radius:8px;padding:5px 6px;font-size:13px;max-width:120px}
+.spinner{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--surface-2);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -364,8 +464,8 @@ h1{font-size:34px;line-height:1.05;font-weight:700;letter-spacing:-.025em;margin
   <button class="tab" data-tab="home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>Home</button>
   <button class="tab" data-tab="activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg>Activity</button>
   <button class="add" data-act="add" aria-label="Add transaction"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
-  <button class="tab" data-tab="budgets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v8l5.5 5.5"/></svg>Budgets</button>
-  <button class="tab" data-tab="loans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg>Loans</button>
+  <button class="tab" data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h3M8 17h6"/></svg>Plan</button>
+  <button class="tab" data-tab="future"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/><path d="M3 21h18" opacity=".5"/></svg>Future</button>
 </nav>
 
 <div class="navbar" id="navbar" aria-hidden="true"><span id="navtitle"></span></div>
@@ -457,8 +557,14 @@ const duration = m => { if (m==null) return 'never'; const y = Math.floor(m/12),
 
 // ---------- State ----------
 const PREVIEW = !/github\.io$|localhost/.test(location.hostname) || location.search.includes('demo');
-function blank(){ return {v:2, onboarded:false, income:{paycheck:0, freq:'biweekly', monthly:0}, cats:{}, custom:[], loans:[], txns:[]}; }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v===2) return s; }catch(e){} return blank(); }
+// One state object feeds every screen: paychecks fund the plan, the plan drives the forecast,
+// the what-if simulator forks the forecast, and next actions read all of them.
+// cash: checking balance {amt, ts} — transactions logged after ts move it. saved: savings balance.
+// debtPlan: extra monthly payment and strategy, shared by the paycheck plan, forecast and debt screen.
+function blank(){ return {v:2, onboarded:false, income:{paycheck:0, freq:'biweekly', monthly:0, anchor:null}, cats:{}, custom:[], loans:[], txns:[], cash:null, saved:null, debtPlan:{extra:0, strategy:'avalanche'}, snooze:{}, merchants:{}}; }
+function normalize(s){ const b = blank(); for (const k in b) if (s[k]===undefined) s[k] = b[k]; if (s.income.anchor===undefined) s.income.anchor = null;
+  if (!s.since && s.onboarded) s.since = s.txns.map(t=>t.date).sort()[0] || iso(new Date()); return s; }
+function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v===2) return normalize(s); }catch(e){} return blank(); }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
 
@@ -495,10 +601,193 @@ function simulate(loans, extra=0, strategy='avalanche'){
   return {months:m, interest:Math.round(interest*100), series, payoff};
 }
 
+// ---------- Engine: dates and paydays ----------
+const D = (y,m,d) => new Date(y,m,d,12);
+const today0 = D(now.getFullYear(), now.getMonth(), now.getDate());
+const addDays = (d,n) => D(d.getFullYear(), d.getMonth(), d.getDate()+n);
+const daysBetween = (a,b) => Math.round((b-a)/864e5);
+const dim = (y,m) => new Date(y,m+1,0).getDate();
+const parseISO = s => D(+s.slice(0,4), +s.slice(5,7)-1, +s.slice(8,10));
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const wk = d => d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
+const md = d => d.toLocaleDateString('en-US',{month:'short', day:'numeric'});
+const relDay = d => { const n = daysBetween(today0, d); return n===0 ? 'today' : n===1 ? 'tomorrow' : n>1 && n<7 ? d.toLocaleDateString('en-US',{weekday:'long'}) : md(d); };
+
+function payAnchor(){
+  if (S.income.anchor) return parseISO(S.income.anchor);
+  const last = S.txns.filter(t=>t.cat==='paycheck').map(t=>t.date).sort().pop();
+  return last ? parseISO(last) : today0;
+}
+// Paydays in [a, b). Weekly and biweekly step from a known payday; twice-monthly is the 15th and last day.
+function paydaysBetween(a, b){
+  const out = [], f = S.income.freq, A = payAnchor();
+  if (f==='weekly' || f==='biweekly'){ const step = f==='weekly' ? 7 : 14;
+    for (let d = addDays(A, Math.ceil(daysBetween(A,a)/step)*step); d < b; d = addDays(d, step)) out.push(d); }
+  else for (let y = a.getFullYear(), m = a.getMonth(); D(y,m,1) < b; m++){
+    const days = f==='monthly' ? [Math.min(A.getDate(), dim(y,m))] : [15, dim(y,m)];
+    days.forEach(dd=>{ const d = D(y,m,dd); if (d>=a && d<b) out.push(d); }); }
+  return out;
+}
+const nextPayday = () => paydaysBetween(addDays(today0,1), addDays(today0,45))[0];
+
+// ---------- Engine: the plan, split by paycheck ----------
+const DUE = {rent:1, mortgage:1, renters_ins:1, hoa:1, electric:18, gas_util:18, water:20, internet:9, phone:12, car_ins:1, health_ins:1, fitness:5, streaming:6, subscriptions:14};
+const dueDay = c => c.loan ? (c.loan.day || 15) : (S.cats[c.id]?.day || DUE[c.id] || 1);
+const flexCats = () => spendCats().filter(c=>!c.fixed && !isGoal(c));
+const goalCats = () => spendCats().filter(isGoal);
+const billCats = () => spendCats().filter(c=>c.fixed);
+const sumB = list => list.reduce((s,c)=>s+budgetOf(c.id),0);
+const inRange = (t,a,b) => { const d = t.date; return d >= iso(a) && d < iso(b); };
+const paidIn = (id, y, m) => S.txns.some(t=>t.cat===id && t.amt<0 && t.date.startsWith(`${y}-${pad(m+1)}`));
+// Each bill is paid from the paycheck that lands before it's due. Everyday spending, savings and extra debt are split by days.
+function periodPlan(a, b, current){
+  const bills = [];
+  for (let y=a.getFullYear(), m=a.getMonth(); D(y,m,1) < b; m++){ const yy = D(y,m,1).getFullYear(), mm = D(y,m,1).getMonth();
+    billCats().forEach(c=>{ const due = D(yy,mm,Math.min(dueDay(c), dim(yy,mm))), since = c.loan?.since || S.since;
+      // Bills that came due before you started tracking them are assumed handled.
+      if (due>=a && due<b) bills.push({c, amt:budgetOf(c.id), date:due, paid: paidIn(c.id,yy,mm) || (since && iso(due) < since)}); }); }
+  bills.sort((x,y)=>x.date-y.date);
+  let frac = 0; for (let d=a; d<b; d=addDays(d,1)) frac += 1/dim(d.getFullYear(), d.getMonth());
+  const everyday = Math.round(sumB(flexCats())*frac), savings = Math.round(sumB(goalCats())*frac), extra = Math.round((S.debtPlan.extra||0)*frac);
+  const billsTotal = bills.reduce((s,x)=>s+x.amt,0), pay = S.income.paycheck;
+  const tx = S.txns.filter(t=>t.amt<0 && inRange(t,a,b));
+  const flexIds = new Set(flexCats().map(c=>c.id)), goalIds = new Set(goalCats().map(c=>c.id));
+  return {start:a, end:b, pay, bills, billsTotal, everyday, savings, extra, left: pay-billsTotal-everyday-savings-extra, current,
+    spentEveryday: tx.filter(t=>flexIds.has(t.cat)).reduce((s,t)=>s-t.amt,0), savedSoFar: tx.filter(t=>goalIds.has(t.cat)).reduce((s,t)=>s-t.amt,0)};
+}
+function payPeriods(n=3){
+  if (!S.income.paycheck) return [];
+  const start = paydaysBetween(addDays(today0,-45), addDays(today0,1)).pop() || today0;
+  const pds = [start, ...paydaysBetween(addDays(start,1), addDays(start, 45*n))].slice(0, n+1);
+  return pds.slice(0, n).map((p,i)=>periodPlan(p, pds[i+1], i===0));
+}
+
+// ---------- Engine: balances ----------
+// A balance is a snapshot; anything logged after it moves it. Savings transfers move money from cash to savings.
+const after = snap => t => (t.ts||0) > snap.ts;
+const cashNow = () => S.cash ? S.cash.amt + S.txns.filter(after(S.cash)).reduce((s,t)=>s+t.amt,0) : null;
+const savedNow = () => S.saved ? S.saved.amt + S.txns.filter(after(S.saved)).filter(t=>isGoal(cat(t.cat))).reduce((s,t)=>s-t.amt,0) : null;
+const essentials = () => sumB(billCats()) + sumB(flexCats());
+
+// Safe to spend until payday: the smaller of what your cash allows (after bills and set-asides) and what your plan allows.
+function safeToSpend(){
+  const p = payPeriods(1)[0]; if (!p) return null;
+  const days = Math.max(1, daysBetween(today0, p.end));
+  const unpaid = p.bills.filter(b=>!b.paid), unpaidTotal = unpaid.reduce((s,b)=>s+b.amt,0);
+  const savLeft = Math.max(0, p.savings - p.savedSoFar), planLeft = p.everyday - p.spentEveryday;
+  const cash = cashNow(), cashLeft = cash==null ? null : cash - unpaidTotal - savLeft - p.extra;
+  const amt = cashLeft==null ? planLeft : Math.min(cashLeft, planLeft);
+  return {amt, days, perDay: Math.max(0,amt)/days, next:p.end, cash, cashLeft, planLeft, unpaid, unpaidTotal, savLeft, p, limitedBy: cashLeft!=null && cashLeft < planLeft ? 'cash' : 'plan'};
+}
+
+// ---------- Engine: forecast ----------
+// Month 0 is the rest of this month. Everyday spending blends your current pace with your budget.
+// Debt follows the same payoff engine as the Debt screen, so the forecast and payoff dates always agree.
+const SCN0 = {raise:0, cut:0, extraDebt:0, monthly:0, oneTime:0, oneMonth:3, gap:0, lump:0, lumpMonth:0};
+function project(scn={}, months=24){
+  const sc = {...SCN0, ...scn}, d = monthData(now.getFullYear(), now.getMonth());
+  const flex = flexCats(), goals = goalCats(), bills = billCats().filter(c=>!c.loan);
+  const flexB = sumB(flex), goalB = sumB(goals), billB = sumB(bills);
+  let projFlex = 0, remFlex0 = 0;
+  flex.forEach(c=>{ const b = budgetOf(c.id), sp = d.spentBy[c.id]||0, pr = d.pace>.15 ? Math.max(sp, (sp/d.pace + b)/2) : Math.max(sp, b); projFlex += pr; remFlex0 += Math.max(0, pr-sp); });
+  const pace = flexB ? clamp(1 + (projFlex/flexB - 1)*.5, .85, 1.3) : 1;
+  const remBills0 = bills.filter(c=>!d.spentBy[c.id]).reduce((s,c)=>s+budgetOf(c.id),0);
+  const remGoal0 = goals.reduce((s,c)=>s+Math.max(0, budgetOf(c.id)-(d.spentBy[c.id]||0)),0);
+  const restFrac = (d.days - d.dayNow) / d.days;
+  const known = S.cash!=null;
+  let cash = cashNow() ?? 0, saved = savedNow() ?? 0;
+  const ls = S.loans.filter(l=>l.balance>0).map(l=>({id:l.id, name:l.name, bal:l.balance, r:(l.apr||0)/1200, pay:l.payment, paid: !!d.spentBy['loan:'+l.id]}));
+  const extra = (S.debtPlan.extra||0) + sc.extraDebt, strategy = sc.strategy || S.debtPlan.strategy;
+  let freed = 0;
+  const out = {labels:[], cash:[], saved:[], debt:[], net:[], flow:[], events:[], known, pace, sc};
+  const push = (m) => { const debt = ls.reduce((s,l)=>s+l.bal,0); out.cash.push(cash); out.saved.push(saved); out.debt.push(debt); out.net.push(cash+saved-debt); };
+  push(); out.labels.push(today0);
+  const cushion = essentials()*3; let cushionHit = saved >= cushion, negHit = false;
+  for (let m=0; m<months; m++){
+    const ms = D(now.getFullYear(), now.getMonth()+m, 1), me = D(now.getFullYear(), now.getMonth()+m+1, 1);
+    const checks = paydaysBetween(m===0 ? addDays(today0,1) : ms, me).length, gap = m>=1 && m<=sc.gap;
+    const inc = gap ? 0 : Math.round(checks * S.income.paycheck * (1+sc.raise/100));
+    const cutK = 1 - sc.cut/100;
+    const goal = gap ? 0 : m===0 ? remGoal0 : goalB;
+    let spend = (m===0 ? remBills0 + remFlex0*cutK : billB + flexB*pace*cutK) + goal;
+    if (m>=1) spend += sc.monthly;
+    if (m===sc.oneMonth) spend += sc.oneTime;
+    // Debt: minimums, then extra plus freed-up minimums to the target loan.
+    let paid = 0, pool = (m===0 ? extra*restFrac : extra) + freed + (m===sc.lumpMonth ? sc.lump : 0);
+    ls.forEach(l=>{ if (m===0 && l.paid) return; l.bal += l.bal*l.r; const p = Math.min(l.pay, l.bal); l.bal -= p; paid += p; });
+    const order = [...ls].sort(strategy==='snowball' ? (a,b)=>a.bal-b.bal : (a,b)=>b.r-a.r || a.bal-b.bal);
+    for (const l of order){ if (pool<=0) break; if (l.bal<=0) continue; const p = Math.min(pool, l.bal); l.bal -= p; pool -= p; paid += p; }
+    for (let i=ls.length-1; i>=0; i--) if (ls[i].bal < 50){ out.events.push({m, kind:'debt', text:`${ls[i].name} paid off`, sub: ls.length>1 ? `Its ${fmt(ls[i].pay,1)} payment rolls to the next loan` : 'Last loan. You’re debt-free'}); freed += ls[i].pay; ls[i].bal = 0; ls.splice(i,1); }
+    cash += inc - spend - paid; saved += goal;
+    out.flow.push(inc - spend - paid + goal);
+    out.labels.push(ms); push(m);
+    if (checks>=3 && S.income.freq==='biweekly' || checks>=5 && S.income.freq==='weekly') if (m>=1 && !gap && out.events.filter(e=>e.kind==='pay').length<2) out.events.push({m, kind:'pay', text:`${ms.toLocaleDateString('en-US',{month:'long'})} has ${checks} paychecks`, sub:`${fmt(S.income.paycheck,1)} more than a normal month`});
+    if (known && !negHit && cash < 0){ negHit = true; out.events.push({m, kind:'warn', text:'Cash dips below $0', sub:`Projected ${fmt(cash,1)} by the end of ${ms.toLocaleDateString('en-US',{month:'long'})}`}); }
+    if (!cushionHit && saved >= cushion && cushion){ cushionHit = true; out.events.push({m, kind:'save', text:'Savings reach 3 months of expenses', sub:`${fmt(cushion,1)} cushion`}); }
+  }
+  out.events.sort((a,b)=>a.m-b.m);
+  const lows = known ? out.cash.map((v,i)=>[v,i]).sort((a,b)=>a[0]-b[0])[0] : null;
+  out.low = lows ? {v:lows[0], i:lows[1]} : null;
+  out.payoff = simulate(S.loans, extra, strategy);
+  return out;
+}
+const monthOf = i => D(now.getFullYear(), now.getMonth()+i, 1);
+
+// ---------- Engine: next actions ----------
+// Every source above can raise an action. Each has a stable id so it can be snoozed.
+function nextActions(){
+  const list = [], add = a => { const until = S.snooze[a.id]; if (!until || until < iso(now)) list.push(a); };
+  const pp = payPeriods(3), sts = safeToSpend(), d = monthData(now.getFullYear(), now.getMonth()), nxt = nextPayday();
+  if (!S.onboarded) return list;
+  if (S.cash==null) add({id:'cash', score:88, icon:'bank', c:'#0C8A79', title:'Add your checking balance', body:'It turns your plan into a real number: how much you can safely spend before payday, and whether cash stays positive.', cta:['Add balance','editcash']});
+  else if (Date.now() - S.cash.ts > 7*864e5) add({id:'cashold', score:52, icon:'bank', c:'#0C8A79', title:'Update your checking balance', body:`It was last set ${md(new Date(S.cash.ts))}. A fresh number keeps safe-to-spend honest.`, cta:['Update','editcash']});
+  // Bills due before the next paycheck
+  if (pp[0]) pp[0].bills.filter(b=>!b.paid).forEach(b=>{ const n = daysBetween(today0, b.date);
+    add({id:`bill:${b.c.id}:${iso(b.date)}`, score: n<0 ? 96 : 92 - n, icon:b.c.icon, c:b.c.c, title:`${n<0?'Overdue: ':''}Pay ${b.c.name} · ${fmt(b.amt,1)}`, body: n<0 ? `It was due ${md(b.date)}. Log it once it's paid.` : `Due ${relDay(b.date)}, before your next paycheck.`, cta:['Log payment','add',{cat:b.c.id, amt:b.amt}]}); });
+  // Paycheck shortfalls
+  pp.forEach((p,i)=>{ if (p.left < -500){ const big = p.bills.slice().sort((a,b)=>b.amt-a.amt).slice(0,2).map(b=>b.c.name).join(' and ');
+    add({id:`short:${iso(p.start)}`, score: i===0 ? 86 : 82 - i*4, icon:'dollar', c:'#C3860E', title:`Your ${md(p.start)} paycheck comes up ${fmt(-p.left,1)} short`, body:`${big||'Bills'} land on it. ${i>0?`Set aside ${fmt(-p.left,1)} from the ${md(pp[i-1].start)} check.`:'Cover it from cash or trim everyday spending this period.'}`, cta:['See paycheck plan','goplan']}); } });
+  // Forecast warnings
+  const f = project({}, 12);
+  const neg = f.events.find(e=>e.kind==='warn');
+  if (neg) add({id:'neg', score:84, icon:'trend', c:'#D8443B', title:`Cash runs short in ${monthOf(neg.m).toLocaleDateString('en-US',{month:'long'})}`, body:`${neg.sub}. The simulator shows what fixes it.`, cta:['Open forecast','gofuture',{fut:'forecast'}]});
+  // Budget pressure this month
+  flexCats().forEach(c=>{ const b = budgetOf(c.id), s = d.spentBy[c.id]||0; const [cls] = statusOf(s,b,d.pace,false,false);
+    if (cls==='bad' && b) add({id:`over:${c.id}:${iso(now).slice(0,7)}`, score:66, icon:c.icon, c:c.c, title:`${c.name} is over by ${fmt(s-b,1)}`, body:`Cover it from another category so the month still adds up.`, cta:['Adjust budget','editcat',{id:c.id}]});
+    else if (cls==='warn') add({id:`fast:${c.id}:${iso(now).slice(0,7)}`, score:58, icon:c.icon, c:c.c, title:`Slow down on ${c.name}`, body:`${fmt(b-s,1)} left for ${d.days-d.dayNow+1} days. At this pace you'd spend ${fmt(Math.round(s/d.pace),1)}.`, cta:['See budgets','goplan',{plan:'categories'}]}); });
+  // Unassigned money
+  const un = (S.income.monthly||0) - sumB(spendCats()) - (S.debtPlan.extra||0);
+  const sv0 = savedNow(), thin = sv0!=null && sv0 < Math.min(100000, essentials());
+  if (un >= 2500){ const amt = Math.floor(un/2500)*2500;
+    if (S.loans.length && !thin){ const base = simulate(S.loans, S.debtPlan.extra, S.debtPlan.strategy), w = simulate(S.loans, S.debtPlan.extra+amt, S.debtPlan.strategy);
+      const target = [...S.loans].sort(S.debtPlan.strategy==='snowball'?(a,b)=>a.balance-b.balance:(a,b)=>b.apr-a.apr)[0];
+      add({id:`assign:${amt}`, score:72, icon:'sparkle', c:'#0C8A79', title:`Give ${fmt(amt,1)} a month a job`, body:`Your plan leaves it unassigned. On ${target.name} (${target.apr}%) it saves ${isFinite(base.interest-w.interest)?fmt(base.interest-w.interest,1):'interest'}${base.months&&w.months&&base.months>w.months?` and ends your debt ${duration(base.months-w.months)} sooner`:''}.`, cta:['Add to debt plan','applyextra',{amt}]}); }
+    else add({id:`assign:${amt}`, score:64, icon:'piggy', c:'#3F7D5C', title:`Give ${fmt(amt,1)} a month a job`, body: thin ? `Your plan leaves it unassigned and your cushion is ${fmt(sv0,1)}. Build savings to ${fmt(Math.min(100000, essentials()),1)} first, then point it at debt.` : 'Your plan leaves it unassigned. Moving it to savings builds your cushion automatically.', cta:['Add to savings','applysave',{amt}]}); }
+  // Emergency cushion before aggressive extra payments
+  const sv = savedNow();
+  if (sv!=null && S.loans.length && sv < Math.min(100000, essentials()) && (S.debtPlan.extra||0) > 0) add({id:'starter', score:62, icon:'shield', c:'#3F7D5C', title:'Build a starter cushion first', body:`You have ${fmt(sv,1)} saved. One surprise bill would go on a card. Get to ${fmt(Math.min(100000, essentials()),1)} before paying extra on debt.`, cta:['Open simulator','gofuture',{fut:'forecast'}]});
+  // Payday
+  if (nxt && daysBetween(today0,nxt) <= 2 && pp[1]){ const p = pp[1];
+    add({id:`payday:${iso(nxt)}`, score:68, icon:'dollar', c:'#178F55', title:`Payday ${relDay(nxt)}: ${fmt(p.pay,1)}`, body:`Plan: ${fmt(p.billsTotal,1)} to bills, ${fmt(p.everyday,1)} everyday, ${fmt(p.savings+p.extra,1)} to savings and debt.`, cta:['See the plan','goplan']}); }
+  // Extra paycheck months ahead
+  const extraPay = f.events.find(e=>e.kind==='pay' && e.m<=4);
+  if (extraPay) add({id:`3pay:${iso(monthOf(extraPay.m))}`, score:42, icon:'star', c:'#5560C9', title:extraPay.text, body:`That's ${fmt(S.income.paycheck,1)} your monthly budget doesn't count on. Decide now where it goes, before it disappears.`, cta:['Plan it','gofuture',{fut:'forecast', preset:'bonus'}]});
+  // Logging habit
+  const lastOut = S.txns.filter(t=>t.amt<0).map(t=>t.date).sort().pop();
+  if (lastOut && daysBetween(parseISO(lastOut), today0) >= 3) add({id:`log:${iso(now)}`, score:46, icon:'receipt', c:'#7C8682', title:'Catch up on recent spending', body:`Nothing logged since ${md(parseISO(lastOut))}. Scan a receipt or add it by hand.`, cta:['Add expense','add']});
+  // Debt milestone
+  const soon = f.events.find(e=>e.kind==='debt' && e.m<=3);
+  if (soon) add({id:`milestone:${soon.text}`, score:30, icon:'trend', c:'#178F55', title:`${soon.text.replace(' paid off','')} is paid off by ${monthOf(soon.m).toLocaleDateString('en-US',{month:'long'})}`, body:soon.sub+'. Nothing for you to do.', cta:['See debt plan','gofuture',{fut:'debt'}]});
+  // Subscriptions
+  const subs = ['streaming','subscriptions'].reduce((s,id)=>s+(S.cats[id]?budgetOf(id):0),0);
+  if (S.income.monthly && subs > S.income.monthly*.015) add({id:`subs:${iso(now).slice(0,7)}`, score:24, icon:'tv', c:'#1AA3B8', title:`Review ${fmt(subs,1)} a month in subscriptions`, body:`That's ${fmt(subs*12,1)} a year. Cancel one you haven't opened this month.`, cta:['See budgets','goplan',{plan:'categories'}]});
+  return list.sort((a,b)=>b.score-a.score);
+}
+
 // ---------- Sample data (preview only) ----------
 function sampleState(){
   const s = blank(); s.onboarded = true; s.sample = true; s.income = {paycheck:225000, freq:'biweekly', monthly:Math.round(225000*26/12)};
-  const b = {rent:145000, electric:9000, internet:6500, phone:5500, groceries:55000, restaurants:25000, coffee:4500, delivery:8000, fuel:16000, car_ins:14000, car_maint:6000, doctor:4000, pharmacy:2500, clothing:10000, haircut:4000, general:15000, streaming:3500, subscriptions:3000, events:8000, gifts:5000, savings:40000, misc:6000};
+  const b = {rent:145000, electric:9000, internet:6500, phone:5500, groceries:55000, restaurants:25000, coffee:4500, delivery:8000, fuel:16000, car_ins:14000, car_maint:6000, doctor:4000, pharmacy:2500, clothing:10000, haircut:4000, general:15000, streaming:3500, subscriptions:3000, events:8000, gifts:5000, savings:35000, misc:6000};
   Object.entries(b).forEach(([k,v])=>s.cats[k]={budget:v});
   s.loans = [
     {id:'auto1', name:'Honda Civic', type:'auto', balance:1684200, orig:2400000, apr:6.9, payment:46500},
@@ -507,7 +796,7 @@ function sampleState(){
   ];
   const y = now.getFullYear(), m = now.getMonth(), today = now.getDate();
   const add = (day, c, dollars, note) => { if (day<=today) s.txns.push({id:uid(), date:iso(new Date(y,m,day)), cat:c, amt: Math.round(dollars*100)*(LIB[c]?.income?1:-1), note}); };
-  add(1,'paycheck',2250,'Paycheck'); add(15,'paycheck',2250,'Paycheck'); add(9,'side',180,'Freelance logo');
+  const fri = 1 + (5 - new Date(y,m,1).getDay() + 7) % 7; [fri, fri+14, fri+28].forEach(d=>add(d,'paycheck',2250,'Paycheck')); add(9,'side',180,'Freelance logo');
   add(1,'rent',1450,'Rent'); add(5,'electric',84.18,'Electric bill'); add(9,'internet',65,'Internet'); add(12,'phone',55,'Phone bill');
   [[2,86.42,"Trader Joe's"],[6,42.17,'Costco'],[9,61.30,'H-E-B'],[13,27.85,'Farmers market'],[16,94.12,'Whole Foods']].forEach(([d,a,n])=>add(d,'groceries',a,n));
   [[3,14.50,'Chipotle'],[7,48.60,'Dinner with Sam'],[11,22.40,'Sushi'],[14,63.00,'Date night']].forEach(([d,a,n])=>add(d,'restaurants',a,n));
@@ -519,18 +808,23 @@ function sampleState(){
   add(6,'streaming',15.49,'Netflix'); add(14,'streaming',11.99,'Spotify'); add(8,'events',34,'Movie tickets');
   add(2,'savings',400,'Transfer to savings'); add(12,'haircut',32,'Haircut');
   [['auto1',465,6],['stu1',305,10],['cc1',90,14]].forEach(([id,a,d])=>{ if (d<=today) s.txns.push({id:uid(), date:iso(new Date(y,m,d)), cat:'loan:'+id, amt:-a*100, note:'Payment'}); });
+  // Due days match when the sample bills were paid; paychecks land on the 1st and every two weeks after.
+  Object.entries({rent:1, car_ins:1, electric:5, internet:9, phone:12, streaming:6, subscriptions:14}).forEach(([k,d])=>s.cats[k].day=d);
+  s.loans[0].day = 6; s.loans[1].day = 10; s.loans[2].day = 14;
+  s.income.anchor = iso(new Date(y,m,fri)); s.cash = {amt:184250, ts:Date.now()}; s.saved = {amt:210000, ts:Date.now()};
+  s.merchants = {"trader joe's":'groceries', costco:'groceries', 'whole foods':'groceries', chipotle:'restaurants', 'blue bottle':'coffee', starbucks:'coffee', doordash:'delivery', shell:'fuel', chevron:'fuel', target:'general', amazon:'general', cvs:'pharmacy', netflix:'streaming', spotify:'streaming'};
   return s;
 }
 
 // ---------- View state ----------
-let view = {tab:'home', y:now.getFullYear(), m:now.getMonth(), q:'', extra:10000, strategy:'avalanche'};
+let view = {tab:'home', y:now.getFullYear(), m:now.getMonth(), q:'', plan:'paychecks', fut:'forecast', h:24, metric:'net', scn:{...SCN0}, preset:null};
 let lastLeft = null;
 const isCurrent = () => view.y===now.getFullYear() && view.m===now.getMonth();
-function monthData(){
-  const mk = `${view.y}-${pad(view.m+1)}`;
+function monthData(y=view.y, m=view.m){
+  const mk = `${y}-${pad(m+1)}`, cur = y===now.getFullYear() && m===now.getMonth();
   const tx = S.txns.filter(t=>t.date.startsWith(mk)).sort((a,b)=> b.date.localeCompare(a.date) || (b.ts||0)-(a.ts||0));
-  const days = new Date(view.y, view.m+1, 0).getDate();
-  const dayNow = isCurrent() ? now.getDate() : (new Date(view.y,view.m,1) > now ? 0 : days);
+  const days = new Date(y, m+1, 0).getDate();
+  const dayNow = cur ? now.getDate() : (new Date(y,m,1) > now ? 0 : days);
   const spentBy = {}; let spent=0, income=0;
   tx.forEach(t=>{ if (t.amt<0){ spent-=t.amt; spentBy[t.cat]=(spentBy[t.cat]||0)-t.amt; } else income+=t.amt; });
   const cats = spendCats(); const budget = cats.reduce((s,c)=>s+budgetOf(c.id),0);
@@ -540,10 +834,13 @@ const monthName = () => new Date(view.y, view.m, 1).toLocaleDateString('en-US',{
 const dayLabel = d => { const t = iso(now), yd = iso(new Date(now.getFullYear(),now.getMonth(),now.getDate()-1));
   return d===t ? 'Today' : d===yd ? 'Yesterday' : new Date(d+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'}); };
 
+const AI_ICON = 'M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z';
 function header(title, opts={}){
   const next = new Date(view.y, view.m+1, 1) > now;
-  return `<div class="head"><div><div class="eyebrow">${opts.eyebrow ?? `${monthName()} ${view.y}`}</div><h1>${title}</h1></div><div class="head-actions">
+  const top = opts.back ? `<button class="back-btn" data-act="tab" data-tab="${opts.back}">${svg(UI.chevL,2.4)}${opts.backLabel||'Back'}</button>` : `<div class="eyebrow">${opts.eyebrow ?? `${monthName()} ${view.y}`}</div>`;
+  return `<div class="head"><div>${top}<h1>${title}</h1></div><div class="head-actions">
     ${opts.month!==false?`<button class="icon-btn" data-act="month" data-d="-1" aria-label="Previous month">${svg(UI.chevL,2.4)}</button><button class="icon-btn" data-act="month" data-d="1" aria-label="Next month" ${next?'disabled':''}>${svg(UI.chevR,2.4)}</button>`:''}
+    ${opts.ai?`<button class="icon-btn ai" data-act="copilot" aria-label="Ask Copilot">${svg(AI_ICON,1.9)}</button>`:''}
     ${opts.gear?`<button class="icon-btn" data-act="settings" aria-label="Settings">${svg(UI.gear,1.8)}</button>`:''}</div></div>`;
 }
 const banner = () => S.sample ? `<div class="banner"><span class="sp"><b>Sample data.</b> Set up your own budget when you're ready.</span><button data-act="restart">Set up</button></div>` : '';
@@ -590,93 +887,227 @@ function niceMax(v){ const d = v/100; const p = Math.pow(10, Math.floor(Math.log
 
 // ---------- Screens ----------
 function renderHome(){
-  const d = monthData(); const C = 2*Math.PI*42;
-  const daysLeft = d.days - d.dayNow + (isCurrent()?1:0);
-  // "Left to spend" is everyday spending only; bills and loan payments are set aside.
-  // Savings goals are not spending money, so they stay out of "left to spend".
-  const flexCats = d.cats.filter(c=>!c.fixed && !isGoal(c)), flexBudget = flexCats.reduce((s,c)=>s+budgetOf(c.id),0), flexSpent = flexCats.reduce((s,c)=>s+(d.spentBy[c.id]||0),0);
-  const flexLeft = flexBudget - flexSpent, perDay = daysLeft>0 ? Math.max(0,flexLeft)/daysLeft : 0;
-  const top = flexCats.filter(c=>budgetOf(c.id)||d.spentBy[c.id]).sort((a,b)=>((d.spentBy[b.id]||0)/budgetOf(b.id))-((d.spentBy[a.id]||0)/budgetOf(a.id))).slice(0,4);
-  const fixedCats = d.cats.filter(c=>c.fixed), dueOf = c => d.spentBy[c.id] ? 0 : budgetOf(c.id);
-  const fixedDue = fixedCats.reduce((s,c)=>s+dueOf(c),0), unpaid = fixedCats.filter(c=>dueOf(c)>0);
-  const daily = Array.from({length:d.days},()=>0);
-  d.tx.forEach(t=>{ if(t.amt<0 && !cat(t.cat).fixed) daily[+t.date.slice(8)-1]-=t.amt; });
-  const avg = d.dayNow ? flexSpent/d.dayNow : 0, nice = niceMax(Math.max(...daily,1));
-  const W=340, H=110, bw=W/d.days;
-  const bars = daily.map((v,i)=>{ const h = v/nice*H, fut = i>=d.dayNow, today = isCurrent() && i===d.dayNow-1, hh = Math.max(h, fut?0:2);
-    return `<rect x="${(i*bw+bw*.18).toFixed(1)}" y="${(H-hh).toFixed(1)}" width="${(bw*.64).toFixed(1)}" height="${hh.toFixed(1)}" rx="${Math.min(3,bw*.3).toFixed(1)}" fill="var(--accent)" opacity="${today?1:.5}"/>`; }).join('');
-  const sim = S.loans.length ? simulate(S.loans, 0) : null, debt = S.loans.reduce((s,l)=>s+l.balance,0);
-  const fr = flexBudget ? Math.min(1, flexSpent/flexBudget) : 0, Cr = C*(1-fr);
-  const outflow = d.cats.filter(c=>!isGoal(c)).reduce((s,c)=>s+(d.spentBy[c.id]||0),0);
-  const fresh = isCurrent() && !d.tx.length;
-  return `<section class="screen">${header('Overview',{gear:true})}${banner()}
-    <div class="card hero"><div><div class="label">${flexLeft<0?'Over budget by':'Left to spend'}</div>
-      <div class="big num ${flexLeft<0?'neg':''}" id="leftNum" data-v="${Math.abs(flexLeft)}">${fmt(Math.abs(flexLeft))}</div>
-      <div class="sub">${isCurrent() ? (flexLeft>0 ? `About <b class="num">${fmt(perDay)}</b> a day for ${daysLeft} days` : `Ease off for the next ${daysLeft} days`) : `of ${fmt(flexBudget,1)} for everyday spending`}</div></div>
-      <div class="ring" role="img" aria-label="${flexBudget?Math.round(flexSpent/flexBudget*100):0}% of everyday budget used"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42" fill="none" stroke-width="10"/><circle class="val ${flexLeft<0?'over':''}" cx="50" cy="50" r="42" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-off="${Cr}"/></svg>
-        <div class="center"><div><div class="pct num">${flexBudget?Math.round(flexSpent/flexBudget*100):0}%</div><div class="cap">used</div></div></div></div>
-      <div class="stats"><button class="stat" data-act="tab" data-tab="activity"><div class="k">Income</div><div class="v num in">${fmt(d.income,1)}</div></button><button class="stat" data-act="tab" data-tab="activity"><div class="k">Spent</div><div class="v num">${fmt(outflow,1)}</div></button><button class="stat" data-act="tab" data-tab="budgets"><div class="k">Bills due</div><div class="v num">${fixedDue?fmt(fixedDue,1):`<span style="color:var(--good)">All paid</span>`}</div></button></div></div>
-    ${isCurrent() && unpaid.length ? `<div class="sec"><div class="sec-h"><h2>Bills still due</h2><span class="aside">Tap one when you pay it</span></div><div class="chips">${unpaid.map(c=>`<button class="chip" data-act="add" data-cat="${c.id}" data-amt="${dueOf(c)}">${icon(c)}${esc(c.name)} <span class="num muted">${fmt(dueOf(c),1)}</span></button>`).join('')}</div></div>` : ''}
-    ${fresh ? `<div class="card first"><div class="first-ico">${svg('M12 5v14M5 12h14',2.6)}</div><div><b>Log your first expense</b><p>Coffee, groceries, gas. Each one takes about five seconds, and this page fills in as you go.</p></div><button class="btn" data-act="add">Add an expense</button></div>` : `<div class="card chart"><div class="k">Everyday spending per day</div><div class="v num">${fmt(avg)}<span style="font-size:15px;color:var(--muted);font-weight:600"> / day</span></div>
-      <svg viewBox="0 -6 ${W+34} ${H+22}" role="img" aria-label="Daily spending this month">${[0,.5,1].map(f=>`<line class="gridl" x1="0" x2="${W}" y1="${H-f*H}" y2="${H-f*H}"/><text class="axis" x="${W+4}" y="${H-f*H+3}">${usd0.format(nice*f/100)}</text>`).join('')}${bars}
-      ${avg?`<line x1="0" x2="${W}" y1="${H-avg/nice*H}" y2="${H-avg/nice*H}" stroke="var(--fg)" stroke-dasharray="3 3" opacity=".45"/>`:''}
-      ${[1,Math.ceil(d.days/2),d.days].map(n=>`<text class="axis" x="${((n-.5)*bw).toFixed(1)}" y="${H+15}" text-anchor="middle">${n}</text>`).join('')}</svg>
-      <div class="legend"><span><i style="background:var(--fg);opacity:.45"></i>Your daily average · bills not included</span></div></div>`}
-    ${top.length?`<div class="sec"><div class="sec-h"><h2>Budgets</h2><button data-act="tab" data-tab="budgets">See all</button></div><div class="group">${top.map(c=>budRow(c,d)).join('')}</div></div>`:''}
-    ${sim ? `<button class="card loan-card" data-act="tab" data-tab="loans"><div class="top">${icon({c:DEBT_C,icon:'bank'})}<div class="meta"><div class="label">Total debt</div><div class="num" style="font-size:22px;font-weight:800">${fmt(debt,1)}</div></div>${chevSvg()}</div>
-      <div class="facts"><span>Debt-free <b>${sim.months!=null?monthLabel(sim.months):'never at current payments'}</b></span><span><b class="num">${fmt(S.loans.reduce((s,l)=>s+l.payment,0),1)}</b>/mo</span></div></button>` : ''}
-    ${fresh?'':`<div class="sec"><div class="sec-h"><h2>Recent</h2><button data-act="tab" data-tab="activity">See all</button></div>${grouped(d.tx.slice(0,6))}</div>`}</section>`;
+  const d = monthData(now.getFullYear(), now.getMonth()); const C = 2*Math.PI*42;
+  const flex = flexCats(), flexBudget = sumB(flex), flexSpent = flex.reduce((s,c)=>s+(d.spentBy[c.id]||0),0), flexLeft = flexBudget - flexSpent;
+  const daysLeft = d.days - d.dayNow + 1, sts = safeToSpend();
+  const top = flex.filter(c=>budgetOf(c.id)||d.spentBy[c.id]).sort((a,b)=>((d.spentBy[b.id]||0)/budgetOf(b.id))-((d.spentBy[a.id]||0)/budgetOf(a.id))).slice(0,3);
+  const fresh = !d.tx.length, acts = nextActions(), cash = cashNow();
+  let hero;
+  if (sts){
+    const p = sts.p, total = Math.max(1, daysBetween(p.start, p.end)), gone = daysBetween(p.start, today0), Cr = C*(1-clamp(gone/total,0,1)), neg = sts.amt<0;
+    hero = `<div class="card hero"><button data-act="safe" style="text-align:left"><div class="label">${neg?'Over your plan by':'Safe to spend until payday'}</div>
+      <div class="big num ${neg?'neg':''}" id="leftNum" data-v="${Math.abs(sts.amt)}">${fmt(Math.abs(sts.amt))}</div>
+      <div class="sub">${neg?`Ease off until ${relDay(sts.next)}`:`About <b class="num">${fmt(sts.perDay)}</b> a day · payday ${relDay(sts.next)}`}</div></button>
+      <div class="ring" role="img" aria-label="${sts.days} days until payday"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42" fill="none" stroke-width="10"/><circle class="val ${neg?'over':''}" cx="50" cy="50" r="42" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-off="${Cr}"/></svg>
+        <div class="center"><div><div class="pct num">${sts.days}</div><div class="cap">${sts.days===1?'day left':'days left'}</div></div></div></div>
+      <div class="stats"><button class="stat" data-act="editcash"><div class="k">Cash</div><div class="v num">${cash==null?'<span class="addbal">Add</span>':fmt(cash,1)}</div></button>
+        <button class="stat" data-act="goplan"><div class="k">Bills before payday</div><div class="v num">${sts.unpaidTotal?fmt(sts.unpaidTotal,1):`<span style="color:var(--good)">All paid</span>`}</div></button>
+        <button class="stat" data-act="goplan" data-plan="categories"><div class="k">Everyday left</div><div class="v num ${flexLeft<0?'danger-t':''}">${fmt(flexLeft,1)}</div></button></div></div>`;
+  } else {
+    const fr = flexBudget ? Math.min(1, flexSpent/flexBudget) : 0;
+    hero = `<div class="card hero"><div><div class="label">${flexLeft<0?'Over budget by':'Left to spend'}</div><div class="big num ${flexLeft<0?'neg':''}" id="leftNum" data-v="${Math.abs(flexLeft)}">${fmt(Math.abs(flexLeft))}</div>
+      <div class="sub">${flexLeft>0?`About <b class="num">${fmt(flexLeft/daysLeft)}</b> a day for ${daysLeft} days`:`Ease off for the next ${daysLeft} days`}</div></div>
+      <div class="ring"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42" fill="none" stroke-width="10"/><circle class="val" cx="50" cy="50" r="42" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-off="${C*(1-fr)}"/></svg><div class="center"><div><div class="pct num">${Math.round(fr*100)}%</div><div class="cap">used</div></div></div></div></div>`;
+  }
+  const f = S.onboarded ? project({}, 12) : null, debt = S.loans.reduce((s,l)=>s+l.balance,0), pay = sim => sim.months!=null ? monthLabel(sim.months) : 'never at current payments';
+  return `<section class="screen">${header('Overview',{month:false, eyebrow: now.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}), gear:true, ai:true})}${banner()}
+    ${hero}
+    ${acts.length ? `<div class="sec"><div class="sec-h"><h2>Next up</h2><button data-act="tab" data-tab="actions">See all${acts.length>3?`<span class="count">${acts.length}</span>`:''}</button></div><div class="group">${acts.slice(0,3).map(a=>actRow(a,false)).join('')}</div></div>` : ''}
+    ${fresh ? `<div class="card first"><div class="first-ico">${svg('M12 5v14M5 12h14',2.6)}</div><div><b>Log your first expense</b><p>Coffee, groceries, gas. Type it or scan the receipt. This page fills in as you go.</p></div><button class="btn" data-act="add">Add an expense</button></div>` : ''}
+    ${f ? forecastMini(f) : ''}
+    ${top.length?`<div class="sec"><div class="sec-h"><h2>Budgets</h2><button data-act="goplan" data-plan="categories">See all</button></div><div class="group">${top.map(c=>budRow(c,d)).join('')}</div></div>`:''}
+    ${S.loans.length ? `<button class="card loan-card" data-act="gofuture" data-fut="debt"><div class="top">${icon({c:DEBT_C,icon:'bank'})}<div class="meta"><div class="label">Total debt</div><div class="num" style="font-size:22px;font-weight:800">${fmt(debt,1)}</div></div>${chevSvg()}</div>
+      <div class="facts"><span>Debt-free <b>${pay(f.payoff)}</b></span><span>${S.debtPlan.strategy==='snowball'?'Snowball':'Avalanche'}${S.debtPlan.extra?` · <b class="num">+${fmt(S.debtPlan.extra,1)}</b>/mo`:''}</span></div></button>` : ''}
+    ${fresh?'':`<div class="sec"><div class="sec-h"><h2>Recent</h2><button data-act="tab" data-tab="activity">See all</button></div>${grouped(d.tx.slice(0,5))}</div>`}</section>`;
+}
+function forecastMini(f){
+  const v = f.net[f.net.length-1], dv = v - f.net[0], W = 300, H = 44, n = f.net.length-1;
+  const lo = Math.min(...f.net), hi = Math.max(...f.net), sp = hi-lo || 1, pts = f.net.map((x,i)=>`${(i/n*W).toFixed(1)},${(H-4-(x-lo)/sp*(H-8)).toFixed(1)}`).join(' ');
+  const ev = f.events.find(e=>e.kind==='warn') || f.events.find(e=>e.kind==='debt') || f.events[0];
+  return `<button class="card chart" data-act="gofuture" data-fut="forecast" style="text-align:left;width:100%;display:block"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%"><div class="k" style="flex:1">${f.known?'Net worth':'Net worth change'} in 12 months</div>${chevSvg()}</div>
+    <div class="v num" style="margin-bottom:0">${f.known?fmt(v,1):(dv>=0?'+':'−')+fmt(Math.abs(dv),1)} ${f.known?`<span class="delta ${dv>=0?'up':'down'}">${dv>=0?'+':'−'}${fmt(Math.abs(dv),1)}</span>`:''}</div>
+    <svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+    ${ev?`<div class="legend"><span>${ev.kind==='warn'?'⚠︎ ':''}${esc(ev.text)} · ${monthOf(ev.m).toLocaleDateString('en-US',{month:'short',year:'numeric'})}</span></div>`:''}</button>`;
+}
+const ctaBtn = (a, cls='mini') => a.cta ? `<button class="${cls}" data-act="${a.cta[1]}" ${Object.entries(a.cta[2]||{}).map(([k,v])=>`data-${k}="${esc(v)}"`).join(' ')}>${a.cta[0]}</button>` : '';
+const actRow = (a, full) => `<div class="act">${icon({c:a.c, icon:a.icon})}<div class="meta"><div class="t">${esc(a.title)}</div><div class="s">${esc(a.body)}</div><div class="act-cta">${ctaBtn(a)}${full?`<button class="mini ghost" data-act="snooze" data-id="${esc(a.id)}">Snooze a week</button>`:''}</div></div></div>`;
+function renderActions(){
+  const acts = nextActions(), groups = [['Do now', a=>a.score>=70], ['This week', a=>a.score>=40 && a.score<70], ['When you have a minute', a=>a.score<40]];
+  return `<section class="screen">${header('Next actions',{month:false, back:'home', backLabel:'Overview', ai:true})}
+    ${acts.length ? groups.map(([n,f])=>{ const l = acts.filter(f); return l.length ? `<div class="sec"><div class="sec-h"><h2>${n}</h2><span class="aside">${l.length}</span></div><div class="group">${l.map(a=>actRow(a,true)).join('')}</div></div>` : ''; }).join('')
+      : `<div class="card"><div class="empty"><b>You're all caught up</b>Bills are paid, budgets are on pace and every dollar has a job. New items show up here as things change.</div></div>`}
+    <button class="btn ghost" data-act="copilot" data-q="What should I focus on this week?">Ask Copilot what to focus on</button>
+    <p class="foot">Built from your paycheck plan, budgets, forecast and debt plan. Snoozed items come back in a week.</p></section>`;
+}
+
+// ---------- Plan: paychecks and categories ----------
+const PCOL = {bills:'#7A5AD6', everyday:'var(--accent)', savings:'#3F7D5C', extra:DEBT_C};
+function renderPlan(){
+  const seg = `<div class="seg top">${[['paychecks','Paychecks'],['categories','Categories']].map(([k,n])=>`<button data-act="planseg" data-v="${k}" aria-pressed="${view.plan===k}">${n}</button>`).join('')}</div>`;
+  if (view.plan==='categories') return `<section class="screen">${header('Plan')}${seg}${budgetsBody()}</section>`;
+  const pp = payPeriods(3);
+  if (!pp.length) return `<section class="screen">${header('Plan',{month:false, eyebrow:'Paycheck by paycheck'})}${seg}<div class="card"><div class="empty"><b>Add your take-home pay</b>Your plan splits each paycheck into bills, everyday spending and savings.</div></div><button class="btn" data-act="editincome">Add take-home pay</button></section>`;
+  const nxt = nextPayday();
+  return `<section class="screen">${header('Plan',{month:false, eyebrow:'Paycheck by paycheck'})}${seg}
+    <button class="sum" data-act="editincome" style="width:100%;text-align:left"><div><div class="label">Take-home pay</div><div class="num" style="font-weight:700;font-size:17px">${fmt(S.income.paycheck,1)} <span class="muted" style="font-weight:500;font-size:15px">${FREQ[S.income.freq][1].toLowerCase()}</span></div></div><div class="r"><div class="label">Next payday</div><div class="v" style="font-size:17px">${nxt?relDay(nxt).replace(/^./,c=>c.toUpperCase()):'—'}</div></div></button>
+    ${pp.map(paycheckCard).join('')}
+    <p class="foot">Each bill is paid from the paycheck that lands before it's due. Everyday spending, savings and extra debt payments are split by the days each paycheck covers. Change due days by tapping a bill in Categories.</p></section>`;
+}
+function paycheckCard(p){
+  const parts = [['bills',p.billsTotal],['everyday',p.everyday],['savings',p.savings],['extra',p.extra]], tot = Math.max(p.pay, parts.reduce((s,x)=>s+x[1],0)) || 1;
+  const short = p.left < 0;
+  const line = (col, name, v, extra='') => `<div class="line">${col?`<span class="sw" style="background:${col}"></span>`:''}<span class="n">${name}</span>${extra}<span class="v num">${fmt(v,1)}</span></div>`;
+  return `<div class="card pp"><div class="pp-h"><div><div class="t">${wk(p.start)}${p.current?'<span class="tag-now">This paycheck</span>':''}</div><div class="s muted" style="font-size:13px;margin-top:2px">Covers ${md(p.start)} – ${md(addDays(p.end,-1))}</div></div><div class="r"><div class="v num" style="font-size:20px">${fmt(p.pay,1)}</div></div></div>
+    <div class="stack" role="img" aria-label="How this paycheck is split">${parts.filter(x=>x[1]>0).map(([k,v])=>`<i style="width:${v/tot*100}%;background:${PCOL[k]}"></i>`).join('')}${p.left>0?`<i style="flex:1;background:transparent"></i>`:''}</div>
+    <div class="lines">
+      ${line(PCOL.bills, `<b>Bills</b> · ${p.bills.length}`, p.billsTotal)}
+      ${p.bills.map(b=>`<div class="line sub"><span class="n">${esc(b.c.name)} · ${md(b.date)}</span>${b.paid?`<span class="paid">${svg(UI.check,3)}Paid</span>`:`<span class="v num">${fmt(b.amt,1)}</span>`}</div>`).join('')}
+      ${line(PCOL.everyday, `<b>Everyday</b>${p.current?` · ${fmt(p.spentEveryday,1)} spent`:''}`, p.everyday)}
+      ${p.savings?line(PCOL.savings, '<b>Savings</b>', p.savings):''}
+      ${p.extra?line(PCOL.extra, '<b>Extra to debt</b>', p.extra):''}
+      <div class="line total"><span class="n">${short?'Short by':'Left over'}</span><span class="v num" style="color:${short?'var(--danger)':'var(--good)'}">${fmt(Math.abs(p.left),1)}</span></div>
+    </div>
+    ${short?`<div class="note"><b>This check can't cover everything on it.</b> Hold back ${fmt(-p.left,1)} from the paycheck before, or move a due date if your biller allows it.</div>`:''}</div>`;
+}
+function budgetsBody(){
+  const d = monthData();
+  const byGroup = {}; d.cats.forEach(c=>(byGroup[c.group]=byGroup[c.group]||[]).push(c));
+  const order = [...GROUPS.map(g=>g.id).filter(g=>g!=='income'), 'debt'];
+  const inc = S.income.monthly||0, extra = S.debtPlan.extra||0, un = inc - d.budget - extra;
+  return `${inc?`<div class="sum"><div><div class="label">Monthly take-home</div><div class="num" style="font-weight:700;font-size:17px">${fmt(inc,1)}</div></div><div class="r"><div class="label">${un>=0?'Unassigned':'Over-assigned'}</div><div class="v num ${un>=0?'pos':'neg'}">${fmt(Math.abs(un),1)}</div></div></div>`:''}
+    ${order.filter(g=>byGroup[g]).map(g=>{ const list = byGroup[g], gb = list.reduce((s,c)=>s+budgetOf(c.id),0), gs = list.reduce((s,c)=>s+(d.spentBy[c.id]||0),0);
+      return `<div class="group"><div class="grp-h"><span class="dot" style="background:${g==='debt'?DEBT_C:GROUP[g].c}"></span>${g==='debt'?'Loans':GROUP[g].name}<span class="sp"></span><span class="num">${fmt(gs,1)} / ${fmt(gb,1)}</span></div>${list.map(c=>budRow(c,d,true)).join('')}${g==='debt'&&extra?`<button class="bud bill-row tap" data-act="gofuture" data-fut="debt"><div class="bud-top">${icon({c:DEBT_C,icon:'trend'})}<div class="meta"><div class="t">Extra debt payment</div><div class="s">Set in your debt plan</div></div><div class="r"><div class="v num">${fmt(extra,1)}</div><div class="k">a month</div></div>${chevSvg()}</div></button>`:''}</div>`; }).join('')}
+    <button class="btn ghost" data-act="managecats">Add or remove categories</button>
+    <p class="foot">Tap a category to change its budget or a bill's due day. The thin mark on each bar is where an even pace through the month would put you.</p>`;
 }
 function filterTx(tx){ const q = view.q.trim().toLowerCase(); return q ? tx.filter(t=>(t.note||'').toLowerCase().includes(q) || cat(t.cat).name.toLowerCase().includes(q)) : tx; }
+function dailyChart(d){
+  const flexSpent = d.tx.filter(t=>t.amt<0 && !cat(t.cat).fixed && !isGoal(cat(t.cat))).reduce((s,t)=>s-t.amt,0);
+  const daily = Array.from({length:d.days},()=>0);
+  d.tx.forEach(t=>{ const c = cat(t.cat); if(t.amt<0 && !c.fixed && !isGoal(c)) daily[+t.date.slice(8)-1]-=t.amt; });
+  const avg = d.dayNow ? flexSpent/d.dayNow : 0, nice = niceMax(Math.max(...daily,1)), W=340, H=96, bw=W/d.days;
+  const bars = daily.map((v,i)=>{ const h = v/nice*H, fut = i>=d.dayNow, today = isCurrent() && i===d.dayNow-1, hh = Math.max(h, fut?0:2);
+    return `<rect x="${(i*bw+bw*.18).toFixed(1)}" y="${(H-hh).toFixed(1)}" width="${(bw*.64).toFixed(1)}" height="${hh.toFixed(1)}" rx="${Math.min(3,bw*.3).toFixed(1)}" fill="var(--accent)" opacity="${today?1:.5}"/>`; }).join('');
+  return `<div class="card chart"><div class="k">Everyday spending per day</div><div class="v num">${fmt(avg)}<span style="font-size:15px;color:var(--muted);font-weight:600"> / day</span></div>
+    <svg viewBox="0 -6 ${W+34} ${H+22}" role="img" aria-label="Daily spending">${[0,.5,1].map(f=>`<line class="gridl" x1="0" x2="${W}" y1="${H-f*H}" y2="${H-f*H}"/><text class="axis" x="${W+4}" y="${H-f*H+3}">${usd0.format(nice*f/100)}</text>`).join('')}${bars}
+    ${avg?`<line x1="0" x2="${W}" y1="${H-avg/nice*H}" y2="${H-avg/nice*H}" stroke="var(--fg)" stroke-dasharray="3 3" opacity=".45"/>`:''}
+    ${[1,Math.ceil(d.days/2),d.days].map(n=>`<text class="axis" x="${((n-.5)*bw).toFixed(1)}" y="${H+15}" text-anchor="middle">${n}</text>`).join('')}</svg>
+    <div class="legend"><span><i style="background:var(--fg);opacity:.45"></i>Daily average · bills and savings not included</span></div></div>`;
+}
 function renderActivity(){
   const d = monthData();
   return `<section class="screen">${header('Activity')}
     <label class="search">${svg(UI.search,2.2)}<input id="q" type="search" placeholder="Search notes and categories" value="${esc(view.q)}" autocomplete="off"></label>
+    ${d.tx.length && !view.q ? dailyChart(d) : ''}
     <div id="txlist" style="display:flex;flex-direction:column;gap:18px">${grouped(filterTx(d.tx))}</div>
     ${d.tx.length?'<p class="foot">Tap a transaction to edit it, or swipe left to delete.</p>':''}</section>`;
 }
-function renderBudgets(){
-  const d = monthData();
-  const byGroup = {}; d.cats.forEach(c=>(byGroup[c.group]=byGroup[c.group]||[]).push(c));
-  const order = [...GROUPS.map(g=>g.id).filter(g=>g!=='income'), 'debt'];
-  const inc = S.income.monthly||0, un = inc - d.budget;
-  return `<section class="screen">${header('Budgets')}
-    ${inc?`<div class="sum"><div><div class="label">Monthly take-home</div><div class="num" style="font-weight:700;font-size:17px">${fmt(inc,1)}</div></div><div class="r"><div class="label">${un>=0?'Unassigned':'Over-assigned'}</div><div class="v num ${un>=0?'pos':'neg'}">${fmt(Math.abs(un),1)}</div></div></div>`:''}
-    ${order.filter(g=>byGroup[g]).map(g=>{ const list = byGroup[g], gb = list.reduce((s,c)=>s+budgetOf(c.id),0), gs = list.reduce((s,c)=>s+(d.spentBy[c.id]||0),0);
-      return `<div class="group"><div class="grp-h"><span class="dot" style="background:${g==='debt'?DEBT_C:GROUP[g].c}"></span>${g==='debt'?'Loans':GROUP[g].name}<span class="sp"></span><span class="num">${fmt(gs,1)} / ${fmt(gb,1)}</span></div>${list.map(c=>budRow(c,d,true)).join('')}</div>`; }).join('')}
-    <button class="btn ghost" data-act="managecats">Add or remove categories</button>
-    <p class="foot">Tap a category to change its budget. The thin mark on each bar is where an even pace through the month would put you.</p></section>`;
+
+// ---------- Future: forecast, what-if, debt ----------
+const PRESETS = {
+  raise:['Get a 5% raise', {raise:5}], cut:['Cut everyday 15%', {cut:15}], debt:['$200/mo extra to debt', {extraDebt:20000}],
+  jobloss:['Lose income for 3 months', {gap:3}], car:['New car payment', {monthly:45000, oneTime:300000, oneMonth:2}], trip:['$2,500 trip', {oneTime:250000, oneMonth:5}],
+  bonus:['Extra paycheck to debt', null],
+};
+const scnActive = s => Object.keys(SCN0).some(k=>k!=='oneMonth' && k!=='lumpMonth' && s[k]);
+const scnLabel = s => [s.raise&&`${s.raise>0?'+':''}${s.raise}% income`, s.cut&&`−${s.cut}% everyday`, s.extraDebt&&`+${fmt(s.extraDebt,1)}/mo to debt`, s.monthly&&`${fmt(s.monthly,1)}/mo new cost`, s.oneTime&&`${fmt(s.oneTime,1)} once in ${monthOf(s.oneMonth).toLocaleDateString('en-US',{month:'short'})}`, s.gap&&`${s.gap} mo without income`, s.lump&&`${fmt(s.lump,1)} lump to debt`].filter(Boolean).join(', ');
+function renderFuture(){
+  const seg = `<div class="seg top">${[['forecast','Forecast'],['debt','Debt']].map(([k,n])=>`<button data-act="futseg" data-v="${k}" aria-pressed="${view.fut===k}">${n}</button>`).join('')}</div>`;
+  return `<section class="screen">${header('Future',{month:false, eyebrow: view.fut==='debt'?'Debt payoff':'Forecast & what-if', ai:true})}${seg}${view.fut==='debt'?debtBody():forecastBody()}</section>`;
 }
-function renderLoans(){
-  if (!S.loans.length) return `<section class="screen">${header('Loans',{month:false,eyebrow:'Debt payoff'})}
-    <div class="card"><div class="empty"><b>No loans yet</b>Add a car loan, student loan, mortgage or credit card to see your payoff date, what interest costs you, and how much extra payments save.</div></div>
-    <button class="btn" data-act="newloan">Add a loan</button></section>`;
-  const base = simulate(S.loans, 0), av = simulate(S.loans, view.extra, 'avalanche'), sn = simulate(S.loans, view.extra, 'snowball');
+function forecastBody(){
+  if (!S.income.paycheck) return `<div class="card"><div class="empty"><b>Add your take-home pay first</b>The forecast is built from your paychecks, budget and debts.</div></div><button class="btn" data-act="editincome">Add take-home pay</button>`;
+  const h = view.h, sc = view.scn, active = scnActive(sc), base = project({}, h), alt = active ? project(sc, h) : null, show = alt || base;
+  const key = view.metric, M = {net:['Net worth','net'], cash:['Cash','cash'], debt:['Debt','debt'], saved:['Savings','saved']};
+  const series = show[key], v = series[series.length-1], dv = v - series[0], good = key==='debt' ? dv<=0 : dv>=0;
+  const b = base[key][base[key].length-1];
+  const lines = [{d:base[key], col: alt?'var(--faint)':'var(--accent)', w: alt?2:2.5, fill:!alt}];
+  if (alt) lines.push({d:alt[key], col:'var(--accent)', w:2.5, fill:true});
+  const lever = (id, name, val, txt, step, min, max, sub='') => `<div class="lever ${val?'on':''}"><div class="meta"><div class="t">${name}</div>${sub?`<div class="s">${sub}</div>`:''}</div><div class="stepper"><button data-act="lever" data-k="${id}" data-d="${-step}" aria-label="Less" ${val<=min?'disabled':''}>−</button><span class="num">${txt}</span><button data-act="lever" data-k="${id}" data-d="${step}" aria-label="More" ${val>=max?'disabled':''}>+</button></div></div>`;
+  const dfB = base.payoff.months, dfA = alt?.payoff.months;
+  const avg = f => f.flow.reduce((s,x)=>s+x,0)/f.flow.length;
+  const lowTxt = f => f.low ? `${fmt(f.low.v,1)}` : '—', lowWhen = f => f.low ? (f.low.i===0?'today':monthOf(f.low.i-1).toLocaleDateString('en-US',{month:'short',year:'numeric'})) : 'Add your balance';
+  const ev = show.events.slice(0,7), evc = {debt:'var(--good)', warn:'var(--danger)', pay:'#5560C9', save:'#3F7D5C'};
+  const applicable = sc.cut || sc.extraDebt || sc.raise;
+  return `<div class="card chart"><div class="k">${M[key][0]} in ${h===12?'1 year':h/12+' years'}${alt?' · with your what-if':''}</div>
+      <div class="v num" style="margin-bottom:4px">${(!base.known && key!=='debt' && key!=='saved')?(dv>=0?'+':'−')+fmt(Math.abs(dv),1):fmt(v,1)} <span class="delta ${(alt ? (key==='debt' ? v-b<=0 : v-b>=0) : good)?'up':'down'}">${alt?`${v-b>=0?'+':'−'}${fmt(Math.abs(v-b),1)} vs. today's plan`:`${dv>=0?'+':'−'}${fmt(Math.abs(dv),1)}`}</span></div>
+      ${lineChart(lines, h)}
+      <div class="legend">${alt?`<span><i style="background:var(--faint)"></i>Current plan</span><span><i style="background:var(--accent)"></i>What-if</span>`:`<span><i style="background:var(--accent)"></i>Current plan</span>`}</div>
+      <div style="display:flex;gap:8px;margin-top:14px"><div class="seg" style="flex:1">${Object.entries(M).map(([k,[n]])=>`<button data-act="metric" data-v="${k}" aria-pressed="${key===k}">${n}</button>`).join('')}</div></div>
+      <div class="seg" style="margin-top:8px">${[[12,'1Y'],[24,'2Y'],[60,'5Y']].map(([k,n])=>`<button data-act="horizon" data-v="${k}" aria-pressed="${h===k}">${n}</button>`).join('')}</div></div>
+    ${base.known?'':`<div class="banner"><span class="sp">Cash starts at $0 until you <b>add your checking balance</b>.</span><button data-act="editcash">Add</button></div>`}
+    <div class="sec"><div class="sec-h"><h2>What if…</h2>${active?'<button data-act="scnreset">Reset</button>':'<span class="aside">Try a change</span>'}</div>
+      <div class="chips">${Object.entries(PRESETS).filter(([k])=>k!=='bonus'||S.loans.length).map(([k,[n]])=>`<button class="chip plain" data-act="preset" data-k="${k}" aria-pressed="${view.preset===k}">${n}</button>`).join('')}</div>
+      <div class="group levers">
+        ${lever('raise','Income', sc.raise, `${sc.raise>0?'+':''}${sc.raise}%`, 1, -50, 50)}
+        ${lever('cut','Everyday spending', sc.cut, sc.cut?`−${sc.cut}%`:'0%', 5, 0, 60, `${fmt(sumB(flexCats()),1)} a month today`)}
+        ${S.loans.length?lever('extraDebt','Extra to debt', sc.extraDebt, `+${fmt(sc.extraDebt,1)}`, 2500, 0, 500000, S.debtPlan.extra?`On top of your ${fmt(S.debtPlan.extra,1)} plan`:'Each month'):''}
+        ${lever('monthly','New monthly cost', sc.monthly, fmt(sc.monthly,1), 2500, 0, 500000, 'Car payment, rent increase, daycare')}
+        ${lever('oneTime','One-time cost', sc.oneTime, fmt(sc.oneTime,1), 25000, 0, 5000000)}
+        ${sc.oneTime?lever('oneMonth','…paid in', sc.oneMonth, monthOf(sc.oneMonth).toLocaleDateString('en-US',{month:'short',year:'2-digit'}), 1, 0, h-1):''}
+        ${lever('gap','No income for', sc.gap, `${sc.gap} mo`, 1, 0, 12)}
+        ${sc.lump?lever('lump','Lump sum to debt', sc.lump, fmt(sc.lump,1), 25000, 0, 5000000, `In ${monthOf(sc.lumpMonth||0).toLocaleDateString('en-US',{month:'long'})}`):''}
+      </div></div>
+    ${alt?`<div class="results">
+      <div><div class="k">Net worth in ${h/12} yr</div><div class="v num">${fmt(alt.net[h],1)}</div><div class="d"><span class="delta ${alt.net[h]>=base.net[h]?'up':'down'}">${alt.net[h]>=base.net[h]?'+':'−'}${fmt(Math.abs(alt.net[h]-base.net[h]),1)}</span></div></div>
+      <div><div class="k">Debt-free</div><div class="v">${dfA!=null?monthLabel(dfA):'Never'}</div><div class="d">${dfB!=null&&dfA!=null&&dfB!==dfA?`${duration(Math.abs(dfB-dfA))} ${dfA<dfB?'sooner':'later'}`:S.loans.length?'No change':'No debt'}</div></div>
+      <div><div class="k">Lowest cash</div><div class="v num ${alt.low&&alt.low.v<0?'danger-t':''}">${lowTxt(alt)}</div><div class="d">${lowWhen(alt)}</div></div>
+      <div><div class="k">Avg. monthly cash flow</div><div class="v num">${avg(alt)>=0?'+':'−'}${fmt(Math.abs(avg(alt)),1)}</div><div class="d">vs. ${avg(base)>=0?'+':'−'}${fmt(Math.abs(avg(base)),1)} today</div></div></div>
+      <div style="display:flex;gap:8px">${applicable?`<button class="btn" data-act="scnapply" style="flex:1">Make it my plan</button>`:''}<button class="btn ghost" data-act="copilot" data-q="Walk me through this what-if: ${esc(scnLabel(sc))}. Is it a good idea?" style="flex:1">Ask Copilot</button></div>
+      ${applicable?`<p class="foot" style="margin-top:-8px">Applies the income, spending and extra-debt changes. Costs and income gaps stay hypothetical.</p>`:''}`:''}
+    ${ev.length?`<div class="sec"><div class="sec-h"><h2>Milestones</h2><span class="aside">${alt?'With your what-if':'On your current plan'}</span></div><div class="group events">${ev.map(e=>`<div class="ev"><span class="when">${monthOf(e.m).toLocaleDateString('en-US',{month:'short', year:'2-digit'})}</span><span class="dot" style="background:${evc[e.kind]}"></span><span class="what"><b style="font-weight:600">${esc(e.text)}</b><br><span class="muted">${esc(e.sub)}</span></span></div>`).join('')}</div></div>`:''}
+    <p class="foot">Built from your paychecks, budgets, bills and debt plan. Everyday spending is projected ${base.pace>1.02?`${Math.round((base.pace-1)*100)}% above budget, based on your pace this month`:base.pace<.98?`${Math.round((1-base.pace)*100)}% under budget, based on your pace this month`:'at budget'}. Savings earn no interest here, so it's a little conservative.</p>`;
+}
+function lineChart(lines, h){
+  const W=340, H=130, all = lines.flatMap(l=>l.d), n = lines[0].d.length-1;
+  let lo = Math.min(0, ...all), hi = Math.max(...all, 1); const pad5 = (hi-lo)*.06; hi += pad5; if (lo<0) lo -= pad5;
+  const y = v => (H - (v-lo)/(hi-lo)*H).toFixed(1), x = i => (i/n*W).toFixed(1);
+  const lab = v => { const a = Math.abs(v)/100; return (v<0?'−':'')+'$'+(a>=1e6?(a/1e6).toFixed(1)+'M':a>=1000?Math.round(a/1000)+'k':Math.round(a)); };
+  const step = h<=12 ? 3 : h<=24 ? 6 : 12, ticks = [];
+  for (let i=step; i<=n; i+=step) ticks.push(i);
+  return `<svg viewBox="0 -6 ${W+40} ${H+24}" role="img" aria-label="Forecast chart">
+    ${[0,.5,1].map(f=>{ const v = lo+(hi-lo)*f; return `<line class="gridl" x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${W+4}" y="${+y(v)+3}">${lab(v)}</text>`; }).join('')}
+    ${lo<0?`<line x1="0" x2="${W}" y1="${y(0)}" y2="${y(0)}" stroke="var(--danger)" stroke-dasharray="3 3" opacity=".6"/>`:''}
+    ${lines.map(l=>`${l.fill?`<polygon points="0,${y(Math.max(lo,0))} ${l.d.map((v,i)=>`${x(i)},${y(v)}`).join(' ')} ${x(n)},${y(Math.max(lo,0))}" fill="var(--accent)" opacity=".1"/>`:''}<polyline points="${l.d.map((v,i)=>`${x(i)},${y(v)}`).join(' ')}" fill="none" stroke="${l.col}" stroke-width="${l.w}" stroke-linejoin="round" stroke-linecap="round"/>`).join('')}
+    <text class="axis" x="0" y="${H+16}">Now</text>
+    ${ticks.map(i=>`<text class="axis" x="${x(i)}" y="${H+16}" text-anchor="${i===n?'end':'middle'}">${monthOf(i-1).toLocaleDateString('en-US', step>=12?{year:'numeric'}:{month:'short'})}</text>`).join('')}</svg>`;
+}
+function debtBody(){
+  if (!S.loans.length) return `<div class="card"><div class="empty"><b>No debt yet</b>Add a car loan, student loan, mortgage or credit card to see your payoff date, what interest costs you, and the fastest way out.</div></div>
+    <button class="btn" data-act="newloan">Add a loan</button>`;
+  const dp = S.debtPlan, base = simulate(S.loans, 0), av = simulate(S.loans, dp.extra, 'avalanche'), sn = simulate(S.loans, dp.extra, 'snowball');
   const debt = S.loans.reduce((s,l)=>s+l.balance,0), pay = S.loans.reduce((s,l)=>s+l.payment,0);
   const wapr = S.loans.reduce((s,l)=>s+l.apr*l.balance,0)/(debt||1);
-  const cheapest = av.interest<sn.interest ? 'avalanche' : sn.interest<av.interest ? 'snowball' : null, pick = view.strategy==='snowball'?sn:av;
+  const cheapest = av.interest<sn.interest ? 'avalanche' : sn.interest<av.interest ? 'snowball' : null, pick = dp.strategy==='snowball'?sn:av;
   const saved = isFinite(base.interest) && isFinite(pick.interest) ? base.interest - pick.interest : null;
   const sooner = base.months!=null && pick.months!=null ? base.months - pick.months : null;
-  return `<section class="screen">${header('Loans',{month:false,eyebrow:'Debt payoff'})}
-    <div class="card hero" style="grid-template-columns:1fr"><div><div class="label">Total owed</div><div class="big num">${fmt(debt,1)}</div>
-      <div class="sub">Debt-free <b>${base.months!=null?monthLabel(base.months):'never'}</b> at current payments${base.months!=null?`, ${duration(base.months)} from now`:''}</div></div>
-      <div class="stats"><div class="stat"><div class="k">Monthly</div><div class="v num">${fmt(pay,1)}</div></div><div class="stat"><div class="k">Avg. rate</div><div class="v num">${wapr.toFixed(1)}%</div></div><div class="stat"><div class="k">Interest left</div><div class="v num">${isFinite(base.interest)?fmt(base.interest,1):'∞'}</div></div></div></div>
-    <div class="card chart"><div class="k">What if you paid extra each month?</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 14px;gap:10px"><div class="stepper"><button data-act="extra" data-d="-2500" aria-label="Less extra">−</button><span class="num">${fmt(view.extra,1)}</span><button data-act="extra" data-d="2500" aria-label="More extra">+</button></div>
-      ${view.extra && saved!=null ? `<div class="r"><div class="v num" style="color:var(--good);font-size:18px">${fmt(saved,1)} saved</div><div class="k">${sooner?`${duration(sooner)} sooner`:''}</div></div>`:''}</div>
-      ${payoffChart(base.series, view.extra ? pick.series : null)}
-      <div class="legend"><span><i style="background:var(--faint)"></i>Minimum payments</span>${view.extra?`<span><i style="background:var(--accent)"></i>With ${fmt(view.extra,1)} extra</span>`:''}</div></div>
-    ${S.loans.length>1 ? `<div class="sec"><div class="sec-h"><h2>Payoff strategy</h2><span class="aside">Where extra goes</span></div><div class="compare">
-      ${[['avalanche','Avalanche','Highest rate first. Pays the least interest.',av],['snowball','Snowball','Smallest balance first. Faster early wins.',sn]].map(([id,n,dsc,r])=>`<button class="opt" data-act="strategy" data-s="${id}" aria-pressed="${view.strategy===id}">${cheapest===id?'<span class="tag">Cheapest</span>':''}<span class="n">${n}</span><span class="d">${dsc}</span><span class="v">${r.months!=null?monthLabel(r.months):'Never'}</span><span class="d num">${isFinite(r.interest)?fmt(r.interest,1)+' interest':''}</span></button>`).join('')}
-    </div></div>`:''}
+  const un = (S.income.monthly||0) - sumB(spendCats()) - dp.extra;
+  const live = S.loans.filter(l=>l.balance>0), order = [...live].sort(dp.strategy==='snowball' ? (a,b)=>a.balance-b.balance : (a,b)=>b.apr-a.apr || a.balance-b.balance);
+  const target = order[0], seq = [...live].sort((a,b)=>(pick.payoff[a.id]??1e9)-(pick.payoff[b.id]??1e9));
+  return `<div class="card hero" style="grid-template-columns:1fr"><div><div class="label">Total owed</div><div class="big num">${fmt(debt,1)}</div>
+      <div class="sub">Debt-free <b>${pick.months!=null?monthLabel(pick.months):'never'}</b> on your plan${pick.months!=null?`, ${duration(pick.months)} from now`:''}</div></div>
+      <div class="stats"><div class="stat"><div class="k">Monthly</div><div class="v num">${fmt(pay+dp.extra,1)}</div></div><div class="stat"><div class="k">Avg. rate</div><div class="v num">${wapr.toFixed(1)}%</div></div><div class="stat"><div class="k">Interest left</div><div class="v num">${isFinite(pick.interest)?fmt(pick.interest,1):'∞'}</div></div></div></div>
+    <div class="card chart"><div class="k">Extra each month, on top of minimums</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 6px;gap:10px"><div class="stepper"><button data-act="extra" data-d="-2500" aria-label="Less extra">−</button><span class="num">${fmt(dp.extra,1)}</span><button data-act="extra" data-d="2500" aria-label="More extra">+</button></div>
+      ${dp.extra && saved!=null ? `<div class="r"><div class="v num" style="color:var(--good);font-size:18px">${fmt(saved,1)} saved</div><div class="k">${sooner?`${duration(sooner)} sooner`:''}</div></div>`:''}</div>
+      <p class="foot" style="padding:0;margin:0 0 12px">${un>=2500?`Your plan has <b class="num">${fmt(un,1)}</b> unassigned. <button class="link" style="padding:0" data-act="applyextra" data-amt="${Math.floor(un/2500)*2500}">Use it</button>`:un<0?`<span class="danger-t">Your plan is over-assigned by ${fmt(-un,1)}.</span> Lower the extra or trim a budget.`:'This is part of your paycheck plan and forecast.'}</p>
+      ${payoffChart(base.series, dp.extra ? pick.series : null)}
+      <div class="legend"><span><i style="background:var(--faint)"></i>Minimums only</span>${dp.extra?`<span><i style="background:var(--accent)"></i>With ${fmt(dp.extra,1)} extra</span>`:''}</div></div>
+    ${S.loans.length>1 ? `<div class="sec"><div class="sec-h"><h2>Strategy</h2><span class="aside">Where extra goes</span></div><div class="compare">
+      ${[['avalanche','Avalanche','Highest rate first. Pays the least interest.',av],['snowball','Snowball','Smallest balance first. Quicker early wins.',sn]].map(([id,n,dsc,r])=>`<button class="opt" data-act="strategy" data-s="${id}" aria-pressed="${dp.strategy===id}">${cheapest===id?'<span class="tag">Cheapest</span>':''}<span class="n">${n}</span><span class="d">${dsc}</span><span class="v">${r.months!=null?monthLabel(r.months):'Never'}</span><span class="d num">${isFinite(r.interest)?fmt(r.interest,1)+' interest':''}</span></button>`).join('')}
+    </div>${cheapest && cheapest!==dp.strategy && isFinite(av.interest) && isFinite(sn.interest) ? `<p class="foot">${cheapest==='avalanche'?'Avalanche':'Snowball'} would save ${fmt(Math.abs(av.interest-sn.interest),1)}. ${dp.strategy==='snowball'?'Snowball still makes sense if quick wins keep you going.':''}</p>`:''}</div>`:''}
+    ${target ? `<div class="sec"><div class="sec-h"><h2>This month</h2><span class="aside num">${fmt(pay+dp.extra,1)}</span></div><div class="group">${live.map(l=>{ const c = cat('loan:'+l.id), x = l.id===target.id ? dp.extra : 0;
+      return `<button class="bud bill-row tap" data-act="loan" data-id="${l.id}"><div class="bud-top">${icon(c)}<div class="meta"><div class="t">${esc(l.name)}</div><div class="s">${x?`<span style="color:var(--accent);font-weight:600">Focus</span> · minimum + ${fmt(x,1)} extra`:'Minimum'}</div></div><div class="r"><div class="v num">${fmt(l.payment+x,1)}</div><div class="k">due ${ordinal(l.day||15)}</div></div>${chevSvg()}</div></button>`; }).join('')}</div></div>` : ''}
+    ${seq.length>1 ? `<div class="sec"><div class="sec-h"><h2>Payoff order</h2></div><div class="group order">${seq.map((l,i)=>`<div class="step ${l.id===target.id?'focus':''}"><span class="k">${i+1}</span><div class="meta"><div class="t" style="font-weight:600">${esc(l.name)}</div><div class="s">${fmt(l.balance,1)} at ${l.apr}%</div></div><div class="r"><div class="v">${pick.payoff[l.id]!=null?monthLabel(pick.payoff[l.id]):'Never'}</div><div class="k">${i<seq.length-1?`${fmt(l.payment,1)} rolls on`:'Debt-free'}</div></div></div>`).join('')}</div></div>` : ''}
     <div class="sec"><div class="sec-h"><h2>Your loans</h2><button data-act="newloan">Add</button></div>
     ${[...S.loans].sort((a,b)=>b.apr-a.apr).map(l=>{ const r = simulate([l],0), c = cat('loan:'+l.id), paid = l.orig ? Math.max(0,Math.min(1,1-l.balance/l.orig)) : 0, fast = pick.payoff[l.id];
       return `<button class="card loan-card" data-act="loan" data-id="${l.id}"><div class="top">${icon(c)}<div class="meta"><div class="t" style="font-weight:600">${esc(l.name)}</div><div class="s">${LOAN_TYPE[l.type].name} · ${l.apr}% APR</div></div><div class="r"><div class="v num">${fmt(l.balance,1)}</div><div class="k">${fmt(l.payment,1)}/mo</div></div></div>
       <div class="bar"><div class="fill" style="width:${paid*100}%;background:var(--accent)"></div></div>
-      <div class="facts"><span>${Math.round(paid*100)}% paid off</span><span>Done <b>${r.months!=null?monthLabel(r.months):'never'}</b>${view.extra&&fast&&r.months!=null&&fast<r.months?` → <b style="color:var(--accent)">${monthLabel(fast)}</b>`:''}</span></div></button>`; }).join('')}</div>
+      <div class="facts"><span>${Math.round(paid*100)}% paid off</span><span>Done <b>${r.months!=null?monthLabel(r.months):'never'}</b>${dp.extra&&fast&&r.months!=null&&fast<r.months?` → <b style="color:var(--accent)">${monthLabel(fast)}</b>`:''}</span></div></button>`; }).join('')}</div>
     ${S.loans.some(l=>simulate([l]).months==null)?`<div class="note"><b>Heads up:</b> at least one payment doesn't cover its monthly interest, so that balance won't go down. Raise the payment to get a payoff date.</div>`:''}
-    <p class="foot">Estimates assume a fixed rate and on-time payments. When you log a loan payment with +, the principal part comes off that loan's balance.</p></section>`;
+    <p class="foot">Freed-up minimums roll into the next loan automatically. Estimates assume fixed rates and on-time payments. When you log a loan payment with +, the principal part comes off that loan's balance.</p>`;
 }
+const ordinal = n => n + (n%100>=11&&n%100<=13 ? 'th' : ['th','st','nd','rd'][n%10] || 'th');
 function payoffChart(a, b){
   const W=340, H=120, n = Math.max(a.length, b?.length||0)-1, max = Math.max(a[0]||1, 1);
   if (n<1) return '';
@@ -695,9 +1126,9 @@ function payoffChart(a, b){
 // ---------- Render ----------
 const app = document.getElementById('app');
 function render(){
-  app.innerHTML = {home:renderHome, activity:renderActivity, budgets:renderBudgets, loans:renderLoans}[view.tab]();
+  app.innerHTML = {home:renderHome, activity:renderActivity, plan:renderPlan, future:renderFuture, actions:renderActions}[view.tab]();
   document.getElementById('navtitle').textContent = app.querySelector('h1')?.textContent || ''; onScroll();
-  document.querySelectorAll('.tab').forEach(t=>{ if (t.dataset.tab===view.tab) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
+  document.querySelectorAll('.tab').forEach(t=>{ if (t.dataset.tab===(view.tab==='actions'?'home':view.tab)) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
   requestAnimationFrame(()=>{
     document.querySelectorAll('.ring .val').forEach(el=>el.style.strokeDashoffset = el.dataset.off);
     const n = document.getElementById('leftNum'); if (n){ const to = +n.dataset.v; countUp(n, lastLeft ?? to*0.6, to); lastLeft = to; }
@@ -725,13 +1156,13 @@ function commit(msg, prev){ save(); render(); if (msg) toast(msg, prev ? ()=>{ S
 const sheet = document.getElementById('sheet'), scrim = document.getElementById('scrim');
 let sheetCtx = null;
 function openSheet(title, body, opts={}){
-  sheetCtx = opts;
+  sheetCtx = opts; sheet.classList.remove('tall');
   sheet.innerHTML = `<div class="grab" id="grab"><i></i></div><div class="sheet-h"><button data-act="close">${opts.cancel||'Cancel'}</button><span class="title">${title}</span>${opts.done?`<button data-act="${opts.done[1]}" style="font-weight:600">${opts.done[0]}</button>`:'<span></span>'}</div><div class="sheet-body">${body}</div>`;
   sheet.setAttribute('aria-label', title.replace(/<[^>]+>/g,''));
   scrim.classList.add('open'); sheet.classList.add('open'); sheet.style.transform='';
   if (opts.focus) setTimeout(()=>sheet.querySelector(opts.focus)?.focus(), 380);
 }
-function closeSheet(){ const ctx = sheetCtx; sheetCtx = null; scrim.classList.remove('open'); sheet.classList.remove('open'); sheet.style.transform=''; document.activeElement?.blur?.(); ctx?.onClose?.(); }
+function closeSheet(){ const ctx = sheetCtx; sheetCtx = null; scrim.classList.remove('open'); sheet.classList.remove('open','tall'); sheet.style.transform=''; document.activeElement?.blur?.(); ctx?.onClose?.(); }
 let sd = null;
 sheet.addEventListener('pointerdown', e=>{ if (!e.target.closest('#grab') && !(e.target.closest('.sheet-h') && !e.target.closest('button'))) return; sd = {y:e.clientY, dy:0}; sheet.classList.add('dragging'); });
 addEventListener('pointermove', e=>{ if (!sd) return; sd.dy = Math.max(0, e.clientY-sd.y); sheet.style.transform = `translate(-50%, ${sd.dy}px)`; scrim.style.opacity = String(1 - sd.dy/400); });
@@ -751,7 +1182,7 @@ function quickCats(kind){
 function openAdd(preset={}){
   const tx = preset.tx, c0 = tx ? cat(tx.cat) : preset.cat ? cat(preset.cat) : null;
   draft = tx ? {id:tx.id, ts:tx.ts, s: moneyStr(Math.abs(tx.amt)), fresh:true, kind: tx.amt>0?'in':'out', cat: tx.cat}
-    : {s: preset.amt ? moneyStr(+preset.amt) : '', fresh: !!preset.amt, kind: c0?.income?'in':'out', cat: preset.cat || quickCats('out')[0]?.id || 'misc'};
+    : {s: preset.amt ? moneyStr(+preset.amt) : '', fresh: !!preset.amt, kind: c0?.income?'in':'out', cat: preset.cat || quickCats('out')[0]?.id || 'misc', picked: !!preset.cat};
   const dflt = tx ? tx.date : isCurrent() ? iso(now) : iso(new Date(view.y, view.m+1, 0));
   openSheet(tx ? 'Edit transaction' : 'New transaction', `
     <div class="seg"><button aria-pressed="${draft.kind==='out'}" data-act="kind" data-k="out">Expense</button><button aria-pressed="${draft.kind==='in'}" data-act="kind" data-k="in">Income</button></div>
@@ -760,7 +1191,7 @@ function openAdd(preset={}){
     <div class="fields"><input class="field" id="note" placeholder="Add a note, like “Trader Joe's”" maxlength="60" autocomplete="off" value="${esc(tx?.note||'')}"><label class="datepill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span id="datel">${shortDay(dflt)}</span><input id="date" type="date" value="${dflt}" max="${iso(now)}" aria-label="Date"></label></div>
     <div class="keys">${['1','2','3','4','5','6','7','8','9','.','0','⌫'].map(k=>`<button class="key" data-act="key" data-k="${k}" aria-label="${k==='⌫'?'Delete digit':k}">${k==='⌫'?svg(UI.back):k}</button>`).join('')}</div>
     <button class="btn" id="saveTx" data-act="savetx" disabled>Add expense</button>
-    ${tx?`<button class="link danger-t" data-act="deltx" data-id="${tx.id}">Delete transaction</button>`:''}`);
+    ${tx?`<button class="link danger-t" data-act="deltx" data-id="${tx.id}">Delete transaction</button>`:''}`, tx ? {} : {done:['Scan','scan']});
   sheet.insertAdjacentHTML('beforeend','<div class="picker" id="picker"></div>');
   drawChips(); drawAmt();
 }
@@ -795,9 +1226,10 @@ function saveTx(){
   const prev = snapshot(), c = cat(draft.cat);
   if (draft.id) removeTx(draft.id);
   if (!c.income && !c.loan && !S.cats[c.id]) S.cats[c.id] = {budget:0};
-  const t = {id:draft.id||uid(), ts:draft.ts||Date.now(), date: sheet.querySelector('#date').value || iso(now), cat:draft.cat, amt: draft.kind==='in'?cents:-cents, note: sheet.querySelector('#note').value.trim()};
+  const t = {id:draft.id||uid(), ts: draft.id ? draft.ts : Date.now(), date: sheet.querySelector('#date').value || iso(now), cat:draft.cat, amt: draft.kind==='in'?cents:-cents, note: sheet.querySelector('#note').value.trim()};
   if (c.loan){ const l = S.loans.find(x=>x.id===c.loan.id); const interest = Math.round(l.balance*l.apr/1200); t.principal = Math.max(0, Math.min(l.balance, cents-interest)); l.balance -= t.principal; }
   S.txns.push(t);
+  if (t.note && t.amt<0 && !c.loan) S.merchants[t.note.toLowerCase()] = t.cat;
   const [y,m] = t.date.split('-').map(Number); view.y=y; view.m=m-1;
   closeSheet(); commit(draft.id ? 'Changes saved' : c.loan ? `Payment logged · ${fmt(t.principal)} to principal` : `${draft.kind==='in'?'Income':'Expense'} added · ${fmt(cents)}`, prev);
 }
@@ -812,6 +1244,7 @@ function openEditCat(id){
   openSheet(esc(c.name), `<div style="display:flex;justify-content:center;padding-top:4px">${icon(c,'big')}</div>
     <div class="bigmoney"><span>$</span><input id="ebud" inputmode="decimal" placeholder="0" value="${moneyStr(b)}" autocomplete="off" aria-label="Monthly budget"></div>
     <p class="foot" style="text-align:center;margin-top:-8px">Monthly budget${sugg?` · typical for your income: ${fmt(sugg,1)}`:''}</p>
+    ${c.fixed?`<div class="flabel">Due on day</div><input class="field" id="eday" inputmode="numeric" maxlength="2" value="${dueDay(c)}" autocomplete="off" aria-label="Due day of the month"><p class="foot" style="margin-top:-6px">Your paycheck plan pays it from the check that lands before this day.</p>`:''}
     ${c.custom?`<div class="seg"><button data-act="fixedtoggle" data-id="${id}" aria-pressed="${!c.fixed}" data-v="0">Everyday spending</button><button data-act="fixedtoggle" data-id="${id}" aria-pressed="${!!c.fixed}" data-v="1">Fixed bill</button></div>`:''}
     <button class="btn" data-act="savecat" data-id="${id}">Save</button>
     <button class="btn danger" data-act="removecat" data-id="${id}">Remove from budget</button>`, {focus:'#ebud'});
@@ -850,6 +1283,7 @@ function openLoanForm(id){
       <div class="col"><div class="flabel">Interest rate (APR)</div><div class="pctf"><input class="field" id="lapr" inputmode="decimal" placeholder="0.0" value="${loanDraft.apr}" autocomplete="off"></div></div></div>
     <div class="two"><div class="col"><div class="flabel">Monthly payment</div><div class="money"><input class="field" id="lpay" inputmode="decimal" placeholder="0" value="${moneyStr(loanDraft.payment)}" autocomplete="off"></div></div>
       <div class="col"><div class="flabel">Original amount</div><div class="money"><input class="field" id="lorig" inputmode="decimal" placeholder="Optional" value="${moneyStr(loanDraft.orig)}" autocomplete="off"></div></div></div>
+    <div class="two"><div class="col"><div class="flabel">Due on day</div><input class="field" id="lday" inputmode="numeric" maxlength="2" placeholder="15" value="${loanDraft.day||''}" autocomplete="off"></div><div></div></div>
     <div class="note" id="lhint"></div>
     <button class="btn" data-act="saveloan">${l?'Save changes':'Add loan'}</button>
     ${l?`<button class="btn danger" data-act="delloan" data-id="${l.id}">Delete loan</button>`:''}`, {focus: l?null:'#lname'});
@@ -857,7 +1291,7 @@ function openLoanForm(id){
 }
 function readLoanForm(){
   const q = s => sheet.querySelector(s)?.value;
-  return {...loanDraft, name:(q('#lname')||'').trim() || LOAN_TYPE[loanDraft.type].name+' loan', balance:parseMoney(q('#lbal')), apr:Math.max(0, parseFloat(q('#lapr'))||0), payment:parseMoney(q('#lpay')), orig:parseMoney(q('#lorig'))};
+  return {...loanDraft, name:(q('#lname')||'').trim() || LOAN_TYPE[loanDraft.type].name+' loan', balance:parseMoney(q('#lbal')), apr:Math.max(0, parseFloat(q('#lapr'))||0), payment:parseMoney(q('#lpay')), orig:parseMoney(q('#lorig')), day:clamp(parseInt(q('#lday'))||loanDraft.day||15,1,31)};
 }
 function updateLoanHint(){
   const l = readLoanForm(), el = sheet.querySelector('#lhint'); if (!el) return;
@@ -870,6 +1304,7 @@ function saveLoan(){
   const l = readLoanForm(); if (!l.balance || !l.payment){ toast('Enter the balance and monthly payment'); return; }
   if (!l.orig || l.orig < l.balance) l.orig = l.balance;
   const list = loanList(), i = list.findIndex(x=>x.id===l.id);
+  if (i<0) l.since = iso(now);
   if (list===S.loans){ const prev = snapshot(); if (i>=0) S.loans[i] = l; else S.loans.push(l); closeSheet(); commit(i>=0?'Loan updated':'Loan added', prev); }
   else { if (i>=0) list[i] = l; else list.push(l); closeSheet(); ob.dir=''; drawOnb(); }
 }
@@ -901,6 +1336,7 @@ function openIncome(){
   openSheet('Take-home pay', `<div class="bigmoney"><span>$</span><input id="incpay" inputmode="decimal" placeholder="0" value="${moneyStr(S.income.paycheck)}" autocomplete="off" aria-label="Paycheck amount"></div>
     <p class="foot" style="text-align:center;margin-top:-8px">Per paycheck, after taxes and deductions</p>
     <div class="seg" style="grid-auto-flow:row;grid-template-columns:1fr 1fr;gap:2px">${Object.entries(FREQ).map(([k,[,n]])=>`<button data-act="incfreq" data-f="${k}" aria-pressed="${incDraft.freq===k}">${n}</button>`).join('')}</div>
+    <div class="flabel">A recent or upcoming payday</div><input class="field" id="incanchor" type="date" value="${iso(payAnchor())}" aria-label="Payday">
     <div class="note" id="incout"></div>
     <button class="btn" data-act="saveincome">Save</button>`, {focus:'#incpay'});
   drawIncome();
@@ -915,7 +1351,9 @@ function openSettings(){
   openSheet('Settings', `
     <div class="group" style="box-shadow:none;background:var(--surface-2);flex:none">
       <button class="row tap" style="background:none" data-act="editincome"><div class="meta"><div class="t">Take-home pay</div><div class="s num">${S.income.monthly?`${fmt(S.income.monthly,1)} a month · ${FREQ[S.income.freq][1]}`:'Not set'}</div></div>${chevSvg()}</button>
+      <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="editcash"><div class="meta"><div class="t">Balances</div><div class="s num">${S.cash?`${fmt(cashNow(),1)} checking${S.saved?` · ${fmt(savedNow(),1)} savings`:''}`:'Not set'}</div></div>${chevSvg()}</button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="managecats"><div class="meta"><div class="t">Categories</div><div class="s">${Object.keys(S.cats).length} in your budget</div></div>${chevSvg()}</button>
+      <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="aisettings"><div class="meta"><div class="t">Copilot</div><div class="s">${aiCfg().key?'Claude API key added':'Offline answers · add a Claude API key'}</div></div>${chevSvg()}</button>
     </div>
     <div class="flabel">Appearance</div><div class="seg">${['system','light','dark'].map(t=>`<button data-act="theme" data-t="${t}" aria-pressed="${theme===t}">${{system:'Automatic',light:'Light',dark:'Dark'}[t]}</button>`).join('')}</div>
     <div class="group" style="box-shadow:none;background:var(--surface-2);flex:none">
@@ -923,7 +1361,301 @@ function openSettings(){
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="restart"><div class="meta"><div class="t">Run setup again</div><div class="s">Keeps your transactions</div></div></button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="erase"><div class="meta"><div class="t danger-t">Erase everything</div><div class="s">Transactions, budgets and loans on this device</div></div></button>
     </div>
-    <p class="foot" style="text-align:center">Margin keeps everything on this device. Nothing is uploaded.</p>`, {cancel:'Close'});
+    <p class="foot" style="text-align:center">Margin keeps everything on this device. The only thing that ever leaves it is a Copilot question or receipt photo you send to Claude with your own key.</p>`, {cancel:'Close'});
+}
+
+// Balances
+function openCash(){
+  const c = cashNow(), sv = savedNow();
+  openSheet('Balances', `<div class="flabel">Checking, what you can spend</div><div class="money"><input class="field" id="cashv" inputmode="decimal" placeholder="0" value="${c==null?'':moneyStr(Math.max(0,c))}" autocomplete="off"></div>
+    <div class="flabel">Savings</div><div class="money"><input class="field" id="savev" inputmode="decimal" placeholder="0" value="${sv==null?'':moneyStr(Math.max(0,sv))}" autocomplete="off"></div>
+    <div class="note">Open your bank app and type what's there now. Everything you log afterward moves these numbers, so you only update them when they drift.</div>
+    <button class="btn" data-act="savecash">Save balances</button>`, {focus: c==null?'#cashv':null});
+}
+function openSafe(){
+  const s = safeToSpend(); if (!s) return;
+  const L = (n, v, cls='') => `<div class="line ${cls}"><span class="n">${n}</span><span class="v num">${v}</span></div>`;
+  openSheet('Safe to spend', `<p class="foot" style="padding:0">The smaller of what your cash allows and what your plan allows, through ${wk(addDays(s.next,-1))}.</p>
+    <div class="note"><div class="lines">
+      ${s.cash==null?L('<b>Cash</b>','<button class="link" style="padding:0" data-act="editcash">Add balance</button>'):L('<b>Cash now</b>', fmt(s.cash))}
+      ${s.unpaid.map(b=>L(`${esc(b.c.name)} · due ${md(b.date)}`, '−'+fmt(b.amt), 'sub')).join('')}
+      ${s.savLeft?L('Savings still to set aside','−'+fmt(s.savLeft),'sub'):''}${s.p.extra?L('Extra debt payment','−'+fmt(s.p.extra),'sub'):''}
+      ${s.cash!=null?L('Cash allows', fmt(s.cashLeft), 'total'):''}
+    </div></div>
+    <div class="note"><div class="lines">${L('<b>Everyday budget this paycheck</b>', fmt(s.p.everyday))}${L('Spent so far','−'+fmt(s.p.spentEveryday),'sub')}${L('Plan allows', fmt(s.planLeft), 'total')}</div></div>
+    <div class="sum"><div class="label">Safe to spend · ${s.days} ${s.days===1?'day':'days'}</div><div class="v num ${s.amt<0?'neg':'pos'}">${fmt(s.amt)}</div></div>
+    <p class="foot">${s.cash==null?'Add your checking balance to make sure the plan is backed by real cash.':s.limitedBy==='cash'?'Your cash is the limit right now, not your budget. Bills before payday take priority.':'Your plan is the limit. Cash covers it with room to spare.'}</p>`, {cancel:'Close'});
+}
+
+// ---------- Copilot ----------
+// With a Claude API key (stored only on this device) questions go straight from the phone to Anthropic, along with
+// a summary the app computes. Claude can run the app's own forecast through two tools. Without a key, Copilot answers
+// the common questions offline from the same engine.
+const SDK_URL = 'https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk@1.6.0/+esm';
+const TESS_URL = 'https://cdn.jsdelivr.net/npm/tesseract.js@7.0.0/dist/tesseract.esm.min.js';
+const AIK = KEY+'.ai';
+const aiCfg = () => { try{ return JSON.parse(localStorage.getItem(AIK))||{}; }catch(e){ return {}; } };
+const setAi = c => { try{ localStorage.setItem(AIK, JSON.stringify(c)); }catch(e){} };
+let claudeClient = null;
+async function claude(){ if (!claudeClient || claudeClient.apiKey!==aiCfg().key){ const {default: Anthropic} = await import(SDK_URL); claudeClient = new Anthropic({apiKey: aiCfg().key, dangerouslyAllowBrowser: true}); } return claudeClient; }
+const MODEL = 'claude-opus-5-5';
+const $d = c => Math.round(c||0)/100;
+function finSnapshot(){
+  const d = monthData(now.getFullYear(), now.getMonth()), sts = safeToSpend(), f = project({}, 24), np = nextPayday();
+  return {
+    today: iso(now),
+    pay: {per_check:$d(S.income.paycheck), frequency:FREQ[S.income.freq][1], monthly:$d(S.income.monthly), next_payday: np?iso(np):null},
+    balances: {checking: cashNow()==null?'not set':$d(cashNow()), savings: savedNow()==null?'not set':$d(savedNow())},
+    safe_to_spend_until_payday: sts && {amount:$d(sts.amt), per_day:$d(sts.perDay), days:sts.days, limited_by:sts.limitedBy},
+    this_month: {day:d.dayNow, days:d.days, income:$d(d.income), categories: spendCats().map(c=>({name:c.name, kind:c.loan?'loan':c.fixed?'bill':isGoal(c)?'savings goal':'everyday', budget:$d(budgetOf(c.id)), spent:$d(d.spentBy[c.id]), status:statusOf(d.spentBy[c.id]||0, budgetOf(c.id), d.pace, c.fixed, isGoal(c))[1]}))},
+    unassigned_monthly: $d((S.income.monthly||0) - sumB(spendCats()) - (S.debtPlan.extra||0)),
+    paychecks: payPeriods(3).map(p=>({date:iso(p.start), amount:$d(p.pay), bills:p.bills.map(b=>`${b.c.name} due ${iso(b.date)} $${$d(b.amt)}${b.paid?' (paid)':''}`), everyday:$d(p.everyday), savings:$d(p.savings), extra_debt:$d(p.extra), left_over:$d(p.left)})),
+    debts: S.loans.map(l=>({name:l.name, type:LOAN_TYPE[l.type].name, balance:$d(l.balance), apr:l.apr, min_payment:$d(l.payment)})),
+    debt_plan: {strategy:S.debtPlan.strategy, extra_monthly:$d(S.debtPlan.extra), debt_free: f.payoff.months!=null?monthLabel(f.payoff.months):(S.loans.length?'never at current payments':'no debt'), interest_left: isFinite(f.payoff.interest)?$d(f.payoff.interest):null},
+    forecast: {net_worth_now:$d(f.net[0]), in_12_months:$d(f.net[12]), in_24_months:$d(f.net[24]), lowest_cash: f.low?{amount:$d(f.low.v), month: f.low.i?monthOf(f.low.i-1).toISOString().slice(0,7):'now'}:'checking balance not set', milestones: f.events.slice(0,6).map(e=>`${monthOf(e.m).toISOString().slice(0,7)}: ${e.text}`)},
+    next_actions: nextActions().slice(0,5).map(a=>a.title),
+    recent_transactions: d.tx.slice(0,15).map(t=>`${t.date} ${t.note||cat(t.cat).name} [${cat(t.cat).name}] ${t.amt>0?'+':'-'}$${$d(Math.abs(t.amt))}`),
+  };
+}
+function whatIf(sc, h=24){
+  const base = project({}, h), alt = project(sc, h), mo = i => i ? monthOf(i-1).toISOString().slice(0,7) : 'now';
+  const sum = f => ({net_worth_at_end:$d(f.net[h]), debt_free: f.payoff.months!=null?monthLabel(f.payoff.months):'never', total_interest: isFinite(f.payoff.interest)?$d(f.payoff.interest):null,
+    lowest_cash: f.low?{amount:$d(f.low.v), month:mo(f.low.i)}:'unknown (no checking balance)', avg_monthly_cash_flow:$d(f.flow.reduce((s,x)=>s+x,0)/f.flow.length), milestones:f.events.slice(0,5).map(e=>`${monthOf(e.m).toISOString().slice(0,7)}: ${e.text}`)});
+  return {horizon_months:h, current_plan:sum(base), with_change:sum(alt), change:scnLabel(sc)};
+}
+const COPILOT_SYS = `You are Copilot inside Margin, a private budgeting app on the user's iPhone. Act like a sharp, candid personal CFO who knows this person's numbers.
+
+Each user turn begins with a <snapshot> the app computed from their data (amounts in dollars). Treat it as ground truth. Don't invent figures that aren't in the snapshot or a tool result.
+
+For any hypothetical (can I afford, what if, should I, how long until), call run_what_if or compare_debt_strategies first and answer from the results. Pass 0 for levers you aren't changing.
+
+Keep answers under 120 words unless asked for more. Lead with the answer or the number, then the one or two reasons that matter, then one concrete next step inside the app if there is one. Short paragraphs or a short "- " list. Bold only the key figure with **. No generic tips that ignore their numbers, no disclaimers. If the data can't answer it, say what's missing (for example their checking balance) and where to add it (Settings → Balances). Never ask for account numbers or passwords.`;
+const COPILOT_TOOLS = [
+  {name:'run_what_if', strict:true, description:"Runs Margin's forecast with a hypothetical change and compares it to the current plan: net worth, debt-free date, interest, lowest cash point and milestones. Amounts are whole dollars.",
+    input_schema:{type:'object', additionalProperties:false, required:['income_change_pct','everyday_cut_pct','extra_debt_monthly','new_monthly_cost','one_time_cost','one_time_in_months','months_without_income','horizon_months'], properties:{
+      income_change_pct:{type:'number', description:'Percent change to take-home pay. 0 for none.'},
+      everyday_cut_pct:{type:'number', description:'Percent cut to everyday (non-bill) spending, 0-100. 0 for none.'},
+      extra_debt_monthly:{type:'number', description:'Additional monthly debt payment in dollars, on top of the current plan.'},
+      new_monthly_cost:{type:'number', description:'New recurring monthly cost in dollars, starting next month.'},
+      one_time_cost:{type:'number', description:'One-time cost in dollars.'},
+      one_time_in_months:{type:'integer', description:'Months from now the one-time cost is paid, 0-59.'},
+      months_without_income:{type:'integer', description:'Consecutive months with no paychecks, starting next month.'},
+      horizon_months:{type:'integer', description:'12, 24 or 60.'}}}},
+  {name:'compare_debt_strategies', strict:true, description:'Payoff date and total interest for avalanche, snowball and minimum payments at a given extra monthly amount.',
+    input_schema:{type:'object', additionalProperties:false, required:['extra_monthly'], properties:{extra_monthly:{type:'number', description:'Extra monthly payment in dollars on top of minimums.'}}}},
+];
+function runTool(name, x){
+  const c = v => Math.round((+v||0)*100);
+  if (name==='run_what_if'){ const sc = {raise:+x.income_change_pct||0, cut:clamp(+x.everyday_cut_pct||0,0,100), extraDebt:c(x.extra_debt_monthly), monthly:c(x.new_monthly_cost), oneTime:c(x.one_time_cost), oneMonth:clamp(x.one_time_in_months|0,0,59), gap:clamp(x.months_without_income|0,0,24)};
+    const h = [12,24,60].includes(x.horizon_months) ? x.horizon_months : 24; return {out: whatIf(sc, h), scn: sc}; }
+  if (name==='compare_debt_strategies'){ const e = c(x.extra_monthly), r = s => { const v = simulate(S.loans, e, s); return {debt_free: v.months!=null?monthLabel(v.months):'never', total_interest: isFinite(v.interest)?$d(v.interest):null}; };
+    const mins = simulate(S.loans, 0);
+    return {out: {extra_monthly:$d(e), avalanche:r('avalanche'), snowball:r('snowball'), minimums_only:{debt_free: mins.months!=null?monthLabel(mins.months):'never', total_interest:isFinite(mins.interest)?$d(mins.interest):null}}}; }
+  throw new Error('Unknown tool');
+}
+let chat = [], apiHist = [], busy = false;
+async function askClaude(q){
+  const client = await claude(); let scn = null;
+  apiHist.push({role:'user', content:[{type:'text', text:`<snapshot>\n${JSON.stringify(finSnapshot())}\n</snapshot>\n\n${q}`}]});
+  for (let i=0; i<6; i++){
+    const res = await client.beta.messages.create({model:MODEL, max_tokens:16000, betas:['server-side-fallback-2026-07-01'], fallbacks:'default',
+      output_config:{effort:'medium'}, system:[{type:'text', text:COPILOT_SYS, cache_control:{type:'ephemeral'}}], tools:COPILOT_TOOLS, messages:apiHist});
+    apiHist.push({role:'assistant', content:res.content});
+    if (res.stop_reason==='refusal') return {text:"I can't help with that one. Try asking about your budget, paychecks, debt or forecast.", src:'Claude'};
+    const uses = res.content.filter(b=>b.type==='tool_use');
+    if (res.stop_reason==='tool_use' && uses.length){
+      apiHist.push({role:'user', content: uses.map(b=>{ try{ const r = runTool(b.name, b.input); if (r.scn) scn = r.scn; return {type:'tool_result', tool_use_id:b.id, content:JSON.stringify(r.out)}; }
+        catch(e){ return {type:'tool_result', tool_use_id:b.id, content:String(e.message||e), is_error:true}; } })});
+      continue;
+    }
+    return {text: res.content.filter(b=>b.type==='text').map(b=>b.text).join('\n').trim() || 'Done.', scn, src:'Claude'};
+  }
+  return {text:'That took more steps than expected. Try asking it a narrower way.', src:'Claude'};
+}
+// Offline answers: the same engine, a few common questions.
+function askLocal(q){
+  const s = q.toLowerCase(), m = s.match(/\$?\s?(\d[\d,]*(?:\.\d+)?)\s*(k\b)?/), amt = m ? Math.round(parseFloat(m[1].replace(/,/g,''))*(m[2]?1000:1)*100) : 0;
+  const mo = i => i ? 'in '+monthOf(i-1).toLocaleDateString('en-US',{month:'long', year:'numeric'}) : 'right now';
+  const flowTxt = f => { const a = f.flow.reduce((x,y)=>x+y,0)/f.flow.length; return `${a>=0?'+':'−'}${fmt(Math.abs(a),1)}`; };
+  if (amt && /afford|buy|purchase|get a|spend|cost|pay for|sign up|subscription/.test(s)){
+    const monthly = /month|\/mo|\bmo\b|subscription|payment|per/.test(s), sc = monthly ? {monthly:amt} : {oneTime:amt, oneMonth:0};
+    const base = project({}, 24), alt = project(sc, 24), neg = alt.low && alt.low.v < 0, tight = monthly && alt.flow.reduce((x,y)=>x+y,0) < 0;
+    const verdict = neg ? '**Not right now.**' : tight ? '**Only by cutting somewhere else.**' : '**Yes, you can.**';
+    const why = monthly ? `A ${fmt(amt,1)}/mo cost takes your average monthly cash flow from ${flowTxt(base)} to ${flowTxt(alt)}.` : `Paying ${fmt(amt,1)} now drops your net worth in 2 years from ${fmt(base.net[24],1)} to ${fmt(alt.net[24],1)}.`;
+    const low = alt.low ? ` Your lowest cash point would be **${fmt(alt.low.v,1)}** ${mo(alt.low.i)}.` : ' Add your checking balance to see whether cash stays positive.';
+    const fix = neg ? `\n\nTo make it work, wait for a 3-paycheck month or trim everyday spending. Open it in the simulator to try both.` : '';
+    return {text:`${verdict} ${why}${low}${fix}`, scn:sc};
+  }
+  if (/job|laid off|lose (my )?income|emergency|runway|no income/.test(s)){
+    const ess = essentials() + S.loans.reduce((x,l)=>x+l.payment,0), have = (cashNow()??0) + (savedNow()??0), alt = project({gap:3}, 12);
+    return {text:`You have about **${(have/ess).toFixed(1)} months** of runway: ${fmt(have,1)} in cash and savings against ${fmt(ess,1)} a month in bills, everyday spending and loan minimums.\n\nThree months without pay${alt.low?` takes cash to ${fmt(alt.low.v,1)} at the low point, ${mo(alt.low.i)}`:' would draw down savings first'}. ${have/ess < 3 ? 'Building to three months is the priority before extra debt payments.' : 'You are covered for a normal job search.'}`, scn:{gap:3}};
+  }
+  if (/debt|loan|pay ?off|snowball|avalanche|interest|credit card/.test(s)){
+    if (!S.loans.length) return {text:"You don't have any debt in Margin. Add a loan under Future → Debt to see payoff dates."};
+    const e = S.debtPlan.extra, cur = simulate(S.loans, e, S.debtPlan.strategy), opt = [10000, 25000].map(x=>[x, simulate(S.loans, e+x, S.debtPlan.strategy)]);
+    const top = [...S.loans].sort((a,b)=>b.apr-a.apr)[0];
+    return {text:`On your plan you're debt-free in **${cur.months!=null?monthLabel(cur.months):'never'}**, paying ${isFinite(cur.interest)?fmt(cur.interest,1):'unbounded'} in interest.\n\n${opt.map(([x,r])=>`- +${fmt(x,1)}/mo: ${r.months!=null?monthLabel(r.months):'never'}, saves ${fmt(cur.interest-r.interest,1)}`).join('\n')}\n\n${top.name} at ${top.apr}% is the most expensive dollar you owe. ${S.debtPlan.strategy==='avalanche'?'Avalanche already targets it first.':'Avalanche would target it first and cost less.'}`, scn:{extraDebt:10000}};
+  }
+  if (/overspend|over budget|where.*(money|go)|cut|too much|spending/.test(s)){
+    const d = monthData(now.getFullYear(), now.getMonth());
+    const l = flexCats().map(c=>({c, b:budgetOf(c.id), s:d.spentBy[c.id]||0})).filter(x=>x.s).map(x=>({...x, proj: d.pace ? x.s/d.pace : x.s})).sort((a,b)=>(b.proj-b.b)-(a.proj-a.b)).slice(0,3);
+    return {text:`At this month's pace, the biggest gaps between pace and budget are:\n\n${l.map(x=>`- **${x.c.name}**: ${fmt(x.s,1)} so far, on pace for ${fmt(x.proj,1)} vs. ${fmt(x.b,1)} budgeted`).join('\n')}\n\nCutting everyday spending 10% adds about ${fmt(sumB(flexCats())*.1,1)} a month. Try it in the simulator.`, scn:{cut:10}};
+  }
+  if (/focus|next|should i do|this week|priority/.test(s)){
+    const a = nextActions().slice(0,3);
+    return {text: a.length ? `Here's what matters most right now:\n\n${a.map(x=>`- **${x.title}.** ${x.body}`).join('\n')}` : "You're caught up. Bills are paid, budgets are on pace and every dollar has a job."};
+  }
+  const st = safeToSpend();
+  return {text:`${st?`You can safely spend **${fmt(st.amt)}** until payday ${relDay(st.next)}, about ${fmt(st.perDay)} a day.`:''} ${S.loans.length?`You're on track to be debt-free in ${simulate(S.loans,S.debtPlan.extra,S.debtPlan.strategy).months!=null?monthLabel(simulate(S.loans,S.debtPlan.extra,S.debtPlan.strategy).months):'—'}.`:''}\n\nOffline, I can answer the suggested questions. Add a Claude API key in Settings → Copilot to ask anything.`};
+}
+const COPILOT_Q = ['Can I afford a $40/month subscription?', 'How do I get out of debt faster?', 'Where am I overspending?', 'What if I lost my job for 3 months?', 'What should I focus on this week?'];
+function mdLite(t){
+  return esc(t).split(/\n{2,}/).map(block=>{ const lines = block.split('\n');
+    if (lines.every(l=>/^\s*([-•*]|\d+\.)\s/.test(l))) return `<ul>${lines.map(l=>`<li>${l.replace(/^\s*([-•*]|\d+\.)\s/,'')}</li>`).join('')}</ul>`;
+    return `<p>${lines.join('<br>')}</p>`; }).join('').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+}
+function openCopilot(q){
+  openSheet(`Copilot`, `<div class="chat" id="chat"></div>`, {cancel:'Close'});
+  sheet.classList.add('tall');
+  sheet.insertAdjacentHTML('beforeend', `<div class="ask"><input class="field" id="askq" placeholder="Ask about your money" autocomplete="off" enterkeyhint="send" maxlength="400"><button class="send" data-act="asksend" aria-label="Send">${svg('M12 19V5M6 11l6-6 6 6',2.4)}</button></div>`);
+  drawChat(); if (q) ask(q);
+}
+function drawChat(){
+  const el = sheet.querySelector('#chat'); if (!el) return; const key = !!aiCfg().key;
+  el.innerHTML = (chat.length ? '' : `<div class="ai-intro"><span class="first-ico">${svg(AI_ICON,1.9)}</span><div><b style="font-size:17px">Ask anything about your money.</b><p class="foot" style="padding:0;margin-top:4px">I see your plan, paychecks, debts and forecast, and I run what-ifs on the same numbers you see.${key?'':' <b>Offline mode:</b> I answer these from your numbers. Add a Claude API key in Settings for open-ended questions.'}</p></div>
+    ${COPILOT_Q.map(x=>`<button class="chip plain" data-act="askchip" data-q="${esc(x)}">${esc(x)}</button>`).join('')}</div>`)
+    + chat.map(m=>`<div class="msg ${m.role}">${m.role==='me'?esc(m.text):mdLite(m.text)}${m.scn?`<button class="mini" data-act="openscn" data-i="${chat.indexOf(m)}">Open in simulator</button>`:''}${m.src?`<span class="src">${m.src}</span>`:''}</div>`).join('')
+    + (busy ? '<div class="msg ai typing" aria-label="Thinking"><i></i><i></i><i></i></div>' : '');
+  const body = sheet.querySelector('.sheet-body'); body.scrollTop = body.scrollHeight;
+}
+async function ask(q){
+  q = q.trim(); if (!q || busy) return; chat.push({role:'me', text:q}); busy = true; drawChat();
+  let r;
+  if (aiCfg().key){ try{ r = await askClaude(q); }
+    catch(e){ apiHist = apiHist.filter((m,i)=>i < apiHist.length-1 || m.role!=='user'); const st = e?.status;
+      const why = st===401 ? 'Claude rejected the API key. Check it in Settings → Copilot.' : st===429 ? 'Claude is rate-limiting this key. Try again in a minute.' : st ? `Claude returned an error (${st}).` : "Couldn't reach Claude. You may be offline.";
+      r = askLocal(q); r.text = `${why} Here's the offline answer:\n\n${r.text}`; r.src = 'Offline'; } }
+  else { await new Promise(res=>setTimeout(res, 450)); r = askLocal(q); r.src = 'Offline answer'; }
+  busy = false; chat.push({role:'ai', ...r}); drawChat();
+}
+function openAiSettings(){
+  const c = aiCfg();
+  openSheet('Copilot', `<div class="note"><b>How it works.</b> Copilot sends your question and a summary of your budget, paychecks, debts and forecast straight from this phone to Anthropic's Claude API. No other server sees it. Your key is stored only on this device and is never exported.</div>
+    <div class="flabel">Claude API key</div><input class="field" id="aikey" type="password" placeholder="sk-ant-…" value="${esc(c.key||'')}" autocomplete="off" spellcheck="false">
+    <p class="foot" style="margin-top:-6px">Create one at console.anthropic.com → API keys. Typical questions cost a few cents. Receipt scans use the same key.</p>
+    <button class="btn" data-act="saveai">Save</button>${c.key?'<button class="btn danger" data-act="clearai">Remove key</button>':''}
+    <p class="foot">Without a key, Copilot answers common questions offline and receipts are read on this iPhone instead.</p>`, {focus:c.key?null:'#aikey'});
+}
+
+// ---------- Receipt scanner ----------
+// With a key, Claude reads the photo (merchant, date, total, line items with categories). Without one, OCR runs on the
+// phone with Tesseract and a parser finds the total and date. Either way you review before anything is saved.
+let rc = null, rcInput = null;
+function startScan(){
+  if (PREVIEW && !aiCfg().key) return openSheet('Scan a receipt', `<div class="note">Photograph a paper receipt. Margin reads the store, date and total, sorts the items into categories and lets you check everything before it's saved.</div>
+    <button class="btn" data-act="scanpick">Take a photo or choose one</button><button class="btn ghost" data-act="scansample">Try a sample receipt</button>
+    <p class="foot">${aiCfg().key?'Read by Claude with your API key.':'Read on this iPhone. Add a Claude API key in Settings for item-level categories.'}</p>`, {cancel:'Back', onClose:null});
+  pickReceipt();
+}
+function pickReceipt(){
+  if (!rcInput){ rcInput = document.createElement('input'); rcInput.type = 'file'; rcInput.accept = 'image/*'; rcInput.hidden = true; document.body.appendChild(rcInput);
+    rcInput.addEventListener('change', ()=>{ const f = rcInput.files[0]; rcInput.value = ''; if (f) readReceipt(f); }); }
+  rcInput.click();
+}
+function downscale(file, max=1568){ return new Promise((res, rej)=>{ const img = new Image(), u = URL.createObjectURL(file);
+  img.onload = () => { const k = Math.min(1, max/Math.max(img.width, img.height)), c = document.createElement('canvas'); c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg', .82)); };
+  img.onerror = () => rej(new Error("That file isn't an image Safari can read.")); img.src = u; }); }
+async function readReceipt(file){
+  let url; try{ url = await downscale(file); }catch(e){ toast(e.message); return; }
+  const key = !!aiCfg().key;
+  openSheet('Reading receipt', `<img class="rc-img" src="${url}" alt="Receipt"><div class="scanbar"><i></i></div><p class="foot" id="rcstatus" style="text-align:center">${key?'Claude is reading it…':'Reading it on this iPhone… the first scan downloads the reader (about 5 MB).'}</p>`);
+  try{ const r = key ? await claudeReceipt(url) : await ocrReceipt(url); reviewReceipt(r, url); }
+  catch(e){ const st = sheet.querySelector('#rcstatus'); if (!st) return; sheet.querySelector('.scanbar')?.remove();
+    st.innerHTML = `<b class="danger-t">Couldn't read this receipt.</b> ${esc(e.status===401?'Claude rejected your API key.':e.message||'')}<br>Try a flatter, brighter photo, or enter it by hand.`;
+    st.insertAdjacentHTML('afterend', `<button class="btn" data-act="scanpick">Try another photo</button><button class="btn ghost" data-act="add">Enter by hand</button>`); }
+}
+const rcCats = () => [...new Set([...flexCats(), ...billCats().filter(c=>!c.loan), ...goalCats()].map(c=>c.id).concat(['groceries','restaurants','general','personal_care','home_goods','pharmacy','clothing','electronics','misc']))];
+async function claudeReceipt(url){
+  const client = await claude(), ids = rcCats();
+  const res = await client.beta.messages.create({model:MODEL, max_tokens:16000, betas:['server-side-fallback-2026-07-01'], fallbacks:'default', output_config:{effort:'low', format:{type:'json_schema', schema:{
+    type:'object', additionalProperties:false, required:['merchant','date','total','items'], properties:{
+      merchant:{type:'string'}, date:{type:'string'}, total:{type:'number'},
+      items:{type:'array', items:{type:'object', additionalProperties:false, required:['name','amount','category'], properties:{name:{type:'string'}, amount:{type:'number'}, category:{type:'string', enum:ids}}}}}}}},
+    messages:[{role:'user', content:[{type:'image', source:{type:'base64', media_type:'image/jpeg', data:url.split(',')[1]}},
+      {type:'text', text:`Read this receipt for a budgeting app. Return the merchant as a shopper would say it ("Trader Joe's", not the legal entity), the purchase date as YYYY-MM-DD (empty string if not shown), and the final total actually paid including tax and tip. List line items with short readable names. Spread tax, fees and discounts across the items proportionally so the item amounts add up to the total. Give each item the best category from this list: ${ids.map(id=>`${id} (${cat(id).name})`).join(', ')}.`}]}]});
+  if (res.stop_reason==='refusal') throw new Error('Claude declined to read this image.');
+  const j = JSON.parse(res.content.find(b=>b.type==='text').text);
+  return {merchant:j.merchant, date:j.date, total:Math.round(j.total*100), items:j.items.map(i=>({name:i.name, amt:Math.round(i.amount*100), cat:ids.includes(i.category)?i.category:'misc'})), src:'Claude'};
+}
+async function ocrReceipt(url){
+  const T = await import(TESS_URL), st = () => sheet.querySelector('#rcstatus');
+  const w = await (T.createWorker || T.default.createWorker)('eng', 1, {logger: m => { if (m.status==='recognizing text' && st()) st().textContent = `Reading on this iPhone… ${Math.round(m.progress*100)}%`; }});
+  const {data:{text}} = await w.recognize(url); await w.terminate();
+  const r = parseReceiptText(text); if (!r.total) throw new Error('No total found.'); return r;
+}
+const MERCH_KW = [[/grocer|market|foods|trader|kroger|safeway|aldi|h-?e-?b|publix|wegmans|sprouts|costco|sam'?s club|walmart/i,'groceries'],[/coffee|starbucks|blue bottle|peet|dutch bros|cafe/i,'coffee'],
+  [/shell|chevron|exxon|mobil|bp\b|valero|marathon|76\b|circle k|wawa|fuel|gas/i,'fuel'],[/cvs|walgreens|rite aid|pharmacy/i,'pharmacy'],[/target|amazon|best buy|ikea|home depot|lowe/i,'general'],
+  [/restaurant|grill|kitchen|pizza|taco|burger|sushi|chipotle|diner|bistro|bar\b|pub/i,'restaurants'],[/doordash|uber eats|grubhub|postmates/i,'delivery']];
+function guessCat(merchant){
+  const k = (merchant||'').toLowerCase().trim(); if (S.merchants[k] && (cat(S.merchants[k]).name!=='Uncategorized')) return S.merchants[k];
+  const hit = MERCH_KW.find(([re])=>re.test(k)); return hit ? hit[1] : (quickCats('out')[0]?.id || 'misc');
+}
+function parseReceiptText(text){
+  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean), money = /(-?)\$?\s?(\d{1,5}[.,]\d{2})(?!\d)/g;
+  const amts = l => [...l.matchAll(money)].map(m=>Math.round(parseFloat(m[2].replace(',','.'))*100)*(m[1]?-1:1));
+  const merchant = (lines.find(l=>/[a-z]{3}/i.test(l) && !/receipt|welcome|store\s*#|tel|phone|www|http|\d{3}[-) ]\d{3}/i.test(l)) || 'Receipt').replace(/[^a-z0-9'&.\- ]/gi,'').trim().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\B\w+/g,w=>w.toLowerCase());
+  const totalLines = lines.filter(l=>/\b(total|amount due|balance due|grand total)\b/i.test(l) && !/sub\s*-?\s*total|savings|tax|items/i.test(l));
+  let total = totalLines.length ? (amts(totalLines[totalLines.length-1]).pop()||0) : 0;
+  if (!total) total = Math.max(0, ...lines.flatMap(amts));
+  let date = '', m;
+  for (const l of lines){ if ((m = l.match(/\b(20\d\d)-(\d\d)-(\d\d)\b/))) { date = `${m[1]}-${m[2]}-${m[3]}`; break; }
+    if ((m = l.match(/\b(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})\b/))) { const y = m[3].length===2 ? '20'+m[3] : m[3]; date = `${y}-${pad(+m[1])}-${pad(+m[2])}`; break; } }
+  const c = guessCat(merchant), stop = lines.findIndex(l=>/sub\s*-?\s*total|\btotal\b/i.test(l));
+  const items = lines.slice(0, stop<0?lines.length:stop).filter(l=>amts(l).length===1 && !/tax|change|cash|visa|master|debit|credit|tender|savings|coupon/i.test(l))
+    .map(l=>({name:l.replace(money,'').replace(/[^a-z0-9 '&.-]/gi,' ').replace(/\s+/g,' ').trim().slice(0,40)||'Item', amt:amts(l)[0], cat:c})).filter(i=>i.amt>0).slice(0,40);
+  return {merchant, date, total, items, src:'On-device'};
+}
+function sampleReceipt(){
+  const t = `TARGET\nStore #2147\n${now.toLocaleDateString('en-US')}\nBananas 1.49\nGreek yogurt 5.99\nPasta sauce 3.79\nSourdough 4.49\nPaper towels 12.99\nDish soap 3.49\nAA batteries 9.99\nPhone charger 19.99\nShampoo 7.99\nSUBTOTAL 70.21\nTAX 5.79\nTOTAL 76.00`;
+  const svgR = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420"><rect width="300" height="420" fill="#fbfaf7"/>${t.split('\n').map((l,i)=>`<text x="24" y="${40+i*26}" font-family="monospace" font-size="15" fill="#333">${l.replace(/&/g,'&amp;')}</text>`).join('')}</svg>`;
+  const r = parseReceiptText(t), cats = {Bananas:'groceries','Greek yogurt':'groceries','Pasta sauce':'groceries',Sourdough:'groceries','Paper towels':'home_goods','Dish soap':'home_goods','Aa batteries':'general','AA batteries':'general','Phone charger':'electronics',Shampoo:'personal_care'};
+  const k = r.total / r.items.reduce((s,i)=>s+i.amt,0);
+  r.items = r.items.map(i=>({...i, amt:Math.round(i.amt*k), cat:cats[i.name]||'general'})); r.src = 'Sample';
+  return [r, 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svgR)];
+}
+function rcParts(){ const g = rcGroups(), sum = g.reduce((s,p)=>s+p[1],0)||1, parts = g.map(([id,v])=>[id, Math.round(v/sum*rc.total)]); if (parts.length) parts[0][1] += rc.total - parts.reduce((s,p)=>s+p[1],0); return parts; }
+function rcGroups(){ const g = {}; rc.items.forEach(i=>g[i.cat]=(g[i.cat]||0)+i.amt); return Object.entries(g).sort((a,b)=>b[1]-a[1]); }
+function reviewReceipt(r, url){
+  const okDate = /^\d{4}-\d\d-\d\d$/.test(r.date) && r.date <= iso(now) && r.date > iso(addDays(today0,-120));
+  rc = {merchant:r.merchant||'', date: okDate ? r.date : iso(now), total:r.total, items:r.items||[], cat: null, split:false, src:r.src, url};
+  const sum = rc.items.reduce((s,i)=>s+i.amt,0);
+  if (Math.abs(sum - rc.total) > Math.max(100, rc.total*.03)) rc.items = rc.items.length ? rc.items : [];
+  rc.splittable = rc.items.length && Math.abs(sum - rc.total) <= Math.max(100, rc.total*.03) && rcGroups().length > 1;
+  rc.cat = rc.items.length ? rcGroups()[0][0] : guessCat(rc.merchant);
+  rc.split = !!rc.splittable;
+  drawReview();
+}
+function drawReview(){
+  const groups = rc.splittable ? rcGroups() : [], opts = rcCats();
+  openSheet('Review receipt', `<div style="display:flex;gap:12px;align-items:center"><img src="${rc.url}" alt="" style="width:58px;height:58px;object-fit:cover;border-radius:12px;flex:none;background:var(--surface-2)"><input class="field" id="rcm" value="${esc(rc.merchant)}" placeholder="Store" maxlength="60" autocomplete="off"></div>
+    <div class="fields"><div class="money"><input class="field" id="rct" inputmode="decimal" value="${moneyStr(rc.total)}" autocomplete="off" aria-label="Total"></div><label class="datepill"><span id="rcdl">${shortDay(rc.date)}</span><input id="rcd" type="date" value="${rc.date}" max="${iso(now)}" aria-label="Date"></label></div>
+    ${rc.splittable?`<div class="seg"><button data-act="rcsplit" data-v="0" aria-pressed="${!rc.split}">One expense</button><button data-act="rcsplit" data-v="1" aria-pressed="${rc.split}">Split into ${groups.length}</button></div>`:''}
+    ${rc.split ? `<div class="group" style="box-shadow:none;background:var(--surface-2)">${rcParts().map(([id,v])=>{ const c = cat(id), n = rc.items.filter(i=>i.cat===id).length; return `<div class="bill">${icon(c)}<div class="meta"><div class="t">${esc(c.name)}</div><div class="s">${n} ${n===1?'item':'items'}</div></div><div class="num" style="font-weight:700">${fmt(v)}</div></div>`; }).join('')}</div>`
+      : `<div class="flabel">Category</div><div class="wrapchips">${[...new Set([rc.cat, ...quickCats('out').map(c=>c.id)])].slice(0,8).map(id=>{ const c = cat(id); return `<button class="chip" data-act="rccat" data-id="${id}" aria-pressed="${id===rc.cat}">${icon(c)}${esc(c.name)}</button>`; }).join('')}</div>`}
+    ${rc.items.length?`<details><summary class="flabel" style="margin:0;cursor:pointer">${rc.items.length} line items${rc.split?' · change a category to re-split':''}</summary><div class="group items" style="box-shadow:none;background:var(--surface-2);margin-top:10px">${rc.items.map((it,i)=>`<div class="item"><span class="n">${esc(it.name)}</span><span class="num" style="font-weight:600">${fmt(it.amt)}</span>${rc.split?`<select data-rci="${i}" aria-label="Category for ${esc(it.name)}">${opts.map(id=>`<option value="${id}" ${id===it.cat?'selected':''}>${esc(cat(id).name)}</option>`).join('')}</select>`:''}</div>`).join('')}</div></details>`:''}
+    <button class="btn" data-act="rcsave">${rc.split?`Add ${groups.length} expenses`:`Add to ${esc(cat(rc.cat).name)}`}</button>
+    <p class="foot" style="text-align:center">${{Claude:'Read by Claude', 'On-device':'Read on this iPhone', Sample:'Sample receipt'}[rc.src]||''}. Check the total before saving.</p>`, {cancel:'Discard'});
+}
+function readReviewFields(){ rc.merchant = sheet.querySelector('#rcm')?.value.trim() ?? rc.merchant; const t = parseMoney(sheet.querySelector('#rct')?.value); if (t) rc.total = t; rc.date = sheet.querySelector('#rcd')?.value || rc.date; }
+function saveReceipt(){
+  readReviewFields(); if (!rc.total){ toast('Enter the total'); return; }
+  const prev = snapshot(), ts = Date.now(), note = rc.merchant || 'Receipt';
+  const parts = rc.split ? rcParts() : [[rc.cat, rc.total]];
+  parts.forEach(([id,v],i)=>{ if (!S.cats[id] && !cat(id).income) S.cats[id] = {budget:0}; S.txns.push({id:uid(), ts:ts+i, date:rc.date, cat:id, amt:-v, note, receipt:rc.items.length||1}); });
+  if (rc.merchant) S.merchants[rc.merchant.toLowerCase()] = parts[0][0];
+  const [y,m] = rc.date.split('-').map(Number); view.y=y; view.m=m-1; rc = null;
+  closeSheet(); commit(parts.length>1 ? `${parts.length} expenses added · ${fmt(parts.reduce((s,p)=>s+p[1],0))}` : `Receipt added · ${fmt(parts[0][1])}`, prev);
 }
 
 // ---------- Onboarding ----------
@@ -953,8 +1685,8 @@ const OB = {
   welcome: () => [`<div class="welcome"><div class="logo"><svg viewBox="0 0 88 88"><circle cx="44" cy="44" r="36" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="12"/><circle class="arc" cx="44" cy="44" r="36" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/></svg></div>
     <div><h2>Know what's left. Every day.</h2><p class="lede" style="margin-top:10px">Set up a budget that fits your life in about two minutes.</p></div>
     <div class="points">
-      <div class="point"><span class="ico">${svg(ICONS.dollar)}</span><div><b>A plan built from your paycheck</b><span>Suggested amounts for every category. Change anything.</span></div></div>
-      <div class="point"><span class="ico">${svg(ICONS.bank)}</span><div><b>Know when your loans end</b><span>Payoff dates, interest cost and what extra payments save.</span></div></div>
+      <div class="point"><span class="ico">${svg(ICONS.dollar)}</span><div><b>Every paycheck has a plan</b><span>Bills, spending and savings mapped to the check that pays them.</span></div></div>
+      <div class="point"><span class="ico">${svg(ICONS.trend)}</span><div><b>See where you're headed</b><span>A forecast, a what-if simulator and the fastest way out of debt.</span></div></div>
       <div class="point"><span class="ico">${svg(ICONS.shield)}</span><div><b>Private by design</b><span>No account and no bank login. Everything stays on this phone.</span></div></div>
     </div></div>`,
     `<button class="btn" data-act="obnext">Get started</button>${PREVIEW?'<button class="link" data-act="obsample">Explore with sample data first</button>':''}`],
@@ -963,6 +1695,7 @@ const OB = {
     <div class="flabel">How often are you paid?</div>
     <div class="seg" style="grid-auto-flow:row;grid-template-columns:1fr 1fr;gap:2px">${Object.entries(FREQ).map(([k,[,n]])=>`<button data-act="obfreq" data-f="${k}" aria-pressed="${ob.income.freq===k}">${n}</button>`).join('')}</div>
     <div class="sum"><div class="label">That's about</div><div><span class="v num" id="obmonthly">${fmt(obMonthly(),1)}</span><span class="muted"> a month</span></div></div>
+    <div class="flabel">When's your next payday?</div><input class="field" id="obanchor" type="date" value="${ob.income.anchor||''}" aria-label="Next payday">
     <p class="foot">Income varies? Use a typical low month. You can change this anytime in Settings.</p>`,
     `<button class="btn" data-act="obnext" id="obgo" ${ob.income.paycheck?'':'disabled'}>Continue</button>`],
   cats: () => [`<h2>What do you spend money on?</h2><p class="lede">We picked the common ones. Tap to add or remove, or create your own.</p>
@@ -1002,19 +1735,24 @@ function buildPlan(){
 const planTotal = () => Object.values(ob.plan).reduce((s,v)=>s+v,0) + ob.loans.reduce((s,l)=>s+l.payment,0);
 function obNext(){
   const step = STEPS[ob.i];
-  if (step==='income'){ ob.income.paycheck = parseMoney(onb.querySelector('#obpay').value); if (!ob.income.paycheck) return; }
+  if (step==='income'){ ob.income.paycheck = parseMoney(onb.querySelector('#obpay').value); ob.income.anchor = onb.querySelector('#obanchor').value || null; if (!ob.income.paycheck) return; }
   if (step==='bills') onb.querySelectorAll('[data-bill]').forEach(inp=>{ if (inp.value.trim()) ob.amounts[inp.dataset.bill]=parseMoney(inp.value); else delete ob.amounts[inp.dataset.bill]; });
   if (['income','cats','bills','loans'].includes(step)) ob.plan = {};
   ob.i++; ob.dir='enter'; drawOnb();
 }
 function obFinish(){
   onb.querySelectorAll('[data-plan]').forEach(inp=>ob.plan[inp.dataset.plan] = parseMoney(inp.value));
-  const n = blank(); n.onboarded = true; n.income = {paycheck:ob.income.paycheck, freq:ob.income.freq, monthly:obMonthly()};
+  const n = blank(); n.onboarded = true; n.since = S.sample || !S.since ? iso(now) : S.since; n.income = {paycheck:ob.income.paycheck, freq:ob.income.freq, monthly:obMonthly(), anchor:ob.income.anchor||null}; n.cash = S.sample ? null : S.cash; n.saved = S.sample ? null : S.saved; n.debtPlan = S.sample ? n.debtPlan : S.debtPlan; n.merchants = S.sample ? {} : S.merchants;
   Object.entries(ob.plan).forEach(([id,b])=>n.cats[id]={budget:b}); n.custom = ob.custom; n.loans = ob.loans; n.txns = S.sample ? [] : S.txns;
   S = n; save(); view.tab='home'; view.y=now.getFullYear(); view.m=now.getMonth(); lastLeft=null; render();
   ob.i++; ob.dir='enter'; drawOnb();
 }
 
+function applyPreset(k){
+  view.preset = k; view.metric = k==='debt'||k==='bonus' ? 'debt' : k==='jobloss' ? 'cash' : 'net';
+  if (k==='bonus'){ const f = project({}, view.h), e = f.events.find(x=>x.kind==='pay'); view.scn = {...SCN0, lump:S.income.paycheck, lumpMonth: e ? e.m : 1}; return; }
+  view.scn = {...SCN0, ...PRESETS[k][1]};
+}
 // ---------- Events ----------
 const pressOne = (el, sel) => sheet.querySelectorAll(sel).forEach(b=>b.setAttribute('aria-pressed', b===el));
 const A = {
@@ -1029,7 +1767,7 @@ const A = {
     else if (key==='.') { if (!s.includes('.')) s = (s||'0')+'.'; }
     else { const [w,f] = s.split('.'); if ((f!==undefined && f.length>=2) || (f===undefined && (w||'').length>=7)) { const a = sheet.querySelector('#amt'); a.classList.remove('shake'); void a.offsetWidth; a.classList.add('shake'); return; } s = (s==='0'?'':s)+key; }
     draft.s = s; draft.fresh = false; drawAmt(); },
-  pickcat: el => { draft.cat = el.dataset.id; sheet.querySelector('#picker')?.classList.remove('open'); drawChips(); drawAmt(); },
+  pickcat: el => { draft.cat = el.dataset.id; draft.picked = true; sheet.querySelector('#picker')?.classList.remove('open'); drawChips(); drawAmt(); },
   allcats: () => openPicker(),
   closepicker: () => sheet.querySelector('#picker').classList.remove('open'),
   savetx: () => saveTx(),
@@ -1038,7 +1776,8 @@ const A = {
     const t = S.txns.find(x=>x.id===el.dataset.id); if (t) openAdd({tx:t}); },
   editcat: el => openEditCat(el.dataset.id),
   fixedtoggle: el => { const c = S.custom.find(x=>x.id===el.dataset.id); if (c) c.fixed = el.dataset.v==='1'; pressOne(el,'[data-act="fixedtoggle"]'); },
-  savecat: el => { const prev = snapshot(); S.cats[el.dataset.id] = {budget: parseMoney(sheet.querySelector('#ebud').value)}; closeSheet(); commit('Budget updated', prev); },
+  savecat: el => { const prev = snapshot(), dEl = sheet.querySelector('#eday'); S.cats[el.dataset.id] = {...S.cats[el.dataset.id], budget: parseMoney(sheet.querySelector('#ebud').value)};
+    if (dEl) S.cats[el.dataset.id].day = clamp(parseInt(dEl.value)||dueDay(cat(el.dataset.id)),1,31); closeSheet(); commit('Budget updated', prev); },
   removecat: el => { const prev = snapshot(); const name = cat(el.dataset.id).name; delete S.cats[el.dataset.id]; closeSheet(); commit(`${esc(name)} removed`, prev); },
   managecats: () => openManage(),
   togglecat: el => { const id = el.dataset.id; if (S.cats[id]) delete S.cats[id]; else { const w = cat(id).w; S.cats[id] = {budget: S.income.monthly && w ? round5(S.income.monthly*w/100) : 0}; } el.setAttribute('aria-pressed', !!S.cats[id]); save(); },
@@ -1057,8 +1796,45 @@ const A = {
   delloan: el => { if (!el.dataset.armed){ el.dataset.armed = 1; el.textContent = 'Tap again to delete'; return; }
     if (loanList()!==S.loans){ ob.loans = ob.loans.filter(l=>l.id!==el.dataset.id); closeSheet(); ob.dir=''; drawOnb(); return; }
     const prev = snapshot(); S.loans = S.loans.filter(l=>l.id!==el.dataset.id); closeSheet(); commit('Loan deleted', prev); },
-  extra: el => { view.extra = Math.max(0, view.extra + +el.dataset.d); render(); },
-  strategy: el => { view.strategy = el.dataset.s; render(); },
+  extra: el => { S.debtPlan.extra = Math.max(0, (S.debtPlan.extra||0) + +el.dataset.d); save(); render(); },
+  strategy: el => { S.debtPlan.strategy = el.dataset.s; save(); render(); },
+  planseg: el => { view.plan = el.dataset.v; render(); },
+  futseg: el => { view.fut = el.dataset.v; render(); },
+  goplan: el => { closeSheet(); view.plan = el.dataset.plan || 'paychecks'; view.y = now.getFullYear(); view.m = now.getMonth(); setTab('plan'); },
+  gofuture: el => { closeSheet(); view.fut = el.dataset.fut || 'forecast'; if (el.dataset.preset) applyPreset(el.dataset.preset); setTab('future'); },
+  metric: el => { view.metric = el.dataset.v; render(); },
+  horizon: el => { view.h = +el.dataset.v; view.scn.oneMonth = Math.min(view.scn.oneMonth, view.h-1); render(); },
+  lever: el => { const k = el.dataset.k, lim = {raise:[-50,50], cut:[0,60], oneMonth:[0,view.h-1], gap:[0,12]}[k] || [0, 5000000];
+    view.scn[k] = clamp((view.scn[k]||0) + +el.dataset.d, ...lim); view.preset = null; render(); },
+  preset: el => { if (view.preset===el.dataset.k){ view.scn = {...SCN0}; view.preset = null; } else applyPreset(el.dataset.k); render(); },
+  scnreset: () => { view.scn = {...SCN0}; view.preset = null; render(); },
+  scnapply: () => { const sc = view.scn, prev = snapshot(), done = [];
+    if (sc.extraDebt){ S.debtPlan.extra = (S.debtPlan.extra||0) + sc.extraDebt; done.push('extra debt'); }
+    if (sc.cut){ flexCats().forEach(c=>{ if (S.cats[c.id]) S.cats[c.id].budget = round5(S.cats[c.id].budget*(1-sc.cut/100)) || S.cats[c.id].budget; }); done.push('budgets'); }
+    if (sc.raise){ S.income.paycheck = Math.round(S.income.paycheck*(1+sc.raise/100)); S.income.monthly = Math.round(S.income.paycheck*FREQ[S.income.freq][0]); done.push('pay'); }
+    view.scn = {...SCN0, monthly:sc.monthly, oneTime:sc.oneTime, oneMonth:sc.oneMonth, gap:sc.gap}; view.preset = null;
+    commit(`Plan updated: ${done.join(', ')}`, prev); },
+  openscn: el => { const m = chat[+el.dataset.i]; if (!m?.scn) return; view.scn = {...SCN0, ...m.scn}; view.preset = null; view.fut = 'forecast'; closeSheet(); setTab('future'); },
+  applyextra: el => { const prev = snapshot(); S.debtPlan.extra = (S.debtPlan.extra||0) + +el.dataset.amt; commit(`${fmt(+el.dataset.amt,1)}/mo added to your debt plan`, prev); },
+  applysave: el => { const prev = snapshot(); S.cats.savings = {...(S.cats.savings||{}), budget:(S.cats.savings?.budget||0) + +el.dataset.amt}; commit(`${fmt(+el.dataset.amt,1)}/mo added to savings`, prev); },
+  snooze: el => { const prev = snapshot(); S.snooze[el.dataset.id] = iso(addDays(today0,7)); commit('Snoozed for a week', prev); },
+  safe: () => openSafe(),
+  editcash: () => openCash(),
+  savecash: () => { const prev = snapshot(), cv = sheet.querySelector('#cashv').value.trim(), sv = sheet.querySelector('#savev').value.trim(), ts = Date.now();
+    if (!cv){ toast('Enter your checking balance'); return; }
+    S.cash = {amt:parseMoney(cv), ts}; if (sv) S.saved = {amt:parseMoney(sv), ts}; closeSheet(); commit('Balances updated', prev); },
+  copilot: el => openCopilot(el.dataset.q),
+  askchip: el => ask(el.dataset.q),
+  asksend: () => { const i = sheet.querySelector('#askq'); const q = i.value; i.value = ''; ask(q); },
+  aisettings: () => openAiSettings(),
+  saveai: () => { const k = sheet.querySelector('#aikey').value.trim(); if (k && !/^sk-ant-/.test(k)){ toast('That doesn\u2019t look like a Claude API key'); return; } setAi({...aiCfg(), key:k}); apiHist = []; closeSheet(); toast(k?'Copilot is connected to Claude':'Key removed'); },
+  clearai: () => { setAi({}); apiHist = []; closeSheet(); toast('Key removed'); },
+  scan: () => startScan(),
+  scanpick: () => pickReceipt(),
+  scansample: () => { const [r,u] = sampleReceipt(); reviewReceipt(r, u); },
+  rcsplit: el => { readReviewFields(); rc.split = el.dataset.v==='1'; drawReview(); },
+  rccat: el => { readReviewFields(); rc.cat = el.dataset.id; drawReview(); },
+  rcsave: () => saveReceipt(),
   theme: el => { setTheme(el.dataset.t); pressOne(el,'[data-act="theme"]'); },
   export: () => { const rows = [['date','category','amount','note'], ...[...S.txns].sort((x,y)=>x.date.localeCompare(y.date)).map(t=>[t.date, `"${cat(t.cat).name}"`, (t.amt/100).toFixed(2), `"${(t.note||'').replace(/"/g,'""')}"`])];
     const csv = rows.map(r=>r.join(',')).join('\n');
@@ -1068,7 +1844,7 @@ const A = {
   editincome: () => openIncome(),
   incfreq: el => { incDraft.freq = el.dataset.f; pressOne(el,'[data-act="incfreq"]'); drawIncome(); },
   saveincome: () => { const pay = parseMoney(sheet.querySelector('#incpay').value); if (!pay){ toast('Enter your paycheck amount'); return; }
-    const prev = snapshot(); S.income = {paycheck:pay, freq:incDraft.freq, monthly:Math.round(pay*FREQ[incDraft.freq][0])}; closeSheet(); commit('Take-home pay updated', prev); },
+    const prev = snapshot(); S.income = {paycheck:pay, freq:incDraft.freq, monthly:Math.round(pay*FREQ[incDraft.freq][0]), anchor: sheet.querySelector('#incanchor').value || S.income.anchor}; closeSheet(); commit('Take-home pay updated', prev); },
   obnext: () => obNext(),
   obback: () => { if (STEPS[ob.i]==='plan') onb.querySelectorAll('[data-plan]').forEach(inp=>ob.plan[inp.dataset.plan]=parseMoney(inp.value)); ob.i--; ob.dir='back'; drawOnb(); },
   obcancel: () => { onb.hidden = true; },
@@ -1092,11 +1868,15 @@ document.addEventListener('input', e=>{
   if (t.dataset.plan){ ob.plan[t.dataset.plan] = parseMoney(t.value); const left = obMonthly()-planTotal(); const v = onb.querySelector('#pleft'); v.textContent = fmt(Math.abs(left),1); v.className = 'v num '+(left>=0?'pos':'neg'); onb.querySelector('#plabel').textContent = left>=0?'Left unassigned':'Over your income by'; }
   if (['lbal','lapr','lpay'].includes(t.id)) updateLoanHint();
   if (t.id==='incpay') drawIncome();
+  if (t.id==='note' && draft && !draft.picked && !draft.id){ const v = t.value.trim().toLowerCase(), k = S.merchants[v] || (v.length>2 ? MERCH_KW.find(([re])=>re.test(v))?.[1] : null); if (k && k!==draft.cat && (S.cats[k]||k.startsWith('loan:'))){ draft.cat = k; drawChips(); drawAmt(); } }
+  if (t.id==='rcd'){ const l = sheet.querySelector('#rcdl'); if (l) l.textContent = shortDay(t.value||iso(now)); }
+  if (t.dataset.rci!=null && rc){ readReviewFields(); rc.items[+t.dataset.rci].cat = t.value; drawReview(); }
   if (t.id==='date'){ const l = sheet.querySelector('#datel'); if (l) l.textContent = t.value ? shortDay(t.value) : 'Today'; }
   if (t.id==='lx'){ const l = S.loans.find(x=>x.id===t.dataset.id), x = +t.value, base = simulate([l]); sheet.querySelector('#lxv').textContent = fmt(x,1); sheet.querySelector('#lxout').innerHTML = loanExtraOut(l, x, base, simulate([l], x)); }
 });
 document.addEventListener('keydown', e=>{
   if (e.key==='Escape' && sheet.classList.contains('open')) return closeSheet();
+  if (e.key==='Enter' && e.target.id==='askq'){ e.preventDefault(); sheet.querySelector('[data-act="asksend"]').click(); return; }
   if (e.key==='Enter' && !onb.hidden && !sheet.classList.contains('open') && e.target.tagName==='INPUT'){ e.target.blur(); return; }
   if (!sheet.querySelector('#saveTx') || !sheet.classList.contains('open') || e.target.tagName==='INPUT') return;
   const k = e.key==='Backspace' ? '⌫' : e.key; const b = sheet.querySelector(`[data-act="key"][data-k="${CSS.escape(k)}"]`); if (b){ b.click(); e.preventDefault(); }
