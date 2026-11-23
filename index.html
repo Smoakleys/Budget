@@ -470,6 +470,7 @@ h1{font-size:34px;line-height:1.05;font-weight:700;letter-spacing:-.025em;margin
 
 <div class="navbar" id="navbar" aria-hidden="true"><span id="navtitle"></span></div>
 <div class="onb" id="onb" hidden></div>
+<div class="onb" id="auth" hidden style="z-index:26"></div>
 <div class="scrim" id="scrim" data-act="close"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
 <div class="toast" id="toast" role="status"></div>
@@ -565,7 +566,7 @@ function blank(){ return {v:2, onboarded:false, income:{paycheck:0, freq:'biweek
 function normalize(s){ const b = blank(); for (const k in b) if (s[k]===undefined) s[k] = b[k]; if (s.income.anchor===undefined) s.income.anchor = null;
   if (!s.since && s.onboarded) s.since = s.txns.map(t=>t.date).sort()[0] || iso(new Date()); return s; }
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v===2) return normalize(s); }catch(e){} return blank(); }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function save(){ if (!S.sample) S.updatedAt = Date.now(); try{ localStorage.setItem(KEY, JSON.stringify(S)); if (!localStorage.getItem(KEY)) throw 0; }catch(e){ storageWarn(); } Sync.push(); }
 let S = load();
 
 // Categories: S.cats holds the enabled ones with their budget. Loans act as fixed categories "loan:<id>".
@@ -1355,13 +1356,16 @@ function openSettings(){
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="managecats"><div class="meta"><div class="t">Categories</div><div class="s">${Object.keys(S.cats).length} in your budget</div></div>${chevSvg()}</button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="aisettings"><div class="meta"><div class="t">Copilot</div><div class="s">${aiCfg().key?'Claude API key added':'Offline answers · add a Claude API key'}</div></div>${chevSvg()}</button>
     </div>
+    ${Sync.on()?`<div class="group" style="box-shadow:none;background:var(--surface-2);flex:none"><button class="row tap" style="background:none" data-act="${Sync.user?'account':'authopen'}"><div class="meta"><div class="t">${Sync.user?'Account':'Create an account'}</div><div class="s">${Sync.user?`${esc(Sync.user.email)} · ${Sync.dirty?'waiting to sync':'synced'}`:'Keep your budget safe and synced across devices'}</div></div>${chevSvg()}</button></div>`:''}
     <div class="flabel">Appearance</div><div class="seg">${['system','light','dark'].map(t=>`<button data-act="theme" data-t="${t}" aria-pressed="${theme===t}">${{system:'Automatic',light:'Light',dark:'Dark'}[t]}</button>`).join('')}</div>
     <div class="group" style="box-shadow:none;background:var(--surface-2);flex:none">
-      <button class="row tap" style="background:none" data-act="export"><div class="meta"><div class="t">Export transactions</div><div class="s">Copies a CSV of every transaction</div></div></button>
+      <button class="row tap" style="background:none" data-act="backup"><div class="meta"><div class="t">Back up to a file</div><div class="s">Everything: budgets, loans, transactions</div></div></button>
+      <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="restore"><div class="meta"><div class="t">Restore from a file</div><div class="s">Replaces what's on this device</div></div></button>
+      <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="export"><div class="meta"><div class="t">Export transactions</div><div class="s">Copies a CSV of every transaction</div></div></button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="restart"><div class="meta"><div class="t">Run setup again</div><div class="s">Keeps your transactions</div></div></button>
       <button class="row tap" style="background:none;border-top:1px solid var(--line)" data-act="erase"><div class="meta"><div class="t danger-t">Erase everything</div><div class="s">Transactions, budgets and loans on this device</div></div></button>
     </div>
-    <p class="foot" style="text-align:center">Margin keeps everything on this device. The only thing that ever leaves it is a Copilot question or receipt photo you send to Claude with your own key.</p>`, {cancel:'Close'});
+    <p class="foot" style="text-align:center">${Sync.user?'Your budget is stored on this device and synced to your account. ':'Margin keeps everything on this device. '}Copilot questions and receipt photos go to Claude only with your own key, which never leaves this phone.</p>`, {cancel:'Close'});
 }
 
 // Balances
@@ -1658,8 +1662,110 @@ function saveReceipt(){
   closeSheet(); commit(parts.length>1 ? `${parts.length} expenses added · ${fmt(parts.reduce((s,p)=>s+p[1],0))}` : `Receipt added · ${fmt(parts[0][1])}`, prev);
 }
 
-// ---------- Onboarding ----------
 const onb = document.getElementById('onb');
+// ---------- Accounts and sync ----------
+// Supabase email + password. The project URL and publishable key are public by design; row-level security
+// limits each account to its own row. The whole budget syncs as one document, newest copy wins.
+// The Claude API key, theme and setup draft are device settings and never sync.
+const SYNC_URL = '', SYNC_KEY = '';
+const SB_URL = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
+const LOCAL_ONLY = KEY+'.localonly';
+const Sync = {
+  sb:null, user:null, timer:null, dirty:false, lastOk:0,
+  on(){ return !!(SYNC_URL && SYNC_KEY); },
+  async client(){ if (!this.sb){ const {createClient} = await import(SB_URL); this.sb = createClient(SYNC_URL, SYNC_KEY, {auth:{persistSession:true, autoRefreshToken:true, storageKey:KEY+'.auth'}}); } return this.sb; },
+  async init(){ if (!this.on()) return false;
+    try{ const sb = await this.client(), {data:{session}} = await sb.auth.getSession(); this.user = session?.user || null; }catch(e){ return false; }
+    if (this.user) await this.pull().catch(()=>{}); return !!this.user; },
+  async auth(email, password, create){
+    const sb = await this.client(), r = create ? await sb.auth.signUp({email, password}) : await sb.auth.signInWithPassword({email, password});
+    if (r.error) throw r.error;
+    if (!r.data.session) throw new Error('Check your email for a confirmation link, then sign in.');
+    this.user = r.data.user; try{ localStorage.removeItem(LOCAL_ONLY); }catch(e){}
+    await this.pull();
+  },
+  // Newest copy wins. A device with nothing set up always takes the account's copy.
+  async pull(){
+    if (!this.user) return; const sb = await this.client();
+    const {data, error} = await sb.from('margin_state').select('data').maybeSingle(); if (error) throw error;
+    const remote = data?.data, lt = S.updatedAt || 0, rt = remote?.updatedAt || 0, localReal = S.onboarded && !S.sample;
+    if (remote && remote.v===2 && remote.onboarded && (!localReal || rt > lt)){
+      S = normalize(remote); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
+      if (!onb.hidden && ob && STEPS[ob.i]!=='done'){ onb.hidden = true; clearObDraft(); }
+      lastLeft = null; render(); this.lastOk = Date.now(); return 'pulled';
+    }
+    if (localReal && (!remote || lt > rt)) await this.pushNow(); else this.lastOk = Date.now();
+  },
+  push(){ if (!this.user || S.sample) return; this.dirty = true; clearTimeout(this.timer); this.timer = setTimeout(()=>this.pushNow(), 1200); },
+  async pushNow(){
+    if (!this.user || S.sample) return; clearTimeout(this.timer);
+    try{ const sb = await this.client(), {error} = await sb.from('margin_state').upsert({user_id:this.user.id, data:S, updated_at:new Date().toISOString()}); if (error) throw error; this.dirty = false; this.lastOk = Date.now(); }
+    catch(e){ this.dirty = true; }
+  },
+  async signOut(){ await this.pushNow(); try{ (await this.client()).auth.signOut(); }catch(e){} this.user = null; try{ localStorage.removeItem(KEY); }catch(e){} S = blank(); render(); showAuth('signin'); },
+};
+addEventListener('visibilitychange', ()=>{ if (!Sync.user) return; if (document.visibilityState==='hidden'){ if (Sync.dirty) Sync.pushNow(); } else Sync.pull().catch(()=>{}); });
+addEventListener('pagehide', ()=>{ if (Sync.dirty) Sync.pushNow(); });
+addEventListener('online', ()=>{ if (Sync.dirty) Sync.pushNow(); });
+
+const authEl = document.getElementById('auth');
+let authMode = 'signup';
+function showAuth(mode){ if (mode) authMode = mode; authEl.hidden = false; drawAuth(); }
+function drawAuth(err=''){
+  const up = authMode==='signup';
+  authEl.innerHTML = `<div class="onb-body" style="justify-content:center"><div class="welcome" style="flex:none;gap:22px;padding-top:0">
+    <div class="logo"><svg viewBox="0 0 88 88"><circle cx="44" cy="44" r="36" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="12"/><circle class="arc" cx="44" cy="44" r="36" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/></svg></div>
+    <div><h2>${up?'Your budget, saved everywhere':'Welcome back'}</h2><p class="lede" style="margin-top:10px">${up?'Create a free account so nothing gets lost. It syncs between Safari, the Home Screen app and any other device.':'Sign in to pick up where you left off.'}</p></div></div>
+    <div class="seg">${[['signup','Create account'],['signin','Sign in']].map(([k,n])=>`<button data-act="authmode" data-v="${k}" aria-pressed="${authMode===k}">${n}</button>`).join('')}</div>
+    <input class="field" id="aemail" type="email" inputmode="email" autocomplete="email" placeholder="Email" autocapitalize="off" spellcheck="false">
+    <input class="field" id="apw" type="password" autocomplete="${up?'new-password':'current-password'}" placeholder="${up?'Password (6+ characters)':'Password'}">
+    <p class="foot danger-t" id="aerr" style="margin:-6px 0 0;min-height:1em">${esc(err)}</p>
+    <button class="btn" data-act="authgo" id="authgo">${up?'Create account':'Sign in'}</button>
+    <button class="link" data-act="authskip">Use without an account</button></div>`;
+}
+async function authGo(){
+  const email = authEl.querySelector('#aemail').value.trim(), pw = authEl.querySelector('#apw').value, btn = authEl.querySelector('#authgo');
+  if (!/^\S+@\S+\.\S+$/.test(email)) return drawAuthErr('Enter your email address.');
+  if (pw.length < 6) return drawAuthErr('Use at least 6 characters for the password.');
+  btn.disabled = true; btn.textContent = authMode==='signup' ? 'Creating account…' : 'Signing in…';
+  try{ await Sync.auth(email, pw, authMode==='signup'); authEl.hidden = true; if (!S.onboarded) startOnboarding(); else render(); toast(authMode==='signup' ? 'Account created · your budget is synced' : 'Signed in · synced'); }
+  catch(e){ const m = String(e.message||e); btn.disabled = false; btn.textContent = authMode==='signup' ? 'Create account' : 'Sign in';
+    drawAuthErr(/already registered|already exists/i.test(m) ? 'That email already has an account. Tap Sign in.' : /invalid login/i.test(m) ? 'Email or password is wrong.' : /fetch|network/i.test(m) ? "Couldn't connect. Check your internet and try again." : m); }
+}
+function drawAuthErr(m){ const el = authEl.querySelector('#aerr'); if (el) el.textContent = m; }
+const localOnly = () => { try{ return localStorage.getItem(LOCAL_ONLY)==='1'; }catch(e){ return false; } };
+const ago = t => { const s = (Date.now()-t)/1000; return s<60 ? 'just now' : s<3600 ? `${Math.round(s/60)} min ago` : `${Math.round(s/3600)} hr ago`; };
+function openAccount(){
+  openSheet('Account', `<div class="note"><b>${esc(Sync.user.email)}</b><br>${Sync.dirty?'Changes waiting to sync. They go up as soon as you are online.':Sync.lastOk?`Synced ${ago(Sync.lastOk)}.`:'Syncing…'}</div>
+    <button class="btn ghost" data-act="syncnow">Sync now</button><button class="btn danger" data-act="signout">Sign out</button>
+    <p class="foot">Signing out removes the budget from this device. It stays in your account.</p>`, {cancel:'Close'});
+}
+
+// Backup to a file, restore from one. Works with or without an account.
+function backup(){
+  const name = `margin-backup-${iso(now)}.json`, blob = new Blob([JSON.stringify(S)], {type:'application/json'});
+  const file = typeof File==='function' ? new File([blob], name, {type:'application/json'}) : null;
+  if (file && navigator.canShare?.({files:[file]})) return navigator.share({files:[file], title:'Margin backup'}).catch(()=>{});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+}
+let restoreInput;
+function restore(){
+  if (!restoreInput){ restoreInput = Object.assign(document.createElement('input'), {type:'file', accept:'.json,application/json', hidden:true}); document.body.appendChild(restoreInput);
+    restoreInput.addEventListener('change', async ()=>{ const f = restoreInput.files[0]; restoreInput.value = ''; if (!f) return;
+      try{ const s = JSON.parse(await f.text()); if (!s || s.v!==2 || !Array.isArray(s.txns)) throw 0; const prev = snapshot(); S = normalize(s); closeSheet(); onb.hidden = true; commit(`Backup restored · ${S.txns.length} transactions`, prev); }
+      catch(e){ toast("That file isn't a Margin backup"); } }); }
+  restoreInput.click();
+}
+
+// Setup saves as you go, so closing the app halfway doesn't lose it.
+const OB_KEY = KEY+'.setup';
+function saveObDraft(){ if (!ob || STEPS[ob.i]==='done' || STEPS[ob.i]==='welcome') return; try{ localStorage.setItem(OB_KEY, JSON.stringify({...ob, dir:''})); }catch(e){} }
+function loadObDraft(){ try{ const d = JSON.parse(localStorage.getItem(OB_KEY)); return d && d.income && d.sel ? d : null; }catch(e){ return null; } }
+function clearObDraft(){ try{ localStorage.removeItem(OB_KEY); }catch(e){} }
+let warned = false;
+function storageWarn(){ if (warned) return; warned = true; toast("Couldn't save on this device. Is Private Browsing on?"); }
+
+// ---------- Onboarding ----------
 const STEPS = ['welcome','income','cats','bills','loans','plan','done'];
 let ob = null;
 function startOnboarding(){
@@ -1668,6 +1774,7 @@ function startOnboarding(){
   if (fresh) Object.values(LIB).forEach(c=>{ if (!c.income && c.on) sel[c.id]=1; }); else Object.keys(S.cats).forEach(k=>sel[k]=1);
   ob = {i: fresh?0:1, dir:'enter', income: fresh?{paycheck:0,freq:'biweekly'}:{...S.income}, sel, amounts:{}, plan:{}, loans: fresh?[]:S.loans.map(l=>({...l})), custom: fresh?[]:[...S.custom]};
   if (!fresh) Object.entries(S.cats).forEach(([k,v])=>{ if (v.budget) ob.amounts[k]=v.budget; });
+  const draft = fresh && !S.sample && loadObDraft(); if (draft){ ob = {...draft, dir:'enter'}; }
   onb.hidden = false; drawOnb();
 }
 const obMonthly = () => Math.round((ob.income.paycheck||0) * FREQ[ob.income.freq][0]);
@@ -1679,6 +1786,7 @@ function drawOnb(){
   const top = `<div class="onb-top">${canBack?`<button class="icon-btn" data-act="obback" aria-label="Back">${svg(UI.chevL,2.4)}</button>`:(S.onboarded&&step!=='done'?`<button class="icon-btn" data-act="obcancel" aria-label="Close setup">${svg('M6 6l12 12M18 6 6 18',2.4)}</button>`:'<span style="width:36px"></span>')}<div class="progress">${prog}</div><span style="width:36px"></span></div>`;
   const [body, foot] = OB[step]();
   onb.innerHTML = `${top}<div class="onb-body ${ob.dir}">${body}</div><div class="onb-foot">${foot}</div>`;
+  saveObDraft();
 }
 const billRow = (c, key, val, ph) => `<div class="bill">${icon(c)}<div class="meta"><div class="t">${esc(c.name)}</div></div><div class="money"><input class="field" ${key} inputmode="decimal" placeholder="${ph}" value="${val}" autocomplete="off" aria-label="${esc(c.name)} amount"></div></div>`;
 const OB = {
@@ -1687,7 +1795,7 @@ const OB = {
     <div class="points">
       <div class="point"><span class="ico">${svg(ICONS.dollar)}</span><div><b>Every paycheck has a plan</b><span>Bills, spending and savings mapped to the check that pays them.</span></div></div>
       <div class="point"><span class="ico">${svg(ICONS.trend)}</span><div><b>See where you're headed</b><span>A forecast, a what-if simulator and the fastest way out of debt.</span></div></div>
-      <div class="point"><span class="ico">${svg(ICONS.shield)}</span><div><b>Private by design</b><span>No account and no bank login. Everything stays on this phone.</span></div></div>
+      <div class="point"><span class="ico">${svg(ICONS.shield)}</span><div><b>Private by design</b><span>${Sync.on()?'No bank login. Your budget syncs only to your own account.':'No account and no bank login. Everything stays on this phone.'}</span></div></div>
     </div></div>`,
     `<button class="btn" data-act="obnext">Get started</button>${PREVIEW?'<button class="link" data-act="obsample">Explore with sample data first</button>':''}`],
   income: () => [`<h2>What's your take-home pay?</h2><p class="lede">What lands in your account each payday, after taxes and deductions.</p>
@@ -1744,7 +1852,7 @@ function obFinish(){
   onb.querySelectorAll('[data-plan]').forEach(inp=>ob.plan[inp.dataset.plan] = parseMoney(inp.value));
   const n = blank(); n.onboarded = true; n.since = S.sample || !S.since ? iso(now) : S.since; n.income = {paycheck:ob.income.paycheck, freq:ob.income.freq, monthly:obMonthly(), anchor:ob.income.anchor||null}; n.cash = S.sample ? null : S.cash; n.saved = S.sample ? null : S.saved; n.debtPlan = S.sample ? n.debtPlan : S.debtPlan; n.merchants = S.sample ? {} : S.merchants;
   Object.entries(ob.plan).forEach(([id,b])=>n.cats[id]={budget:b}); n.custom = ob.custom; n.loans = ob.loans; n.txns = S.sample ? [] : S.txns;
-  S = n; save(); view.tab='home'; view.y=now.getFullYear(); view.m=now.getMonth(); lastLeft=null; render();
+  S = n; save(); clearObDraft(); view.tab='home'; view.y=now.getFullYear(); view.m=now.getMonth(); lastLeft=null; render();
   ob.i++; ob.dir='enter'; drawOnb();
 }
 
@@ -1846,6 +1954,15 @@ const A = {
   saveincome: () => { const pay = parseMoney(sheet.querySelector('#incpay').value); if (!pay){ toast('Enter your paycheck amount'); return; }
     const prev = snapshot(); S.income = {paycheck:pay, freq:incDraft.freq, monthly:Math.round(pay*FREQ[incDraft.freq][0]), anchor: sheet.querySelector('#incanchor').value || S.income.anchor}; closeSheet(); commit('Take-home pay updated', prev); },
   obnext: () => obNext(),
+  authmode: el => { authMode = el.dataset.v; drawAuth(); },
+  authgo: () => authGo(),
+  authskip: () => { try{ localStorage.setItem(LOCAL_ONLY,'1'); }catch(e){} authEl.hidden = true; if (!S.onboarded) startOnboarding(); },
+  authopen: () => { closeSheet(); showAuth('signup'); },
+  account: () => openAccount(),
+  syncnow: async () => { closeSheet(); try{ await Sync.pull(); await Sync.pushNow(); toast(Sync.dirty?"Couldn't sync. Check your connection":'Synced'); }catch(e){ toast("Couldn't sync. Check your connection"); } },
+  signout: el => { if (!el.dataset.armed){ el.dataset.armed = 1; el.textContent = 'Tap again to sign out'; return; } closeSheet(); Sync.signOut(); },
+  backup: () => backup(),
+  restore: () => restore(),
   obback: () => { if (STEPS[ob.i]==='plan') onb.querySelectorAll('[data-plan]').forEach(inp=>ob.plan[inp.dataset.plan]=parseMoney(inp.value)); ob.i--; ob.dir='back'; drawOnb(); },
   obcancel: () => { onb.hidden = true; },
   obsample: () => { S = sampleState(); save(); onb.hidden = true; render(); },
@@ -1864,8 +1981,10 @@ document.addEventListener('input', e=>{
   const t = e.target;
   if (t.id==='q'){ view.q = t.value; document.getElementById('txlist').innerHTML = grouped(filterTx(monthData().tx)); }
   if (t.id==='pq'){ const q = t.value.trim().toLowerCase(); sheet.querySelectorAll('#plist .pcell').forEach(c=>c.hidden = !!q && !c.dataset.name.includes(q)); sheet.querySelectorAll('#plist .pg').forEach(g=>g.hidden = !g.querySelector('.pcell:not([hidden])')); }
-  if (t.id==='obpay'){ ob.income.paycheck = parseMoney(t.value); onb.querySelector('#obmonthly').textContent = fmt(obMonthly(),1); onb.querySelector('#obgo').disabled = !ob.income.paycheck; }
-  if (t.dataset.plan){ ob.plan[t.dataset.plan] = parseMoney(t.value); const left = obMonthly()-planTotal(); const v = onb.querySelector('#pleft'); v.textContent = fmt(Math.abs(left),1); v.className = 'v num '+(left>=0?'pos':'neg'); onb.querySelector('#plabel').textContent = left>=0?'Left unassigned':'Over your income by'; }
+  if (t.id==='obpay'){ ob.income.paycheck = parseMoney(t.value); saveObDraft(); onb.querySelector('#obmonthly').textContent = fmt(obMonthly(),1); onb.querySelector('#obgo').disabled = !ob.income.paycheck; }
+  if (t.dataset.bill && ob){ if (t.value.trim()) ob.amounts[t.dataset.bill] = parseMoney(t.value); else delete ob.amounts[t.dataset.bill]; saveObDraft(); }
+  if (t.id==='obanchor' && ob){ ob.income.anchor = t.value || null; saveObDraft(); }
+  if (t.dataset.plan){ ob.plan[t.dataset.plan] = parseMoney(t.value); saveObDraft(); const left = obMonthly()-planTotal(); const v = onb.querySelector('#pleft'); v.textContent = fmt(Math.abs(left),1); v.className = 'v num '+(left>=0?'pos':'neg'); onb.querySelector('#plabel').textContent = left>=0?'Left unassigned':'Over your income by'; }
   if (['lbal','lapr','lpay'].includes(t.id)) updateLoanHint();
   if (t.id==='incpay') drawIncome();
   if (t.id==='note' && draft && !draft.picked && !draft.id){ const v = t.value.trim().toLowerCase(), k = S.merchants[v] || (v.length>2 ? MERCH_KW.find(([re])=>re.test(v))?.[1] : null); if (k && k!==draft.cat && (S.cats[k]||k.startsWith('loan:'))){ draft.cat = k; drawChips(); drawAmt(); } }
@@ -1876,6 +1995,7 @@ document.addEventListener('input', e=>{
 });
 document.addEventListener('keydown', e=>{
   if (e.key==='Escape' && sheet.classList.contains('open')) return closeSheet();
+  if (e.key==='Enter' && !authEl.hidden && e.target.tagName==='INPUT'){ e.preventDefault(); authGo(); return; }
   if (e.key==='Enter' && e.target.id==='askq'){ e.preventDefault(); sheet.querySelector('[data-act="asksend"]').click(); return; }
   if (e.key==='Enter' && !onb.hidden && !sheet.classList.contains('open') && e.target.tagName==='INPUT'){ e.target.blur(); return; }
   if (!sheet.querySelector('#saveTx') || !sheet.classList.contains('open') || e.target.tagName==='INPUT') return;
@@ -1911,7 +2031,10 @@ applyTheme();
 if (navigator.storage?.persist) navigator.storage.persist().catch(()=>{});
 if ('serviceWorker' in navigator && location.protocol==='https:' && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(()=>{});
 render();
-if (!S.onboarded) startOnboarding();
+(async () => {
+  if (Sync.on() && !(await Sync.init()) && !localOnly()) return showAuth('signup');
+  if (!S.onboarded) startOnboarding();
+})();
 })();
 </script>
 </body>
